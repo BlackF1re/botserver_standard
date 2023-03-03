@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33414.496
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "botserver_standard", "botserver_standard.csproj", "{FB429EC2-73A8-4B2E-919E-39C35622DE07}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FB429EC2-73A8-4B2E-919E-39C35622DE07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB429EC2-73A8-4B2E-919E-39C35622DE07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB429EC2-73A8-4B2E-919E-39C35622DE07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB429EC2-73A8-4B2E-919E-39C35622DE07}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D7A7429E-33E8-43A5-9D06-951041FF448A}
+	EndGlobalSection
+EndGlobal

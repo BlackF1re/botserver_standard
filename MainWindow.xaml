@@ -1,0 +1,321 @@
+﻿<Window x:Class="botserver_standard.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:botserver_standard"
+
+    Title="botserver_standard"
+    Width="800"
+    Height="450"
+    Background="#FF4A2E98"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+    <Grid>
+        <TabControl>
+            <TabItem
+                Background="#FF4A2E98"
+                FontFamily="Cascadia Mono"
+                Foreground="#FFB4B4B4"
+                Header="Main">
+                <Grid Background="#FF4A2E98">
+                    <TextBox
+                        x:Name="LiveLogOutput"
+                        Width="774"
+                        Height="270"
+                        Margin="0,126,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Background="Black"
+                        FontFamily="Cascadia Mono"
+                        Foreground="White"
+                        IsReadOnly="True"
+                        Text="LiveLogOutput"
+                        TextWrapping="Wrap" />
+                    <StackPanel Margin="639,0,0,0">
+                        <Button
+                            x:Name="OutputPauseBtn"
+                            Height="40"
+                            Background="#FF5F3CC0"
+                            Click="OutputPauseBtn_Click"
+                            Content="Pause logging"
+                            FontFamily="Cascadia Mono"
+                            Foreground="#FFB4B4B4" />
+                        <Button
+                            x:Name="ExportBtn"
+                            Height="40"
+                            Background="#FF5F3CC0"
+                            Click="ExportBtn_Click"
+                            Content="Export log"
+                            FontFamily="Cascadia Mono"
+                            Foreground="#FFB4B4B4" />
+                        <Button
+                            x:Name="OutputClrBtn"
+                            Height="40"
+                            Background="#FF5F3CC0"
+                            Click="OutputClrBtn_Click"
+                            Content="Clear output"
+                            FontFamily="Cascadia Mono"
+                            Foreground="#FFB4B4B4" />
+                    </StackPanel>
+                    <Button
+                            x:Name="CmdOpenBtn"
+                            Background="#FF5F3CC0"
+                            Click="CmdOpenBtn_Click"
+                            Content="Open cmd"
+                            FontFamily="Cascadia Mono"
+                            Foreground="#FFB4B4B4" Margin="265,10,0,326" Width="80" HorizontalAlignment="Left" />
+                    <Button
+                            x:Name="BotLogoutBtn"
+                            Background="#FF5F3CC0"
+                            Click="StopBotBtn_Click"
+                            Content="STOP"
+                            FontFamily="Cascadia Mono"
+                            Foreground="#FFB4B4B4" Margin="95,10,0,326" HorizontalAlignment="Left" Width="80" />
+                    <Button
+                            x:Name="BotStartBtn"
+                            Background="#FF5F3CC0"
+                            Click="BotStartBtn_Click"
+                            Content="START"
+                            FontFamily="Cascadia Mono"
+                            Foreground="#FFB4B4B4" Margin="10,10,0,326" HorizontalAlignment="Left" Width="80" />
+                    <Button
+                        x:Name="StopExitBotBtn"
+                        Background="#FF5F3CC0"
+                        Click="StopExitBotBtn_Click"
+                        Content="Stop &amp; exit"
+                        FontFamily="Cascadia Mono"
+                        Foreground="#FFB4B4B4" Margin="180,10,0,326" HorizontalAlignment="Left" Width="80" />
+                </Grid>
+            </TabItem>
+            <TabItem
+                Background="#FF4A2E98"
+                FontFamily="Cascadia Mono"
+                Foreground="#FFB4B4B4"
+                Header="Options">
+                <Grid Background="#FF4A2E98">
+                    <Button
+                        x:Name="ParserRunningBtn"
+                        Background="#FF5F3CC0"
+                        Click="OutputPauseBtn_Click"
+                        Content="Run parser"
+                        FontFamily="Cascadia Mono"
+                        Foreground="#FFB4B4B4" Margin="10,10,629,358" />
+                    <Button
+                        x:Name="ParserRunningBtn_Copy"
+                        Background="#FF5F3CC0"
+                        Click="OutputPauseBtn_Click"
+                        Content="Open records folder"
+                        FontFamily="Cascadia Mono"
+                        Foreground="#FFB4B4B4" Margin="10,55,629,313" />
+                </Grid>
+            </TabItem>
+            <TabItem
+                Background="#FF4A2E98"
+                FontFamily="Cascadia Mono"
+                Foreground="#FFB4B4B4"
+                Header="Settings">
+                <Grid Background="#FF4A2E98">
+                    <TextBox
+                        x:Name="SettingsTokenInput"
+                        Width="411"
+                        Height="22"
+                        Margin="184,71,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        VerticalContentAlignment="Center"
+                        Background="#FF5F3CC0"
+                        FontFamily="Cascadia Mono"
+                        Foreground="#FFB4B4B4"
+                        TextWrapping="NoWrap" />
+                    <Label
+                        Width="169"
+                        Height="22"
+                        Margin="10,71,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        HorizontalContentAlignment="Right"
+                        Content="Token:"
+                        FontFamily="Cascadia Mono"
+                        FontWeight="Bold"
+                        Foreground="#FFB4B4B4" />
+                    <Label
+                        Width="169"
+                        Height="25"
+                        Margin="10,101,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        HorizontalContentAlignment="Right"
+                        Content=".txt log path:"
+                        FontFamily="Cascadia Mono"
+                        FontWeight="Bold"
+                        Foreground="#FFB4B4B4" />
+                    <Label
+                        Width="169"
+                        Height="26"
+                        Margin="10,130,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        HorizontalContentAlignment="Right"
+                        Content="DB path:"
+                        FontFamily="Cascadia Mono"
+                        FontWeight="Bold"
+                        Foreground="#FFB4B4B4" />
+                    <TextBox
+                        x:Name="SettingsLogRootInput"
+                        Width="411"
+                        Height="22"
+                        Margin="184,101,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        VerticalContentAlignment="Center"
+                        Background="#FF5F3CC0"
+                        FontFamily="Cascadia Mono"
+                        Foreground="#FFB4B4B4"
+                        TextWrapping="NoWrap" />
+                    <TextBox
+                        x:Name="SettingsDBRootInput"
+                        Width="411"
+                        Height="22"
+                        Margin="184,131,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        VerticalContentAlignment="Center"
+                        Background="#FF5F3CC0"
+                        FontFamily="Cascadia Mono"
+                        Foreground="#FFB4B4B4"
+                        TextWrapping="NoWrap" />
+                    <Label
+                        Margin="0,10,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Content="Settings of the BotServer"
+                        FontFamily="Cascadia Mono"
+                        FontSize="15"
+                        Foreground="#FFB4B4B4" />
+                    <Button
+                        x:Name="ImportSettingsBtn"
+                        Background="#FF5F3CC0"
+                        Click="ImportSettingsBtn_Click"
+                        Content="Import settings"
+                        FontFamily="Cascadia Mono"
+                        Foreground="#FFB4B4B4" Margin="600,186,0,0" Height="22" HorizontalAlignment="Left" Width="155" VerticalAlignment="Top" />
+                    <Button
+                        x:Name="SetTokenBtn"
+                        Background="#FF5F3CC0"
+                        Click="SetTokenBtn_Click"
+                        Content="Set token"
+                        FontFamily="Cascadia Mono"
+                        Foreground="#FFB4B4B4" Margin="600,71,0,0" Height="22" VerticalAlignment="Top" HorizontalAlignment="Left" Width="155" />
+                    <Button
+                        x:Name="SetLogPathBtn"
+                        Background="#FF5F3CC0"
+                        Click="SetLogPathBtn_Click"
+                        Content="Set log path"
+                        FontFamily="Cascadia Mono"
+                        Foreground="#FFB4B4B4" Margin="600,101,0,0" Height="22" HorizontalAlignment="Left" Width="155" VerticalAlignment="Top" />
+                    <Button
+                        x:Name="SetDbPathBtn"
+                        Background="#FF5F3CC0"
+                        Click="SetDbPathBtn_Click"
+                        Content="Set DB path"
+                        FontFamily="Cascadia Mono"
+                        Foreground="#FFB4B4B4" Margin="600,131,0,0" Height="22" HorizontalAlignment="Left" Width="155" VerticalAlignment="Top" />
+                    <Label
+                        Width="169"
+                        Height="24"
+                        Margin="10,184,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        HorizontalContentAlignment="Right"
+                        Content=".txt setting file path:"
+                        FontFamily="Cascadia Mono"
+                        FontWeight="Bold"
+                        Foreground="#FFB4B4B4" />
+                    <TextBox
+                        x:Name="SettingsDBRootInput_Copy"
+                        Width="411"
+                        Height="22"
+                        Margin="184,186,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        VerticalContentAlignment="Center"
+                        Background="#FF5F3CC0"
+                        FontFamily="Cascadia Mono"
+                        Foreground="#FFB4B4B4"
+                        TextWrapping="NoWrap" />
+                    <Button
+                        x:Name="ImportSettingsBtn1"
+                        Background="#FF5F3CC0"
+                        Content="Import settings"
+                        FontFamily="Cascadia Mono"
+                        Foreground="#FFB4B4B4" Margin="600,217,0,0" Height="22" HorizontalAlignment="Left" Width="155" VerticalAlignment="Top" />
+                    <Label
+                        Width="169"
+                        Height="24"
+                        Margin="10,216,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        HorizontalContentAlignment="Right"
+                        Content="Set password:"
+                        FontFamily="Cascadia Mono"
+                        FontWeight="Bold"
+                        Foreground="#FFB4B4B4" />
+                    <TextBox
+                        x:Name="SettingsDBRootInput_Copy1"
+                        Width="411"
+                        Height="22"
+                        Margin="184,217,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        VerticalContentAlignment="Center"
+                        Background="#FF5F3CC0"
+                        FontFamily="Cascadia Mono"
+                        Foreground="#FFB4B4B4"
+                        TextWrapping="NoWrap" />
+                    <Label
+                        Width="169"
+                        Height="24"
+                        Margin="10,275,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        HorizontalContentAlignment="Right"
+                        Content="Enter password:"
+                        FontFamily="Cascadia Mono"
+                        FontWeight="Bold"
+                        Foreground="#FFB4B4B4" />
+                    <Label
+                        Width="169"
+                        Height="24"
+                        Margin="10,306,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        HorizontalContentAlignment="Right"
+                        Content="Repeat password:"
+                        FontFamily="Cascadia Mono"
+                        FontWeight="Bold"
+                        Foreground="#FFB4B4B4" />
+                    <Button
+                        x:Name="SetPwdBtn"
+                        Background="#FF5F3CC0"
+                        Click="SetPwdBtn_Click"
+                        Content="Set password"
+                        FontFamily="Cascadia Mono"
+                        Foreground="#FFB4B4B4" Margin="600,307,0,0" Height="22" HorizontalAlignment="Left" Width="155" VerticalAlignment="Top" />
+                    <PasswordBox x:Name="SetPwdBox" HorizontalAlignment="Left" VerticalContentAlignment ="Center" Margin="184,276,0,0" VerticalAlignment="Top" Width="411" Height="22" Background="#FF5F3CC0" Foreground="#FFB4B4B4"/>
+                    <PasswordBox x:Name="SetRepeatedPwdBox" HorizontalAlignment="Left" VerticalContentAlignment ="Center" Margin="184,307,0,0" VerticalAlignment="Top" Width="411" Height="22" Background="#FF5F3CC0" Foreground="#FFB4B4B4"/>
+                    <CheckBox x:Name="UseThisPwdCheckbox" Content="Use this pwd" HorizontalAlignment="Left" Margin="601,276,0,0" VerticalAlignment="Top" Width="154" Background="#FF5F3CC0" Foreground="#FFB4B4B4" Height="22"/>
+                </Grid>
+            </TabItem>
+            <TabItem
+                Background="#FF4A2E98"
+                FontFamily="Cascadia Mono"
+                Foreground="#FFB4B4B4"
+                Header="About">
+                <Grid Background="#FF4A2E98" />
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>
