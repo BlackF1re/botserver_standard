@@ -7,7 +7,7 @@
 
     Title="botserver_standard"
     Width="800"
-    Height="450"
+    Height="493"
     Background="#FF4A2E98"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
@@ -23,7 +23,7 @@
                     <TextBox
                         x:Name="LiveLogOutput"
                         Width="774"
-                        Height="270"
+                        Height="251"
                         Margin="0,126,0,0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Top"
@@ -65,28 +65,41 @@
                             Click="CmdOpenBtn_Click"
                             Content="Open cmd"
                             FontFamily="Cascadia Mono"
-                            Foreground="#FFB4B4B4" Margin="265,10,0,326" Width="80" HorizontalAlignment="Left" />
+                            Foreground="#FFB4B4B4" Margin="350,10,0,0" Width="80" HorizontalAlignment="Left" Height="80" VerticalAlignment="Top" />
                     <Button
                             x:Name="BotLogoutBtn"
                             Background="#FF5F3CC0"
                             Click="StopBotBtn_Click"
                             Content="STOP"
                             FontFamily="Cascadia Mono"
-                            Foreground="#FFB4B4B4" Margin="95,10,0,326" HorizontalAlignment="Left" Width="80" />
+                            Foreground="#FFB4B4B4" Margin="95,10,0,0" HorizontalAlignment="Left" Width="80" Height="80" VerticalAlignment="Top" />
                     <Button
                             x:Name="BotStartBtn"
                             Background="#FF5F3CC0"
                             Click="BotStartBtn_Click"
                             Content="START"
                             FontFamily="Cascadia Mono"
-                            Foreground="#FFB4B4B4" Margin="10,10,0,326" HorizontalAlignment="Left" Width="80" />
+                            Foreground="#FFB4B4B4" Margin="10,10,0,0" HorizontalAlignment="Left" Width="80" IsDefault="True" Height="80" VerticalAlignment="Top" />
                     <Button
                         x:Name="StopExitBotBtn"
                         Background="#FF5F3CC0"
                         Click="StopExitBotBtn_Click"
                         Content="Stop &amp; exit"
                         FontFamily="Cascadia Mono"
-                        Foreground="#FFB4B4B4" Margin="180,10,0,326" HorizontalAlignment="Left" Width="80" />
+                        Foreground="#FFB4B4B4" Margin="180,10,0,0" HorizontalAlignment="Left" Width="80" IsCancel="True" Height="80" VerticalAlignment="Top" />
+                    <Button
+                        x:Name="PythonRun"
+                        Background="#FF5F3CC0"
+                        Click="PythonRun_Click"
+                        FontFamily="Cascadia Mono"
+                        Foreground="#FFB4B4B4" Margin="0,377,0,0" Width="774" HorizontalAlignment="Center" FontSize="48" Height="58" VerticalAlignment="Top" Content="PythonRun" />
+                    <Button
+                        x:Name="ManualParserRunningBtn"
+                        Background="#FF5F3CC0"
+                        Click="ManualParserRunningBtn_Click"
+                        Content="Run parser"
+                        FontFamily="Cascadia Mono"
+                        Foreground="#FFB4B4B4" Margin="265,10,0,0" Width="80" HorizontalAlignment="Left" Height="80" VerticalAlignment="Top" />
                 </Grid>
             </TabItem>
             <TabItem
@@ -98,17 +111,17 @@
                     <Button
                         x:Name="ParserRunningBtn"
                         Background="#FF5F3CC0"
-                        Click="OutputPauseBtn_Click"
+                        Click="OptionsBtn1_Click"
                         Content="Run parser"
                         FontFamily="Cascadia Mono"
-                        Foreground="#FFB4B4B4" Margin="10,10,629,358" />
+                        Foreground="#FFB4B4B4" Margin="10,10,0,0" Height="83" VerticalAlignment="Top" HorizontalAlignment="Left" Width="155" />
                     <Button
                         x:Name="ParserRunningBtn_Copy"
                         Background="#FF5F3CC0"
                         Click="OutputPauseBtn_Click"
                         Content="Open records folder"
                         FontFamily="Cascadia Mono"
-                        Foreground="#FFB4B4B4" Margin="10,55,629,313" />
+                        Foreground="#FFB4B4B4" Margin="10,98,0,0" Height="83" VerticalAlignment="Top" HorizontalAlignment="Left" Width="155" />
                 </Grid>
             </TabItem>
             <TabItem
@@ -305,7 +318,7 @@
                         Foreground="#FFB4B4B4" Margin="600,307,0,0" Height="22" HorizontalAlignment="Left" Width="155" VerticalAlignment="Top" />
                     <PasswordBox x:Name="SetPwdBox" HorizontalAlignment="Left" VerticalContentAlignment ="Center" Margin="184,276,0,0" VerticalAlignment="Top" Width="411" Height="22" Background="#FF5F3CC0" Foreground="#FFB4B4B4"/>
                     <PasswordBox x:Name="SetRepeatedPwdBox" HorizontalAlignment="Left" VerticalContentAlignment ="Center" Margin="184,307,0,0" VerticalAlignment="Top" Width="411" Height="22" Background="#FF5F3CC0" Foreground="#FFB4B4B4"/>
-                    <CheckBox x:Name="UseThisPwdCheckbox" Content="Use this pwd" HorizontalAlignment="Left" Margin="601,276,0,0" VerticalAlignment="Top" Width="154" Background="#FF5F3CC0" Foreground="#FFB4B4B4" Height="22"/>
+                    <CheckBox x:Name="UseThisPwdCheckbox" Content="Use this pwd" HorizontalAlignment="Left" Margin="601,276,0,0" VerticalAlignment="Top" Width="154" Background="#FF5F3CC0" Foreground="#FFB4B4B4" Height="22" Checked="UseThisPwdCheckbox_Checked" Unchecked="UseThisPwdCheckbox_Unchecked"/>
                 </Grid>
             </TabItem>
             <TabItem

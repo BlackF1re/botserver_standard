@@ -25,3 +25,6 @@ INSERT INTO settings VALUES
 (
 'TGBot_server_log.txt', 'Data Source = appDB.db', '5969998133:AAF3nNDlYNfryOulNHKtsxlhuGo_roxXYXI', NULL, 'false'
 );
+
+
+--CREATE TABLE Users(_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT(1,1) UNIQUE, Name TEXT NOT NULL, Age INTEGER NOT NULL)
