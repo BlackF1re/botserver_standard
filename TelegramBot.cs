@@ -16,6 +16,5 @@ namespace botserver_standard
     {
         public static TelegramBotClient botClient = new(Settings.botToken); //инициализация клиента
         public static CancellationTokenSource MainBotCts = new();
-
     }
 }

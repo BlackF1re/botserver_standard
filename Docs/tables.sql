@@ -18,7 +18,8 @@ CREATE TABLE settings
 	connString	TEXT,
 	botToken	TEXT,
 	pwd	TEXT,
-	pwdIsUsing	TEXT
+	pwdIsUsing	TEXT,
+	prsFilePath	TEXT
 );
 
 INSERT INTO settings VALUES 
@@ -27,4 +28,11 @@ INSERT INTO settings VALUES
 );
 
 
---CREATE TABLE Users(_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT(1,1) UNIQUE, Name TEXT NOT NULL, Age INTEGER NOT NULL)
+CREATE TABLE "Settings" (
+	"logPath"	TEXT,
+	"connString"	TEXT,
+	"botToken"	TEXT,
+	"pwd"	TEXT,
+	"pwdIsUsing"	TEXT,
+	"prsFilePath"	TEXT
+);

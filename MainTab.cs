@@ -13,6 +13,7 @@ using System.Windows;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 using Telegram.Bot;
+using System.Windows.Controls;
 
 namespace botserver_standard
 {
@@ -31,7 +32,6 @@ namespace botserver_standard
             new Thread(() => TgBot.botClient.StartReceiving(updateHandler: HandleUpdateAsync,
                                                             pollingErrorHandler: HandleErrorAsync,
                                                             cancellationToken: TgBot.MainBotCts.Token)).Start();
-
             async Task<Task> HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
             {
                 Message? message = update.Message;
@@ -171,6 +171,9 @@ namespace botserver_standard
 
         private void ManualParserRunningBtn_Click(object sender, RoutedEventArgs e)
         {
+            //new Thread(() => ParserGUI()).Start();
+            //Thread.CurrentThread.Interrupt();
+            Parser.ParserGUI();
 
         }
 
@@ -303,7 +306,6 @@ namespace botserver_standard
             await logWriter.WriteLineAsync("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             await logWriter.WriteLineAsync($"Raw message: {Newtonsoft.Json.JsonConvert.SerializeObject(message)}");
             await logWriter.WriteLineAsync("--------------------------------------------------------------------------------------------------------------------");
-
         }
 
         public static async Task PrepairedMessageSender(ITelegramBotClient botClient, string sendingMessage, long chatId, CancellationToken cancellationToken)
@@ -334,6 +336,45 @@ namespace botserver_standard
             text: $"botserver_standard error. message.Text is null?",
             cancellationToken: cancellationToken);
         }
+
+        //private void ParserGUI()
+        //{
+        //    Dispatcher.Invoke(() =>
+        //    {
+        //        ParserLogOutput.Text += "-------------------------------------------------------------------------------------------------------------\n";
+        //        ParserLogOutput.Text += $"{DateTime.Now}: Parsing in process...\n";
+        //        ParserLogOutput.Text += $"{DateTime.Now}: Getting data from web...\n";
+        //    });
+
+        //    var parsingUrl = "https://studyintomsk.ru/programs-main/?level=card-item&direction=card-item";
+        //    var web = new HtmlWeb();
+        //    HtmlDocument document;
+        //    document = web.Load(parsingUrl);
+
+        //    Dispatcher.Invoke(() =>
+        //    {
+        //        ParserLogOutput.Text += $"{DateTime.Now}: Selecting nodes...\n";
+        //    });
+        //    var value = document.DocumentNode.SelectNodes("/html/body/div[3]/div[3]"); // /html/body/div[3]/div[3]/div/div/div/div/div
+
+        //    Dispatcher.Invoke(() =>
+        //    {
+        //        ParserLogOutput.Text += $"{DateTime.Now}: Write data...\n";
+        //    });
+        //    string prsFilePath = "parsing_result.prs"; //.prs = Parsing ReSult
+        //    StreamWriter prsWriter = new(prsFilePath);
+        //    foreach (var node in value)
+        //    {
+        //        prsWriter.WriteLine(node.InnerText);
+        //    }
+        //    prsWriter.Close();
+
+        //    Dispatcher.Invoke(() =>
+        //    {
+        //        ParserLogOutput.Text += $"{DateTime.Now}: Parsing is done.\n";
+        //        ParserLogOutput.Text += "-------------------------------------------------------------------------------------------------------------\n";
+        //    });
+        //}
 
     }
 }
