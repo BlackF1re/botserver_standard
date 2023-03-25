@@ -12,6 +12,26 @@ namespace botserver_standard
 {
     internal class DbWorker
     {
+
+        //struct Card
+        //{
+        //    public int Id;
+        //    public string UniversityName;
+        //    public string ProgramName;
+        //    public string ProgramName2;//what?
+        //    public string Level;
+        //    public string ProgramCode;
+        //    public string StudyForm;
+        //    public string Duration;
+        //    public string Qualification; //same as Level
+        //    public string StudyLang;
+        //    public string Curator;
+        //    public string PhoneNumber;
+        //    public string Email;
+        //    public string Cost;
+
+        //}
+
         public static SqliteConnection sqliteConn = new(Settings.connString);
         
         public static readonly string dbStructureRessurection = "CREATE TABLE IF NOT EXISTS Received_messages (username TEXT, is_bot INTEGER, first_name TEXT, last_name TEXT, language_code TEXT, chat_id INTEGER, message_id INTEGER, message_date TEXT, chat_type TEXT, message_content BLOB);" +
@@ -60,7 +80,6 @@ namespace botserver_standard
             sqliteConn.Close(); //закрытие соединения
             return reader;
         }
-
 
     }
 }

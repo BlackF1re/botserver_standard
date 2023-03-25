@@ -1,5 +1,4 @@
-﻿using IronPython.Compiler.Ast;
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using static IronPython.SQLite.PythonSQLite;
 
 namespace botserver_standard
 {
@@ -16,12 +14,12 @@ namespace botserver_standard
         private void SetTokenBtn_Click(object sender, RoutedEventArgs e)
         {
             using SqliteDataReader reader = DbWorker.SettingsReader(DbWorker.readSettings, DbWorker.sqliteConn);
-            ParserLogOutput.Text += $"{Settings.logPath}, {Settings.connString}, {Settings.botToken}, {Settings.pwd}, {Settings.pwdIsSetted} \n";
+            LiveLogOutput.Text += $"{Settings.logPath}, {Settings.connString}, {Settings.botToken}, {Settings.pwd}, {Settings.pwdIsSetted} \n";
         }
 
         private void SetLogPathBtn_Click(object sender, RoutedEventArgs e)
         {
-            string queryText = "INSERT INTO"; 
+            string queryText = "INSERT INTO Settings"; 
             //SettingsTokenInput.Text
         }
 

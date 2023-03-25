@@ -21,8 +21,6 @@ using Telegram.Bot.Exceptions;
 using Microsoft.Data.Sqlite;
 using System.Xml.Linq;
 using HtmlAgilityPack;
-using IronPython.Hosting;
-using Microsoft.Scripting.Hosting;
 
 namespace botserver_standard
 {
@@ -41,16 +39,24 @@ namespace botserver_standard
             SetRepeatedPwdBox.MaxLength = 50;
             UseThisPwdCheckbox.IsChecked = Properties.Settings.Default.pwdIsSetted;
 
-            //Thread ParserThread = new(Parser.ParserGUI);
-            //ParserThread.Start();
-            Parser.ParserGUI();
+            Task.Factory.StartNew(() => ParserGUI()); //ok
+
+
+            //bool parsingIsDone = false;
+            //ParserWindow parserWindow = new ParserWindow();
+            //parserWindow.Show();
+            //this.Hide();
+            ////parserWindow.ParserGUI();
+            //Task.Factory.StartNew(() => parsingIsDone = parserWindow.ParserGUI()); //ok
+            //if (parsingIsDone is true) { parserWindow.Close(); }
 
         }
 
-        private void OptionsBti1_Click(object sender, RoutedEventArgs e)
+        private void OptionsBtn1_Click(object sender, RoutedEventArgs e)
         {
 
         }
+
     }
 
 }

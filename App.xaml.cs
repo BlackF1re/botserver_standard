@@ -1,14 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
-using Telegram.Bot;
-using Telegram.Bot.Types;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace botserver_standard
 {
@@ -27,7 +18,7 @@ namespace botserver_standard
             //чтение настроек
             using SqliteDataReader reader = DbWorker.SettingsReader(DbWorker.readSettings, DbWorker.sqliteConn);
 
-            MessageBox.Show("running App.xaml.cs code. Variables setted. Press enter.");
+            //MessageBox.Show("running App.xaml.cs code. Variables setted. Press enter.");
         }
 
     }

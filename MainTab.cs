@@ -1,6 +1,4 @@
 ﻿using HtmlAgilityPack;
-using IronPython.Hosting;
-using Microsoft.Scripting.Hosting;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,12 +12,14 @@ using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 using Telegram.Bot;
 using System.Windows.Controls;
+using Telegram.Bot.Polling;
 
 namespace botserver_standard
 {
     public partial class MainWindow : Window
     {
         //maintab methods
+
         private async void BotStartBtn_Click(object sender, RoutedEventArgs e)
         {
             LiveLogOutput.Clear();
@@ -29,112 +29,191 @@ namespace botserver_standard
             // отправка запроса отмены для остановки
             OnBotLoadCts.Cancel();
 
-            new Thread(() => TgBot.botClient.StartReceiving(updateHandler: HandleUpdateAsync,
-                                                            pollingErrorHandler: HandleErrorAsync,
-                                                            cancellationToken: TgBot.MainBotCts.Token)).Start();
-            async Task<Task> HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+            var receiverOptions = new ReceiverOptions
             {
-                Message? message = update.Message;
-                if (message is null)
-                {
-                    MessageBox.Show("update.Message is null", "Error");
-                    return Task.CompletedTask;
-                }
-                long? chatId = message.Chat.Id;
-                string? fixedForDbMessageText = null; //правка текста для экранирования запроса
+                AllowedUpdates = { }, // receive all update types
+            };
 
-                //заготовленные реакции бота на определенные типы сообщений
-                #region bot's reactions on incoming message types
-                string reaction_recievedAudio = "Good audio, but I don't have an ears";
-                string reaction_recievedContact = "Would you like us to contact you later?";
-                string reaction_recievedDocument = "Delete this document.";
-                string reaction_recievedPhoto = "Nice photo, but send me a text.";
-                string reaction_recievedSticker = "Answers with stickers do not count as answers. Respect your and other's time.";
-                string reaction_recievedVideo = "Is it a video?";
-                string reaction_recievedVoice = "Nice moan.";
-                //string reaction_recievedText = "Welcome!";
-                #endregion
+            await Task.Factory.StartNew(() => TgBot.botClient.StartReceiving(updateHandler: HandleUpdateAsync,
+                                                                            pollingErrorHandler: HandleErrorAsync,
+                                                                            cancellationToken: TgBot.MainBotCts.Token,
+                                                                            receiverOptions: receiverOptions)); //ok
 
-                #region sqlQueries
+
+            #region old Update method
+            //async Task<Task> HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+            //{
+            //    Message? message = update.Message;
+            //    if (message is null)
+            //    {
+            //        MessageBox.Show("update.Message is null", "Error");
+            //        return Task.CompletedTask;
+            //    }
+            //    long? chatId = message.Chat.Id;
+            //    string? fixedForDbMessageText = null; //правка текста для экранирования запроса
+
+            //    //заготовленные реакции бота на определенные типы сообщений
+            //    #region bot's reactions on incoming message types
+            //    string reaction_recievedAudio = "Good audio, but I don't have an ears";
+            //    string reaction_recievedContact = "Would you like us to contact you later?";
+            //    string reaction_recievedDocument = "Delete this document.";
+            //    string reaction_recievedPhoto = "Nice photo, but send me a text.";
+            //    string reaction_recievedSticker = "Answers with stickers do not count as answers. Respect your and other's time.";
+            //    string reaction_recievedVideo = "Is it a video?";
+            //    string reaction_recievedVoice = "Nice moan.";
+            //    //string reaction_recievedText = "Welcome!";
+            //    #endregion
+
+            //    #region sqlQueries
+            //    //запись принятых сообщений в бд
+            //    string recievedMessageToDbQuery = $"INSERT INTO Received_messages(username, is_bot, first_name, last_name, language_code, chat_id, message_id, message_date, chat_type, message_content) " +
+            //    $"VALUES('@{message.Chat.Username}', '0', '{message.Chat.FirstName}', '{message.Chat.LastName}', 'ru', '{message.Chat.Id}', '{message.MessageId}', '{DateTime.Now}', '{message.Chat.Type}', '{message.Text}')";
+
+            //    //запись принятых опасных сообщений в бд
+            //    string recievedUnacceptableMessageToDbQuery = $"INSERT INTO Received_messages(username, is_bot, first_name, last_name, language_code, chat_id, message_id, message_date, chat_type, message_content) " +
+            //    $"VALUES('@{message.Chat.Username}', '0', '{message.Chat.FirstName}', '{message.Chat.LastName}', 'ru', '{message.Chat.Id}', '{message.MessageId}', '{DateTime.Now}', '{message.Chat.Type}', '{fixedForDbMessageText}')";
+
+            //    //запись приныятых фотографий в бд
+            //    string recievedPhotoMessageToDbQuery = $"INSERT INTO Received_messages(username, is_bot, first_name, last_name, language_code, chat_id, message_id, message_date, chat_type, message_content) " +
+            //    $"VALUES('@{message.Chat.Username}', '0', '{message.Chat.FirstName}', '{message.Chat.LastName}', 'ru', '{message.Chat.Id}', '{message.MessageId}', '{DateTime.Now}', '{message.Chat.Type}', '{message.Photo}')";
+
+            //    string returningAllUserToBotPrivateMessages = $"SELECT * FROM received_messages WHERE username = '{message.Chat.Username}'";
+            //    #endregion
+
+            //    #region PrepairedMessageSending
+            //    if (message.Audio is not null)
+            //    {
+            //        await PrepairedMessageSender(botClient, reaction_recievedAudio, message.Chat.Id, cancellationToken);
+
+            //    }
+
+            //    if (message.Contact is not null)
+            //    {
+            //        await PrepairedMessageSender(botClient, reaction_recievedContact, message.Chat.Id, cancellationToken);
+            //    }
+
+            //    if (message.Document is not null)
+            //    {
+            //        await PrepairedMessageSender(botClient, reaction_recievedDocument, message.Chat.Id, cancellationToken);
+            //    }
+
+            //    if (message.Photo is not null) // Telegram.Bot.Types.PhotoSize[4]} IT IS TRUE
+            //    {
+            //        await PrepairedMessageSender(botClient, reaction_recievedPhoto, message.Chat.Id, cancellationToken);
+
+            //        LiveLogger(message); // живой лог
+            //        FileLogger(message, Convert.ToString(message.Photo.Length), message.Chat.Id, Settings.logPath); // логгирование в файл
+            //        DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, recievedPhotoMessageToDbQuery);
+            //    }
+
+            //    if (message.Sticker is not null)
+            //    {
+            //        await PrepairedMessageSender(botClient, reaction_recievedSticker, message.Chat.Id, cancellationToken);
+            //    }
+
+            //    if (message.Video is not null)
+            //    {
+            //        await PrepairedMessageSender(botClient, reaction_recievedVideo, message.Chat.Id, cancellationToken);
+            //    }
+
+            //    if (message.Voice is not null)
+            //    {
+            //        await PrepairedMessageSender(botClient, reaction_recievedVoice, message.Chat.Id, cancellationToken);
+            //    }
+            //    #endregion
+
+            //    if (message.Text is not null)
+            //    {
+            //        LiveLogger(message); // живой лог
+            //        FileLogger(message, message.Text, message.Chat.Id, Settings.logPath); // логгирование в файл
+
+            //        //checking SQL-problem symbols in message before writing it in db
+            //        if (message.Text is not null && message.Text.Contains('\''))
+            //        {
+            //            string convertedMessageText = message.Text.Replace("'", "\\'");
+
+            //            DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, recievedUnacceptableMessageToDbQuery);
+            //        }
+
+            //        else
+            //        {
+            //            DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, recievedMessageToDbQuery);
+            //        }
+
+            //        await ParrotedMessageSender(botClient, message, chatId, cancellationToken);
+            //    }
+            //    return Task.CompletedTask;
+            //}
+            #endregion
+
+            async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+            {
+                var message = update.Message;
+                //if (message is null)
+                //{
+                //    MessageBox.Show("update.Message is null", "Error");
+                //    return;
+                //}
+
+                #region sqlQueries править запросы на запись в бд
                 //запись принятых сообщений в бд
-                string recievedMessageToDbQuery = $"INSERT INTO Received_messages(username, is_bot, first_name, last_name, language_code, chat_id, message_id, message_date, chat_type, message_content) " +
-                $"VALUES('@{message.Chat.Username}', '0', '{message.Chat.FirstName}', '{message.Chat.LastName}', 'ru', '{message.Chat.Id}', '{message.MessageId}', '{DateTime.Now}', '{message.Chat.Type}', '{message.Text}')";
+                //string recievedMessageToDbQuery = $"INSERT INTO Received_messages(username, is_bot, first_name, last_name, language_code, chat_id, message_id, message_date, chat_type, message_content) " +
+                //$"VALUES('@{message.Chat.Username}', '0', '{message.Chat.FirstName}', '{message.Chat.LastName}', 'ru', '{message.Chat.Id}', '{message.MessageId}', '{DateTime.Now}', '{message.Chat.Type}', '{message.Text}')";
 
-                //запись принятых опасных сообщений в бд
-                string recievedUnacceptableMessageToDbQuery = $"INSERT INTO Received_messages(username, is_bot, first_name, last_name, language_code, chat_id, message_id, message_date, chat_type, message_content) " +
-                $"VALUES('@{message.Chat.Username}', '0', '{message.Chat.FirstName}', '{message.Chat.LastName}', 'ru', '{message.Chat.Id}', '{message.MessageId}', '{DateTime.Now}', '{message.Chat.Type}', '{fixedForDbMessageText}')";
+                ////запись приныятых фотографий в бд
+                //string recievedPhotoMessageToDbQuery = $"INSERT INTO Received_messages(username, is_bot, first_name, last_name, language_code, chat_id, message_id, message_date, chat_type, message_content) " +
+                //$"VALUES('@{message.Chat.Username}', '0', '{message.Chat.FirstName}', '{message.Chat.LastName}', 'ru', '{message.Chat.Id}', '{message.MessageId}', '{DateTime.Now}', '{message.Chat.Type}', '{message.Photo}')";
 
-                //запись приныятых фотографий в бд
-                string recievedPhotoMessageToDbQuery = $"INSERT INTO Received_messages(username, is_bot, first_name, last_name, language_code, chat_id, message_id, message_date, chat_type, message_content) " +
-                $"VALUES('@{message.Chat.Username}', '0', '{message.Chat.FirstName}', '{message.Chat.LastName}', 'ru', '{message.Chat.Id}', '{message.MessageId}', '{DateTime.Now}', '{message.Chat.Type}', '{message.Photo}')";
-
-                string returningAllUserToBotPrivateMessages = $"SELECT * FROM received_messages WHERE username = '{message.Chat.Username}'";
+                //string returningAllUserToBotPrivateMessages = $"SELECT * FROM received_messages WHERE username = '{message.Chat.Username}'";
                 #endregion
+                //Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(update)); //serialized updates
 
-                #region PrepairedMessageSending
-                if (message.Audio is not null)
+                if (update.Type is Telegram.Bot.Types.Enums.UpdateType.Message) //if recieved Message update type
                 {
-                    await PrepairedMessageSender(botClient, reaction_recievedAudio, message.Chat.Id, cancellationToken);
+                    var firstname = update.Message.Chat.FirstName;
 
-                }
-
-                if (message.Contact is not null)
-                {
-                    await PrepairedMessageSender(botClient, reaction_recievedContact, message.Chat.Id, cancellationToken);
-                }
-
-                if (message.Document is not null)
-                {
-                    await PrepairedMessageSender(botClient, reaction_recievedDocument, message.Chat.Id, cancellationToken);
-                }
-
-                if (message.Photo is not null) // Telegram.Bot.Types.PhotoSize[4]} IT IS TRUE
-                {
-                    await PrepairedMessageSender(botClient, reaction_recievedPhoto, message.Chat.Id, cancellationToken);
-
-                    LiveLogger(message); // живой лог
-                    FileLogger(message, Convert.ToString(message.Photo.Length), message.Chat.Id, Settings.logPath); // логгирование в файл
-                    DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, recievedPhotoMessageToDbQuery);
-                }
-
-                if (message.Sticker is not null)
-                {
-                    await PrepairedMessageSender(botClient, reaction_recievedSticker, message.Chat.Id, cancellationToken);
-                }
-
-                if (message.Video is not null)
-                {
-                    await PrepairedMessageSender(botClient, reaction_recievedVideo, message.Chat.Id, cancellationToken);
-                }
-
-                if (message.Voice is not null)
-                {
-                    await PrepairedMessageSender(botClient, reaction_recievedVoice, message.Chat.Id, cancellationToken);
-                }
-                #endregion
-
-                if (message.Text is not null)
-                {
-                    LiveLogger(message); // живой лог
-                    FileLogger(message, message.Text, message.Chat.Id, Settings.logPath); // логгирование в файл
-
-                    //checking SQL-problem symbols in message before writing it in db
-                    if (message.Text is not null && message.Text.Contains('\''))
+                    if (message.Text.ToLower() == "/start") //if recieved this text
                     {
-                        string convertedMessageText = message.Text.Replace("'", "\\'");
+                        LiveLogger(message); // живой лог
+                        //FileLogger(message, message.Text, message.Chat.Id, Settings.logPath); // логгирование в файл
+                        //DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, recievedMessageToDbQuery);
 
-                        DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, recievedUnacceptableMessageToDbQuery);
+                        await botClient.SendTextMessageAsync(chatId: message.Chat.Id, text: $"Добро пожаловать, {firstname}!", replyMarkup: UserInterraction.mainMenuKeypad, cancellationToken: cancellationToken);
+                        return;
                     }
 
-                    else
+                }
+
+                if (update.Type is Telegram.Bot.Types.Enums.UpdateType.CallbackQuery) //if recieved CallbackQuery (button codes) update type
+                {
+                    if (update.CallbackQuery.Data is "toHome")
                     {
-                        DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, recievedMessageToDbQuery);
+                        string telegramMessage = "Добро пожаловать!";
+                        await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, telegramMessage, replyMarkup: UserInterraction.mainMenuKeypad, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: cancellationToken);
                     }
 
-                    await ParrotedMessageSender(botClient, message, chatId, cancellationToken);
+                    if (update.CallbackQuery.Data is "programChoose") //если ответ содержал в себе, то изменить сообщение на следующее...
+                    {
+                        string telegramMessage = "Выберите желаемый уровень подготовки:";
+                        await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, telegramMessage, replyMarkup: UserInterraction.levelChoosingKeypad, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: cancellationToken);
+                    }
+
+                    if (update.CallbackQuery.Data.ToLower().Contains("level"))
+                    {
+                        string telegramMessage = "Пожалуйста, выберите необходимый университет:";
+                        UserInterraction.levelChoose = update.CallbackQuery.Data as string;
+                        Console.WriteLine(UserInterraction.levelChoose); //ok
+                        await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, telegramMessage, replyMarkup: UserInterraction.universityChoosingKeypad, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: cancellationToken);
+                    }
+
+                    if (update.CallbackQuery.Data.ToLower().Contains("university"))
+                    {
+                        UserInterraction.universityChoose = update.CallbackQuery.Data as string;
+                        Console.WriteLine(UserInterraction.universityChoose); //ok
+                    }
                 }
-                return Task.CompletedTask;
             }
+
 
             Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken) //обработчик ошибок API
             {
@@ -173,7 +252,7 @@ namespace botserver_standard
         {
             //new Thread(() => ParserGUI()).Start();
             //Thread.CurrentThread.Interrupt();
-            Parser.ParserGUI();
+            //ParserGUI();
 
         }
 
@@ -271,9 +350,8 @@ namespace botserver_standard
             Console.SetIn(strInReader);
 
 
-            ScriptEngine engine = Python.CreateEngine();
             //engine.ExecuteFile(Environment.CurrentDirectory + "\\parser.py");
-            engine.ExecuteFile("parser.py");
+
 
             Console.ReadKey();
             FreeConsole();
@@ -295,7 +373,6 @@ namespace botserver_standard
                 return LiveLogOutput.Text += $"Received a '{message.Text}' message from @{message.Chat.Username} aka {message.Chat.FirstName} {message.Chat.LastName} in chat {message.Chat.Id} at {DateTime.Now}.\n" +
                             "-------------------------------------------------------------------------------------------------------------\n";
             });
-            //Console.WriteLine($"Raw message: {Newtonsoft.Json.JsonConvert.SerializeObject(message)}");
         }
 
         public static async void FileLogger(Message message, string messageText, long chatId, string logPath) //логгирование полученных сообщений в файл
@@ -329,6 +406,20 @@ namespace botserver_standard
             return Task.CompletedTask;
         }
 
+        public static async Task<Task> ButtonedReplies(ITelegramBotClient botClient, Message? message, long? chatId, CancellationToken cancellationToken) //отправка пользователю текста его сообщения
+        {
+            if (message is not null)
+            {
+               // await botClient.SendTextMessageAsync(
+               //chatId: chatId,
+               //text: $"I received the following message:\n{message.Text}",
+               //cancellationToken: cancellationToken);
+            }
+
+            else await ErrorToChatSender(botClient, chatId, cancellationToken);
+            return Task.CompletedTask;
+        }
+
         public static async Task ErrorToChatSender(ITelegramBotClient botClient, long? chatId, CancellationToken cancellationToken)
         {
             await botClient.SendTextMessageAsync(
@@ -336,45 +427,5 @@ namespace botserver_standard
             text: $"botserver_standard error. message.Text is null?",
             cancellationToken: cancellationToken);
         }
-
-        //private void ParserGUI()
-        //{
-        //    Dispatcher.Invoke(() =>
-        //    {
-        //        ParserLogOutput.Text += "-------------------------------------------------------------------------------------------------------------\n";
-        //        ParserLogOutput.Text += $"{DateTime.Now}: Parsing in process...\n";
-        //        ParserLogOutput.Text += $"{DateTime.Now}: Getting data from web...\n";
-        //    });
-
-        //    var parsingUrl = "https://studyintomsk.ru/programs-main/?level=card-item&direction=card-item";
-        //    var web = new HtmlWeb();
-        //    HtmlDocument document;
-        //    document = web.Load(parsingUrl);
-
-        //    Dispatcher.Invoke(() =>
-        //    {
-        //        ParserLogOutput.Text += $"{DateTime.Now}: Selecting nodes...\n";
-        //    });
-        //    var value = document.DocumentNode.SelectNodes("/html/body/div[3]/div[3]"); // /html/body/div[3]/div[3]/div/div/div/div/div
-
-        //    Dispatcher.Invoke(() =>
-        //    {
-        //        ParserLogOutput.Text += $"{DateTime.Now}: Write data...\n";
-        //    });
-        //    string prsFilePath = "parsing_result.prs"; //.prs = Parsing ReSult
-        //    StreamWriter prsWriter = new(prsFilePath);
-        //    foreach (var node in value)
-        //    {
-        //        prsWriter.WriteLine(node.InnerText);
-        //    }
-        //    prsWriter.Close();
-
-        //    Dispatcher.Invoke(() =>
-        //    {
-        //        ParserLogOutput.Text += $"{DateTime.Now}: Parsing is done.\n";
-        //        ParserLogOutput.Text += "-------------------------------------------------------------------------------------------------------------\n";
-        //    });
-        //}
-
     }
 }
