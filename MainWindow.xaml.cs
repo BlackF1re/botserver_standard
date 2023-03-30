@@ -39,8 +39,8 @@ namespace botserver_standard
             SetRepeatedPwdBox.MaxLength = 50;
             UseThisPwdCheckbox.IsChecked = Properties.Settings.Default.pwdIsSetted;
 
-            Task.Factory.StartNew(() => ParserGUI()); //ok
-
+            Task.Factory.StartNew(() => CardParser()); //ok
+            //Task.Factory.StartNew(() => CardGenerator()); //ok
 
             //bool parsingIsDone = false;
             //ParserWindow parserWindow = new ParserWindow();

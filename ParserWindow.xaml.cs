@@ -28,12 +28,12 @@ namespace botserver_standard
 
             //Task.Factory.StartNew(() => parsingIsDone = ParserGUI()); //ok
             //parsingIsDone = ParserGUI(); //ok
-            var t = Task.Run(() => prsr());
-            t.Wait();
-            Close();
+            //var t = Task.Run(() => prsr());
+            //t.Wait();
+            //Close();
 
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
+            //MainWindow mainWindow = new MainWindow();
+            //mainWindow.Show();
             //bool isparsed;
             //if (isparsed == true)
             //{
@@ -43,46 +43,46 @@ namespace botserver_standard
             //}
         }
 
-        public async void prsr()
-        {
-            Dispatcher.Invoke(() =>
-            {
-                ParserLogOutput.AppendText("-------------------------------------------------------------------------------------------------------------\n");
-                ParserLogOutput.Text += $"{DateTime.Now} | Parsing in process...\n";
-                ParserLogOutput.Text += $"{DateTime.Now} | Getting data from web...\n";
-            });
+        //public async void prsr()
+        //{
+        //    Dispatcher.Invoke(() =>
+        //    {
+        //        ParserLogOutput.AppendText("-------------------------------------------------------------------------------------------------------------\n");
+        //        ParserLogOutput.Text += $"{DateTime.Now} | Parsing in process...\n";
+        //        ParserLogOutput.Text += $"{DateTime.Now} | Getting data from web...\n";
+        //    });
 
-            var parsingUrl = "https://studyintomsk.ru/programs-main/?level=card-item&direction=card-item";
-            var web = new HtmlWeb();
-            HtmlDocument document;
-            document = web.Load(parsingUrl);
+        //    var parsingUrl = "https://studyintomsk.ru/programs-main/?level=card-item&direction=card-item";
+        //    var web = new HtmlWeb();
+        //    HtmlDocument document;
+        //    document = web.Load(parsingUrl);
 
-            Dispatcher.Invoke(() =>
-            {
-                ParserLogOutput.Text += $"{DateTime.Now} | Selecting nodes...\n";
-            });
-            var value = document.DocumentNode.SelectNodes("/html/body/div[3]/div[3]"); // /html/body/div[3]/div[3]/div/div/div/div/div
+        //    Dispatcher.Invoke(() =>
+        //    {
+        //        ParserLogOutput.Text += $"{DateTime.Now} | Selecting nodes...\n";
+        //    });
+        //    var value = document.DocumentNode.SelectNodes("/html/body/div[3]/div[3]"); // /html/body/div[3]/div[3]/div/div/div/div/div
 
-            Dispatcher.Invoke(() =>
-            {
-                ParserLogOutput.Text += $"{DateTime.Now} | Write data...\n";
-            });
-            string prsFilePath = "parsing_result.prs"; //.prs = Parsing ReSult
-            StreamWriter prsWriter = new(prsFilePath);
-            foreach (var node in value)
-            {
-                prsWriter.WriteLine(node.InnerText);
-            }
-            prsWriter.Close();
+        //    Dispatcher.Invoke(() =>
+        //    {
+        //        ParserLogOutput.Text += $"{DateTime.Now} | Write data...\n";
+        //    });
+        //    string prsFilePath = "parsing_result.prs"; //.prs = Parsing ReSult
+        //    StreamWriter prsWriter = new(prsFilePath);
+        //    foreach (var node in value)
+        //    {
+        //        prsWriter.WriteLine(node.InnerText);
+        //    }
+        //    prsWriter.Close();
 
-            Dispatcher.Invoke(() =>
-            {
-                ParserLogOutput.Text += $"{DateTime.Now} | Parsing is done.\n";
-                ParserLogOutput.Text += "-------------------------------------------------------------------------------------------------------------\n";
-            });
+        //    Dispatcher.Invoke(() =>
+        //    {
+        //        ParserLogOutput.Text += $"{DateTime.Now} | Parsing is done.\n";
+        //        ParserLogOutput.Text += "-------------------------------------------------------------------------------------------------------------\n";
+        //    });
 
-            return;
-        }
+        //    return;
+        //}
 
 
     }

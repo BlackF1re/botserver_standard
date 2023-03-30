@@ -10,7 +10,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot;
 using System.Windows.Threading;
 
-namespace botserver_standard.Workers
+namespace botserver_standard
 {
     internal class ConsoleWorker
     {
