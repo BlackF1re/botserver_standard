@@ -31,11 +31,11 @@ namespace botserver_standard
             this.Id = id;
             this.UniversityName = universityName;
             this.ProgramName = programName;
-            this.Level = level;
-            this.StudyForm = studyForm;
+            this.Level = level.ToLower();
+            this.StudyForm = studyForm.ToLower();
             this.ProgramCode = programCode;
-            this.Duration = duration;
-            this.StudyLang = studyLang;
+            this.Duration = duration.ToLower();
+            this.StudyLang = studyLang.ToLower();
             this.Curator = curator;
             this.PhoneNumber = phoneNumber;
             this.Email = email;

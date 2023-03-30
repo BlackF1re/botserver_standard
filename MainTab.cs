@@ -258,66 +258,8 @@ namespace botserver_standard
 
         private void CmdOpenBtn_Click(object sender, RoutedEventArgs e)
         {
-            AllocConsole();
-            TextWriter stdOutWriter = new StreamWriter(Console.OpenStandardOutput(), Console.OutputEncoding) { AutoFlush = true };
-            TextWriter stdErrWriter = new StreamWriter(Console.OpenStandardError(), Console.OutputEncoding) { AutoFlush = true };
-            TextReader strInReader = new StreamReader(Console.OpenStandardInput(), Console.InputEncoding);
-            Console.SetOut(stdOutWriter);
-            Console.SetError(stdErrWriter);
-            Console.SetIn(strInReader);
-            //метод кнопки запуска парсера в cmd
-            Console.WriteLine("Parsing in process...");
-
-            var parsingUrl = "https://studyintomsk.ru/programs-main/?level=card-item&direction=card-item";
-            var web = new HtmlWeb();
-            var doc = web.Load(parsingUrl);
-
-
-            var value = doc.DocumentNode.SelectNodes("/html/body/div[3]/div[3]"); // /html/body/div[3]/div[3]/div/div/div/div/div
-            string prsFilePath = "parsing_result.prs"; //.prs = Parsing ReSult
-            StreamWriter prsWriter = new(prsFilePath);
-
-            foreach (var node in value)
-            {
-                prsWriter.WriteLine(node.InnerText);
-            }
-            prsWriter.Close();
-            Console.WriteLine("Parsing is done. Press any key to exit");
-
-            Console.ReadKey();
-            FreeConsole();
-
-            //вывод всех данных из таблицы Received_messages
-            //string sqlExpression = "SELECT * FROM Received_messages";
-            //using (var connection = new SqliteConnection(Settings.connString))
-            //{
-            //    connection.Open();
-
-            //    SqliteCommand command = new SqliteCommand(sqlExpression, connection);
-            //    using (SqliteDataReader reader = command.ExecuteReader())
-            //    {
-            //        if (reader.HasRows) // если есть строки
-            //        {
-            //            while (reader.Read())   // построчно считываем данные
-            //            {
-            //                var username = reader.GetValue(0);
-            //                var is_bot = reader.GetValue(1);
-            //                var first_name = reader.GetValue(2);
-            //                var last_name = reader.GetValue(3);
-            //                var language_code = reader.GetValue(4);
-            //                var chat_id = reader.GetValue(5);
-            //                var message_id = reader.GetValue(6);
-            //                var message_date = reader.GetValue(7);
-            //                var chat_type = reader.GetValue(8);
-            //                var message_content = reader.GetValue(9);
-
-            //                Console.WriteLine("username \t is_bot \t first_name \t last_name \t language_code \t chat_id \t message_id \t message_date \t chat_type \t message_content");
-
-            //                Console.WriteLine($"{username} \t {is_bot} \t {first_name} \t {last_name} \t {language_code} \t {chat_id} \t {message_id} \t {message_date} \t {chat_type} \t {message_content}");
-            //            }
-            //        }
-            //    }
-            //}
+            ConsoleWorker.CardOutputter();
+            
         }
 
         #region other right stackpanel buttons

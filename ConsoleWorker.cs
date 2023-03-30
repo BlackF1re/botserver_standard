@@ -9,12 +9,14 @@ using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 using Telegram.Bot;
 using System.Windows.Threading;
+using System.Windows.Controls;
+using System.Xml.Linq;
 
 namespace botserver_standard
 {
     internal class ConsoleWorker
     {
-        public static void BotFixer()
+        public static void CardOutputter()
         {
             MainWindow.AllocConsole();
 
@@ -36,6 +38,13 @@ namespace botserver_standard
             //    }
             //}
             //else { Console.WriteLine("Text is null!"); }
+            foreach (var item in MainWindow.cards)
+            {
+                Console.WriteLine($"{item.Id} | {item.UniversityName} | {item.ProgramName} | {item.Level} | " +
+                    $"{item.ProgramCode} | {item.StudyForm} | {item.Duration} | {item.StudyLang} | " +
+                    $"{item.Curator} | {item.PhoneNumber} | {item.Email} | {item.Cost}");
+
+            }
 
             Console.ReadKey();
 
