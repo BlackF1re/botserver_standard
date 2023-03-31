@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Telegram.Bot.Types.ReplyMarkups;
 namespace botserver_standard
 {
-    internal class UserInterraction
+    internal class TelegramBotStaticKeypads
     {
         public static string? levelChoose;
         public static string? universityChoose;

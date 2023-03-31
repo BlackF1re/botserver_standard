@@ -13,9 +13,9 @@ namespace botserver_standard
         public static string? botToken = null; //токен бота
         public static string? pwd = null; //пароль на запуск. Может быть отключен, см. ниже
         public static bool pwdIsSetted = false; //пароль установлен? 
-
-        public static string? parsingUrl = null; //URL страницы, подлежащей парсингу
+        public static bool pwdIsUsing = false; //пароль используется(чекбокс)? 
         public static string? prsFilePath = null; //.prs = Parsing ReSult. Путь к файлу спарсенных данных
+        public static string? parsingUrl = null; //URL страницы, подлежащей парсингу
 
     }
 }

@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace botserver_standard
 {
+
     public class Card
     {
+        public static List<Card> cards = new(); // упорядоченный набор карточек (классов). Нечитабельно при отладке(?)
+
         /*
         Всего строк: 6001
         Строк на одну карточку: 12

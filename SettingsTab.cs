@@ -6,6 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Telegram.Bot.Types;
+using static System.Net.Mime.MediaTypeNames;
+
 
 namespace botserver_standard
 {
@@ -13,22 +16,45 @@ namespace botserver_standard
     {
         private void SetTokenBtn_Click(object sender, RoutedEventArgs e)
         {
-            using SqliteDataReader reader = DbWorker.SettingsReader(DbWorker.readSettings, DbWorker.sqliteConn);
-            LiveLogOutput.Text += $"{Settings.logPath}, {Settings.connString}, {Settings.botToken}, {Settings.pwd}, {Settings.pwdIsSetted} \n";
+            string updateTokenQuery = $"UPDATE Settings SET botToken = '{SettingsTokenInput.Text.Trim(' ')}';";
+            int rowsChanged = DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, updateTokenQuery);
+
+            //IsChanged?
+            if (rowsChanged is 1)
+            {
+                using SqliteDataReader reader = DbWorker.SettingsReader(DbWorker.readSettings, DbWorker.sqliteConn); //from db to fields
+
+                string tokenLeftPart = SettingsTokenInput.Text.Substring(0, SettingsTokenInput.Text.Length - 35); // :AAF3nNDlYNfryOulNHKtsxlhuGo_roxXYXI
+                SettingsTokenInput.Text = $"Token has been changed to {tokenLeftPart}";
+            }
+            else { SettingsTokenInput.Text += "Unforseen error"; }
+
+
+            //using SqliteDataReader reader = DbWorker.SettingsReader(DbWorker.readSettings, DbWorker.sqliteConn);
+            //LiveLogOutput.Text += $"{Settings.logPath}, {Settings.connString}, {Settings.botToken}, {Settings.pwd}, {Settings.pwdIsSetted} \n";
         }
 
         private void SetLogPathBtn_Click(object sender, RoutedEventArgs e)
         {
-            string queryText = "INSERT INTO Settings"; 
-            //SettingsTokenInput.Text
+            string updateTokenQuery = $"UPDATE Settings SET logPath = '{SettingsLogRootInput.Text}';";
+            int rowsChanged = DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, updateTokenQuery);
+
+            //IsChanged?
+            if (rowsChanged is 1)
+            {
+                using SqliteDataReader reader = DbWorker.SettingsReader(DbWorker.readSettings, DbWorker.sqliteConn);
+
+                SettingsLogRootInput.Text = $"file path has been setted.";
+            }
+            else { SettingsTokenInput.Text += "Unforseen error"; }
         }
 
         private void SetDbPathBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            MessageBox.Show("Not implemented.");
         }
 
-        private void OutputPauseBt_Click(object sender, RoutedEventArgs e)
+        private void SettingsFilePathSetBtn_Click(object sender, RoutedEventArgs e)
         {
 
         }
@@ -40,27 +66,87 @@ namespace botserver_standard
 
         private void SetPwdBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (SetPwdBox.Password == SetRepeatedPwdBox.Password)
+            if (SetPwdBox.Password.Length >3 && SetRepeatedPwdBox.Password.Length >3 && SetPwdBox.Password == SetRepeatedPwdBox.Password)
             {
-                Settings.pwd = SetRepeatedPwdBox.Password;
-                MessageBox.Show("Password setted", "Notice");
+                int rowsChanged;
+                StupidWall stupidWall = new();
+
+                if (stupidWall.ShowDialog() == true)
+                {
+                    if (stupidWall.EnterPwdBox.Password == Settings.pwd)
+                    {
+                        MessageBox.Show("Авторизация пройдена");
+                        Settings.pwd = SetRepeatedPwdBox.Password;
+
+                        string updatePwdQuery = $"UPDATE Settings SET pwd = '{SetPwdBox.Password.Trim(' ')}';";
+
+                        rowsChanged = DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, updatePwdQuery);
+
+                        //IsChanged?
+                        if (rowsChanged is 1)
+                        {
+                            using SqliteDataReader reader = DbWorker.SettingsReader(DbWorker.readSettings, DbWorker.sqliteConn);
+
+                            MessageBox.Show($"your password has been changed at {DateTime.Now}.", "Notice");
+                        }
+                        else { SettingsTokenInput.Text += "Unforseen error"; }
+                    }
+
+                    if (stupidWall.EnterPwdBox.Password != Settings.pwd)
+                    {
+                        MessageBox.Show("Неверный пароль");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Лох!");
+                }
+
             }
+
             else
             {
-                MessageBox.Show("Passwords are not the same", "Error");
-                SetPwdBox.Clear();
+                MessageBox.Show("Passwords are not the same, try again", "Error");
                 SetRepeatedPwdBox.Clear();
             }
         }
 
-        private void UseThisPwdCheckbox_Checked(object sender, RoutedEventArgs e)
+        public void UseThisPwdCheckbox_Checked(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.pwdIsSetted = true;
+            bool isChecked = true;
+
+            string updateTokenQuery = $"UPDATE Settings SET pwdIsUsing = '{isChecked}';";
+            DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, updateTokenQuery);
         }
 
         private void UseThisPwdCheckbox_Unchecked(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.pwdIsSetted = false;
+            StupidWall stupidWall = new();
+
+            if (stupidWall.ShowDialog() == true)
+            {
+                if (stupidWall.EnterPwdBox.Password == Settings.pwd)
+                {
+                    MessageBox.Show("Авторизация пройдена");
+                    UseThisPwdCheckbox.IsChecked = false;
+                    string updatePwdIsUsingQuery = $"UPDATE Settings SET pwdIsUsing = '{UseThisPwdCheckbox.IsChecked}';";
+                    DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, updatePwdIsUsingQuery);
+                }
+
+                if (stupidWall.EnterPwdBox.Password != Settings.pwd)
+                {                    
+                    MessageBox.Show("Неверный пароль");
+                    UseThisPwdCheckbox.IsChecked = true;
+                    string updatePwdIsUsingQuery = $"UPDATE Settings SET pwdIsUsing = '{UseThisPwdCheckbox.IsChecked}';";
+                    DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, updatePwdIsUsingQuery);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Лох!");
+            }
+            
+
         }
     }
 }

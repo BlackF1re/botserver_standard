@@ -1,4 +1,5 @@
 ﻿using HtmlAgilityPack;
+using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,7 +14,7 @@ namespace botserver_standard
 {
     public partial class MainWindow : Window
     {
-        public static List<Card> cards = new(); // упорядоченный набор карточек (классов). Нечитабельно при отладке(?)
+        //public static List<Card> cards = new(); // упорядоченный набор карточек (классов). Нечитабельно при отладке(?)
 
         public void CardParser()
         {
@@ -167,13 +168,13 @@ namespace botserver_standard
             });
             foreach (string line in cardsList)
             {
-                cards.Add(new Card(Id, UniversityName = cardsList[row0], ProgramName = cardsList[row1], Level = cardsList[row2],
+                Card.cards.Add(new Card(Id, UniversityName = cardsList[row0], ProgramName = cardsList[row1], Level = cardsList[row2],
                                     StudyForm = cardsList[row3], ProgramCode = cardsList[row4], Duration = cardsList[row5],
                                     StudyLang = cardsList[row7], Curator = cardsList[row8], PhoneNumber = cardsList[row9],
                                     Email = cardsList[row10], Cost = cardsList[row11]));
                 Id++;
 
-                //переход на строки для следующей карточки
+                //прыжок на строки следующей карточки
                 row0 += 12;
                 row1 += 12;
                 row2 += 12;
@@ -191,10 +192,13 @@ namespace botserver_standard
                 if (cardCounter == cardsTotalRows)
                     break;
             }
+            //ЗАПИСЬ ДАННЫХ В ТАБЛИЦУ, ПЕРЕНЕСТИ ТАБЛИЦУ ИЗ ОТДЕЛЬНОГО ПРОЕКТА ПАРСЕРА
+            //string queryText = "";
 
+            //DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, queryText);
             Dispatcher.Invoke(() =>
             {
-                ParserLogOutput.Text += $"{DateTime.Now} | Parsing is done. {cards.Count} cards have been added.\n";
+                ParserLogOutput.Text += $"{DateTime.Now} | Parsing is done. {Card.cards.Count} cards have been added.\n";
                 ParserLogOutput.Text += "-----------------------------------------------------------------------------------------------------------\n";
             });
         }

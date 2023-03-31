@@ -157,31 +157,44 @@ namespace botserver_standard
 
                 #region sqlQueries править запросы на запись в бд
                 //запись принятых сообщений в бд
-                //string recievedMessageToDbQuery = $"INSERT INTO Received_messages(username, is_bot, first_name, last_name, language_code, chat_id, message_id, message_date, chat_type, message_content) " +
-                //$"VALUES('@{message.Chat.Username}', '0', '{message.Chat.FirstName}', '{message.Chat.LastName}', 'ru', '{message.Chat.Id}', '{message.MessageId}', '{DateTime.Now}', '{message.Chat.Type}', '{message.Text}')";
+                string recievedMessageToDbQuery = $"INSERT INTO Received_messages(username, is_bot, first_name, last_name, language_code, chat_id, message_id, message_date, chat_type, message_content) " +
+                $"VALUES('@{message.Chat.Username}', '0', '{message.Chat.FirstName}', '{message.Chat.LastName}', 'ru', '{message.Chat.Id}', '{message.MessageId}', '{DateTime.Now}', '{message.Chat.Type}', '{message.Text}')";
 
-                ////запись приныятых фотографий в бд
-                //string recievedPhotoMessageToDbQuery = $"INSERT INTO Received_messages(username, is_bot, first_name, last_name, language_code, chat_id, message_id, message_date, chat_type, message_content) " +
-                //$"VALUES('@{message.Chat.Username}', '0', '{message.Chat.FirstName}', '{message.Chat.LastName}', 'ru', '{message.Chat.Id}', '{message.MessageId}', '{DateTime.Now}', '{message.Chat.Type}', '{message.Photo}')";
+                //запись приныятых фотографий в бд
+                string recievedPhotoMessageToDbQuery = $"INSERT INTO Received_messages(username, is_bot, first_name, last_name, language_code, chat_id, message_id, message_date, chat_type, message_content) " +
+                $"VALUES('@{message.Chat.Username}', '0', '{message.Chat.FirstName}', '{message.Chat.LastName}', 'ru', '{message.Chat.Id}', '{message.MessageId}', '{DateTime.Now}', '{message.Chat.Type}', '{message.Photo}')";
 
-                //string returningAllUserToBotPrivateMessages = $"SELECT * FROM received_messages WHERE username = '{message.Chat.Username}'";
+                string returningAllUserToBotPrivateMessages = $"SELECT * FROM received_messages WHERE username = '{message.Chat.Username}'";
                 #endregion
                 //Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(update)); //serialized updates
 
                 if (update.Type is Telegram.Bot.Types.Enums.UpdateType.Message) //if recieved Message update type
                 {
                     var firstname = update.Message.Chat.FirstName;
-
+                    if (message.Text is null)
+                    {
+                        return;
+                    }
                     if (message.Text.ToLower() == "/start") //if recieved this text
                     {
                         LiveLogger(message); // живой лог
-                        //FileLogger(message, message.Text, message.Chat.Id, Settings.logPath); // логгирование в файл
-                        //DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, recievedMessageToDbQuery);
+                        FileLogger(message, message.Text, message.Chat.Id, Settings.logPath); // логгирование в файл
+                        DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, recievedMessageToDbQuery);
 
-                        await botClient.SendTextMessageAsync(chatId: message.Chat.Id, text: $"Добро пожаловать, {firstname}!", replyMarkup: UserInterraction.mainMenuKeypad, cancellationToken: cancellationToken);
+                        await botClient.SendTextMessageAsync(chatId: message.Chat.Id, text: $"Добро пожаловать, {firstname}!", replyMarkup: TelegramBotStaticKeypads.mainMenuKeypad, cancellationToken: cancellationToken);
                         return;
                     }
+                    else
+                    {
+                        await botClient.SendTextMessageAsync(chatId: message.Chat.Id, text: $"Пожалуйста, выберите один из доступных вариантов:", replyMarkup: TelegramBotStaticKeypads.mainMenuKeypad, cancellationToken: cancellationToken);
+                        LiveLogger(message); // живой лог
+                        FileLogger(message, message.Text, message.Chat.Id, Settings.logPath); // логгирование в файл
+                        DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, recievedMessageToDbQuery);
+                    }
 
+
+                    await botClient.SendTextMessageAsync(chatId: message.Chat.Id, text: $"Добро пожаловать, {firstname}!", replyMarkup: TelegramBotStaticKeypads.mainMenuKeypad, cancellationToken: cancellationToken);
+                    return;
                 }
 
                 if (update.Type is Telegram.Bot.Types.Enums.UpdateType.CallbackQuery) //if recieved CallbackQuery (button codes) update type
@@ -189,27 +202,27 @@ namespace botserver_standard
                     if (update.CallbackQuery.Data is "toHome")
                     {
                         string telegramMessage = "Добро пожаловать!";
-                        await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, telegramMessage, replyMarkup: UserInterraction.mainMenuKeypad, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: cancellationToken);
+                        await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, telegramMessage, replyMarkup: TelegramBotStaticKeypads.mainMenuKeypad, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: cancellationToken);
                     }
 
                     if (update.CallbackQuery.Data is "programChoose") //если ответ содержал в себе, то изменить сообщение на следующее...
                     {
                         string telegramMessage = "Выберите желаемый уровень подготовки:";
-                        await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, telegramMessage, replyMarkup: UserInterraction.levelChoosingKeypad, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: cancellationToken);
+                        await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, telegramMessage, replyMarkup: TelegramBotStaticKeypads.levelChoosingKeypad, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: cancellationToken);
                     }
 
                     if (update.CallbackQuery.Data.ToLower().Contains("level"))
                     {
                         string telegramMessage = "Пожалуйста, выберите необходимый университет:";
-                        UserInterraction.levelChoose = update.CallbackQuery.Data as string;
-                        Console.WriteLine(UserInterraction.levelChoose); //ok
-                        await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, telegramMessage, replyMarkup: UserInterraction.universityChoosingKeypad, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: cancellationToken);
+                        TelegramBotStaticKeypads.levelChoose = update.CallbackQuery.Data as string;
+                        Console.WriteLine(TelegramBotStaticKeypads.levelChoose); //ok
+                        await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, telegramMessage, replyMarkup: TelegramBotStaticKeypads.universityChoosingKeypad, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: cancellationToken);
                     }
 
                     if (update.CallbackQuery.Data.ToLower().Contains("university"))
                     {
-                        UserInterraction.universityChoose = update.CallbackQuery.Data as string;
-                        Console.WriteLine(UserInterraction.universityChoose); //ok
+                        TelegramBotStaticKeypads.universityChoose = update.CallbackQuery.Data as string;
+                        Console.WriteLine(TelegramBotStaticKeypads.universityChoose); //ok
                     }
                 }
             }
@@ -244,15 +257,14 @@ namespace botserver_standard
         {
             TgBot.MainBotCts.Cancel();
             LiveLogOutput.Clear();
-            LiveLogOutput.Text = "Bot has been stopped";
+            //LiveLogOutput.Text = "Bot has been stopped";
             Environment.Exit(0);
         }
 
         private void ManualParserRunningBtn_Click(object sender, RoutedEventArgs e)
         {
             //new Thread(() => ParserGUI()).Start();
-            //Thread.CurrentThread.Interrupt();
-            //ParserGUI();
+
 
         }
 
@@ -304,7 +316,7 @@ namespace botserver_standard
             CancellationTokenSource OnBotLoadCts = new();
             User me = await TgBot.botClient.GetMeAsync();
             LiveLogOutput.Text += $"Start listening bot @{me.Username} named as {me.FirstName}. Timestamp: {DateTime.Now}\n";
-            LiveLogOutput.Text += "-------------------------------------------------------------------------------------------------------------\n";
+            LiveLogOutput.Text += "-----------------------------------------------------------------------------------------------------------\n";
             return OnBotLoadCts;
         }
 
@@ -313,7 +325,7 @@ namespace botserver_standard
             Dispatcher.Invoke(() =>
             {
                 return LiveLogOutput.Text += $"Received a '{message.Text}' message from @{message.Chat.Username} aka {message.Chat.FirstName} {message.Chat.LastName} in chat {message.Chat.Id} at {DateTime.Now}.\n" +
-                            "-------------------------------------------------------------------------------------------------------------\n";
+                            "-----------------------------------------------------------------------------------------------------------\n";
             });
         }
 

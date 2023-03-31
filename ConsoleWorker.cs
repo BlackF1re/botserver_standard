@@ -38,7 +38,7 @@ namespace botserver_standard
             //    }
             //}
             //else { Console.WriteLine("Text is null!"); }
-            foreach (var item in MainWindow.cards)
+            foreach (var item in Card.cards)
             {
                 Console.WriteLine($"{item.Id} | {item.UniversityName} | {item.ProgramName} | {item.Level} | " +
                     $"{item.ProgramCode} | {item.StudyForm} | {item.Duration} | {item.StudyLang} | " +
