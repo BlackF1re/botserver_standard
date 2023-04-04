@@ -14,6 +14,9 @@ namespace botserver_standard
 {
     public partial class MainWindow : Window
     {
+        public static bool pwdIsDefault; 
+
+
         private void SetTokenBtn_Click(object sender, RoutedEventArgs e)
         {
             string updateTokenQuery = $"UPDATE Settings SET botToken = '{SettingsTokenInput.Text.Trim(' ')}';";
@@ -71,7 +74,7 @@ namespace botserver_standard
                 int rowsChanged;
                 StupidWall stupidWall = new();
 
-                if (stupidWall.ShowDialog() == true)
+                if (stupidWall.ShowDialog() == true) // if checking is success
                 {
                     if (stupidWall.EnterPwdBox.Password == Settings.pwd)
                     {
@@ -94,14 +97,14 @@ namespace botserver_standard
 
                     if (stupidWall.EnterPwdBox.Password != Settings.pwd)
                     {
-                        MessageBox.Show("Неверный пароль");
+                        MessageBox.Show("Неверный пароль"); //if checking is failed
                     }
                 }
+
                 else
                 {
-                    MessageBox.Show("Лох!");
+                    MessageBox.Show("Cancelled"); // if cancelled
                 }
-
             }
 
             else
@@ -115,8 +118,8 @@ namespace botserver_standard
         {
             bool isChecked = true;
 
-            string updateTokenQuery = $"UPDATE Settings SET pwdIsUsing = '{isChecked}';";
-            DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, updateTokenQuery);
+            string setCheckboxQuery = $"UPDATE Settings SET pwdIsUsing = '{isChecked}';";
+            DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, setCheckboxQuery);
         }
 
         private void UseThisPwdCheckbox_Unchecked(object sender, RoutedEventArgs e)

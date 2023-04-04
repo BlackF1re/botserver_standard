@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Data.Sqlite;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,9 +25,29 @@ namespace botserver_standard
             InitializeComponent();
         }
 
+        string? pwd; 
         private void NextBtn_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = true;
+            string query = "SELECT * FROM Settings";
+            using (var connection = new SqliteConnection(Settings.connString))
+            {
+                connection.Open();
+
+                SqliteCommand command = new(query, connection);
+                using SqliteDataReader reader = command.ExecuteReader();
+                if (reader.HasRows) // если есть данные
+                {
+                    while (reader.Read())   // построчно считываем данные
+                    {
+                        pwd = (string)reader["pwd"];
+                    }
+                }
+            }
+
+            if (EnterPwdBox.Password == pwd)
+            {
+                this.DialogResult = true;
+            }
         }
 
         public string Password

@@ -36,8 +36,7 @@ namespace botserver_standard
 
             await Task.Factory.StartNew(() => TgBot.botClient.StartReceiving(updateHandler: HandleUpdateAsync,
                                                                             pollingErrorHandler: HandleErrorAsync,
-                                                                            cancellationToken: TgBot.MainBotCts.Token,
-                                                                            receiverOptions: receiverOptions)); //ok
+                                                                            cancellationToken: TgBot.MainBotCts.Token,                                                                           receiverOptions: receiverOptions)); //ok
 
 
             #region old Update method
@@ -148,12 +147,12 @@ namespace botserver_standard
 
             async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
             {
-                var message = update.Message;
-                //if (message is null)
-                //{
-                //    MessageBox.Show("update.Message is null", "Error");
-                //    return;
-                //}
+                Message? message = update.Message;
+                if (message is null)
+                {
+                    MessageBox.Show("update.Message is null", "Error");
+                    return;
+                }
 
                 #region sqlQueries править запросы на запись в бд
                 //запись принятых сообщений в бд
@@ -164,17 +163,17 @@ namespace botserver_standard
                 string recievedPhotoMessageToDbQuery = $"INSERT INTO Received_messages(username, is_bot, first_name, last_name, language_code, chat_id, message_id, message_date, chat_type, message_content) " +
                 $"VALUES('@{message.Chat.Username}', '0', '{message.Chat.FirstName}', '{message.Chat.LastName}', 'ru', '{message.Chat.Id}', '{message.MessageId}', '{DateTime.Now}', '{message.Chat.Type}', '{message.Photo}')";
 
-                string returningAllUserToBotPrivateMessages = $"SELECT * FROM received_messages WHERE username = '{message.Chat.Username}'";
+                string returningAllUserToBotPrivateMessages = $"SELECT * FROM received_messages WHERE username = '{message.Chat.Username}'"; //not using
                 #endregion
                 //Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(update)); //serialized updates
 
-                if (update.Type is Telegram.Bot.Types.Enums.UpdateType.Message) //if recieved Message update type
+                if (update.Type is Telegram.Bot.Types.Enums.UpdateType.Message && message is not null) //if recieved Message update type
                 {
                     var firstname = update.Message.Chat.FirstName;
-                    if (message.Text is null)
-                    {
-                        return;
-                    }
+                    //if (message.Text is null)
+                    //{
+                    //    return;
+                    //}
                     if (message.Text.ToLower() == "/start") //if recieved this text
                     {
                         LiveLogger(message); // живой лог
@@ -255,17 +254,15 @@ namespace botserver_standard
 
         private void StopExitBotBtn_Click(object sender, RoutedEventArgs e)
         {
+            Stats.ShutdownTimeFixator();
+            Stats.UpTimeWriter();
             TgBot.MainBotCts.Cancel();
-            LiveLogOutput.Clear();
-            //LiveLogOutput.Text = "Bot has been stopped";
             Environment.Exit(0);
         }
 
         private void ManualParserRunningBtn_Click(object sender, RoutedEventArgs e)
         {
-            //new Thread(() => ParserGUI()).Start();
-
-
+            //new Thread(() => ParserGUI()).Start();            
         }
 
         private void CmdOpenBtn_Click(object sender, RoutedEventArgs e)
@@ -292,24 +289,6 @@ namespace botserver_standard
             LiveLogOutput.Clear();
         }
         #endregion
-
-        private void PythonRun_Click(object sender, RoutedEventArgs e)
-        {
-            AllocConsole();
-            TextWriter stdOutWriter = new StreamWriter(Console.OpenStandardOutput(), Console.OutputEncoding) { AutoFlush = true };
-            TextWriter stdErrWriter = new StreamWriter(Console.OpenStandardError(), Console.OutputEncoding) { AutoFlush = true };
-            TextReader strInReader = new StreamReader(Console.OpenStandardInput(), Console.InputEncoding);
-            Console.SetOut(stdOutWriter);
-            Console.SetError(stdErrWriter);
-            Console.SetIn(strInReader);
-
-
-            //engine.ExecuteFile(Environment.CurrentDirectory + "\\parser.py");
-
-
-            Console.ReadKey();
-            FreeConsole();
-        }
 
         public async Task<CancellationTokenSource> OnBotLoadMsg()
         {

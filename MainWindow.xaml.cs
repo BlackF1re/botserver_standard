@@ -35,28 +35,32 @@ namespace botserver_standard
         public MainWindow()
         {
             InitializeComponent();
+
+            //string tempPwd = "";
+
+            if (Settings.pwd is "YtcPoTIZPA0WpUdc~SMCaTjL7Kvt#ne3k*{Tb|H2Kx4t227gXy") // setting new pwd if now setted default
+            {
+                pwdIsDefault = true;
+            }
+            //else
+            //{
+            //    Settings.pwd = tempPwd;
+            //}
+
+            if (pwdIsDefault is true)
+            {
+                ChangeDefaultPwd changeDefaultPwd = new();
+
+                changeDefaultPwd.ShowDialog();
+            }
+
             SetPwdBox.MaxLength = 50;
             SetRepeatedPwdBox.MaxLength = 50;
-            UseThisPwdCheckbox.IsChecked = Properties.Settings.Default.pwdIsSetted;
+            //UseThisPwdCheckbox.IsChecked = Properties.Settings.Default.pwdIsSetted;
 
             Task.Factory.StartNew(() => CardParser()); //ok
-            //Task.Factory.StartNew(() => CardGenerator()); //ok
-
-            //bool parsingIsDone = false;
-            //ParserWindow parserWindow = new ParserWindow();
-            //parserWindow.Show();
-            //this.Hide();
-            ////parserWindow.ParserGUI();
-            //Task.Factory.StartNew(() => parsingIsDone = parserWindow.ParserGUI()); //ok
-            //if (parsingIsDone is true) { parserWindow.Close(); }
 
         }
-
-        private void OptionsBtn1_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
     }
 
 }

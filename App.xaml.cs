@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
+using System.Data;
 using System.Windows;
 
 namespace botserver_standard
@@ -8,8 +9,9 @@ namespace botserver_standard
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            // OnStartup code next:            
+            // OnStartup code next:
 
+            Stats.StartupTimeFixator();
             Settings.connString = "Data Source = appDB.db";
             Settings.parsingUrl = "https://studyintomsk.ru/programs-main/?level=card-item&direction=card-item";
 
