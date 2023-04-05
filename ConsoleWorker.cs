@@ -27,17 +27,6 @@ namespace botserver_standard
             Console.SetError(stdErrWriter);
             Console.SetIn(strInReader);
 
-            //Console.Write("Enter the text: ");
-            //string? text = Console.ReadLine();
-            //if (text is not null)
-            //{
-            //    for (int i = 0; i < 10; i++)
-            //    {
-            //        //Thread.Sleep(30);
-            //        Console.WriteLine(text + "  " + i);
-            //    }
-            //}
-            //else { Console.WriteLine("Text is null!"); }
             foreach (var item in Card.cards)
             {
                 Console.WriteLine($"{item.Id} | {item.UniversityName} | {item.ProgramName} | {item.Level} | " +

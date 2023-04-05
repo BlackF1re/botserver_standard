@@ -81,6 +81,7 @@ namespace botserver_standard
                     Settings.pwdIsUsing = Convert.ToBoolean(reader["pwdIsUsing"]);
                     Settings.prsFilePath = Convert.ToString(reader["prsFilePath"]);
                     //Settings.parsingUrl = Convert.ToString(reader["parsingUrl"]);
+                    Settings.datagridExportPath = Convert.ToString(reader["datagridExportPath"]);
 
                 }
             }

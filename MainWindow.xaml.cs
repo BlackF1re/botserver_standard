@@ -66,12 +66,10 @@ namespace botserver_standard
             SetRepeatedPwdBox.MaxLength = 50;
 
             Task.Factory.StartNew(() => CardParser(DbWorker.sqliteConn)); //ok
-
-            //Task.Factory.StartNew(() => CardsViewReader(DbWorker.sqliteConn)); //ok
-            //Task.Factory.StartNew(() => parsedCardsGrid.ItemsSource = cardsView); //ok
             
         }
-        
+
+
     }
 
 }

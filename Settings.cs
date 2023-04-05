@@ -16,6 +16,7 @@ namespace botserver_standard
         public static bool pwdIsUsing = false; //пароль используется(чекбокс)? 
         public static string? prsFilePath = null; //.prs = Parsing ReSult. Путь к файлу спарсенных данных
         public static string? parsingUrl = null; //URL страницы, подлежащей парсингу
+        public static string? datagridExportPath = null;
 
     }
 }

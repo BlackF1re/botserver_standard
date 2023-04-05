@@ -28,7 +28,6 @@
                         FontFamily="Cascadia Mono"
                         Foreground="White"
                         IsReadOnly="True"
-                        Text="Bot logging"
                         TextWrapping="Wrap" />
 
                     <StackPanel HorizontalAlignment="Right" Width="355">
@@ -192,29 +191,53 @@
                 <Grid Background="#FF4A2E98">
 
 
-                    <DataGrid x:Name = "parsedCardsGrid" Margin="0,42,0,0" IsReadOnly="True"/>
-                    <TextBox x:Name = "SearchByProgramName" HorizontalAlignment ="Left" Margin="96,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="220" Height="27" KeyUp="SearchByProgramName_KeyUp"/>
-                    <TextBox x:Name = "SearchByUniversity" HorizontalAlignment ="Left" Margin="564,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="220" Height="27" KeyUp="SearchByUniversity_KeyUp"/>
-
-                </Grid>
-            </TabItem>
-            <TabItem
-                x:Name="parsedUniversitiesTab"
-                Background="#FF4A2E98"
-                FontFamily="Cascadia Mono"
-                Foreground="#FFB4B4B4"
-                Header="Parsed universities">
-                <Grid Background="#FF4A2E98">
-
-                </Grid>
-            </TabItem>
-            <TabItem
-                x:Name="parsedDirectionsTab"
-                Background="#FF4A2E98"
-                FontFamily="Cascadia Mono"
-                Foreground="#FFB4B4B4"
-                Header="Parsed directions">
-                <Grid Background="#FF4A2E98">
+                    <DataGrid 
+                        x:Name = "parsedCardsGrid"
+                        Margin="0,42,0,0" 
+                        IsReadOnly="True"
+                        Foreground="Black"
+                        BorderBrush="#FFABADB3"
+                        Background="#FF5F3CC0"/>
+                    <TextBox 
+                        x:Name = "SearchByProgramName"
+                        HorizontalAlignment ="Left" 
+                        Margin="264,10,0,0"
+                        TextWrapping="Wrap"
+                        VerticalContentAlignment="Center"
+                        VerticalAlignment="Top"
+                        Width="199"
+                        Height="27"
+                        KeyUp="SearchByProgramName_KeyUp"
+                        Background="#FF5F3CC0"
+                        Foreground="#FFABADB3"/>
+                    <TextBox 
+                        x:Name = "SearchByUniversity" 
+                        HorizontalAlignment ="Left" 
+                        Margin="709,10,0,0" 
+                        TextWrapping="Wrap"
+                        VerticalContentAlignment="Center"
+                        VerticalAlignment="Top"
+                        Width="199" Height="27"
+                        KeyUp="SearchByUniversity_KeyUp" 
+                        Background="#FF5F3CC0"
+                        Foreground="#FFABADB3"/>
+                    <Label
+                        Margin="10,10,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Content="Поиск по названию программы:"
+                        FontFamily="Cascadia Mono"
+                        FontSize="15"
+                        Foreground="#FFB4B4B4" Width="254" />
+                    <Label
+                        Margin="497,10,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Content="Поиск по университету:"
+                        FontFamily="Cascadia Mono"
+                        FontSize="15"
+                        Foreground="#FFB4B4B4" Width="207" />
+                    <Button x:Name="CardsExportBtn" Content="Export" HorizontalAlignment="Left" Margin="913,10,0,0" VerticalAlignment="Top" Height="27" Width="71" Background="#FF5F3CC0" Foreground="#FFB4B4B4" Click="CardsExportBtn_Click"/>
 
                 </Grid>
             </TabItem>
@@ -227,9 +250,9 @@
                 <Grid Background="#FF4A2E98">
                     <TextBox
                         x:Name="SettingsTokenInput"
-                        Width="411"
+                        Width="495"
                         Height="22"
-                        Margin="184,71,0,0"
+                        Margin="230,71,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         VerticalContentAlignment="Center"
@@ -240,7 +263,7 @@
                     <Label
                         Width="169"
                         Height="22"
-                        Margin="10,71,0,0"
+                        Margin="56,71,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         HorizontalContentAlignment="Right"
@@ -251,7 +274,7 @@
                     <Label
                         Width="169"
                         Height="25"
-                        Margin="10,101,0,0"
+                        Margin="56,101,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         HorizontalContentAlignment="Right"
@@ -262,19 +285,19 @@
                     <Label
                         Width="169"
                         Height="26"
-                        Margin="10,130,0,0"
+                        Margin="56,130,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         HorizontalContentAlignment="Right"
-                        Content="DB path:"
+                        Content="Export path:"
                         FontFamily="Cascadia Mono"
                         FontWeight="Bold"
                         Foreground="#FFB4B4B4" />
                     <TextBox
                         x:Name="SettingsLogRootInput"
-                        Width="411"
+                        Width="495"
                         Height="22"
-                        Margin="184,101,0,0"
+                        Margin="230,101,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         VerticalContentAlignment="Center"
@@ -283,10 +306,10 @@
                         Foreground="#FFB4B4B4"
                         TextWrapping="NoWrap" />
                     <TextBox
-                        x:Name="SettingsDBRootInput"
-                        Width="411"
+                        x:Name="datagridExportPath"
+                        Width="495"
                         Height="22"
-                        Margin="184,131,0,0"
+                        Margin="230,131,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         VerticalContentAlignment="Center"
@@ -309,11 +332,9 @@
                         Content="Set path"
                         FontFamily="Cascadia Mono"
                         Foreground="#FFB4B4B4"
-                        Margin="600,186,0,0"
+                        Margin="0,186,66,0"
                         Height="22"
-                        HorizontalAlignment="Left"
-                        Width="155"
-                        VerticalAlignment="Top" />
+                        VerticalAlignment="Top" HorizontalAlignment="Right" Width="155" />
                     <Button
                         x:Name="SetTokenBtn"
                         Background="#FF5F3CC0"
@@ -321,11 +342,9 @@
                         Content="Set token"
                         FontFamily="Cascadia Mono"
                         Foreground="#FFB4B4B4"
-                        Margin="600,71,0,0"
+                        Margin="0,71,66,0"
                         Height="22"
-                        VerticalAlignment="Top"
-                        HorizontalAlignment="Left"
-                        Width="155" />
+                        VerticalAlignment="Top" HorizontalAlignment="Right" Width="155" />
                     <Button
                         x:Name="SetLogPathBtn"
                         Background="#FF5F3CC0"
@@ -333,27 +352,23 @@
                         Content="Set log path"
                         FontFamily="Cascadia Mono"
                         Foreground="#FFB4B4B4"
-                        Margin="600,101,0,0"
+                        Margin="0,101,66,0"
                         Height="22"
-                        HorizontalAlignment="Left"
-                        Width="155"
-                        VerticalAlignment="Top" />
+                        VerticalAlignment="Top" HorizontalAlignment="Right" Width="155" />
                     <Button
                         x:Name="SetDbPathBtn"
                         Background="#FF5F3CC0"
                         Click="SetDbPathBtn_Click"
-                        Content="Set DB path"
+                        Content="Set export path"
                         FontFamily="Cascadia Mono"
                         Foreground="#FFB4B4B4"
-                        Margin="600,131,0,0"
+                        Margin="0,131,66,0"
                         Height="22"
-                        HorizontalAlignment="Left"
-                        Width="155"
-                        VerticalAlignment="Top" />
+                        VerticalAlignment="Top" HorizontalAlignment="Right" Width="155" />
                     <Label
                         Width="169"
                         Height="24"
-                        Margin="10,184,0,0"
+                        Margin="56,184,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         HorizontalContentAlignment="Right"
@@ -363,9 +378,9 @@
                         Foreground="#FFB4B4B4" />
                     <TextBox
                         x:Name="SettingsDBRootInput_Copy"
-                        Width="411"
+                        Width="495"
                         Height="22"
-                        Margin="184,186,0,0"
+                        Margin="230,186,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         VerticalContentAlignment="Center"
@@ -379,15 +394,14 @@
                         Content="Import settings"
                         FontFamily="Cascadia Mono"
                         Foreground="#FFB4B4B4"
-                        Margin="600,217,0,0"
+                        Margin="0,217,66,0"
                         Height="22"
-                        HorizontalAlignment="Left"
-                        Width="155"
-                        VerticalAlignment="Top" Click="ImportSettingsBtn_Click" />
+                        VerticalAlignment="Top"
+                        Click="ImportSettingsBtn_Click" HorizontalAlignment="Right" Width="155" />
                     <Label
                         Width="175"
                         Height="24"
-                        Margin="4,216,0,0"
+                        Margin="50,216,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         HorizontalContentAlignment="Right"
@@ -397,9 +411,9 @@
                         Foreground="#FFB4B4B4" FontSize="11" />
                     <TextBox
                         x:Name="SettingsDBRootInput_Copy1"
-                        Width="411"
+                        Width="495"
                         Height="22"
-                        Margin="184,217,0,0"
+                        Margin="230,217,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         VerticalContentAlignment="Center"
@@ -410,7 +424,7 @@
                     <Label
                         Width="169"
                         Height="24"
-                        Margin="10,275,0,0"
+                        Margin="56,275,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         HorizontalContentAlignment="Right"
@@ -421,7 +435,7 @@
                     <Label
                         Width="169"
                         Height="24"
-                        Margin="10,306,0,0"
+                        Margin="56,306,0,0"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         HorizontalContentAlignment="Right"
@@ -436,33 +450,37 @@
                         Content="Set password"
                         FontFamily="Cascadia Mono"
                         Foreground="#FFB4B4B4"
-                        Margin="600,307,0,0"
+                        Margin="0,307,66,0"
                         Height="22"
-                        HorizontalAlignment="Left"
-                        Width="155"
-                        VerticalAlignment="Top" />
+                        VerticalAlignment="Top" HorizontalAlignment="Right" Width="155" />
                     <PasswordBox
                         x:Name="SetPwdBox"
                         HorizontalAlignment="Left"
                         VerticalContentAlignment ="Center"
-                        Margin="184,276,0,0"
+                        Margin="230,276,0,0"
                         VerticalAlignment="Top"
-                        Width="411" Height="22"
+                        Width="495" Height="22"
                         Background="#FF5F3CC0"
                         Foreground="#FFB4B4B4"/>
-                    <PasswordBox x:Name="SetRepeatedPwdBox" HorizontalAlignment="Left" VerticalContentAlignment ="Center" Margin="184,307,0,0" VerticalAlignment="Top" Width="411" Height="22" Background="#FF5F3CC0" Foreground="#FFB4B4B4"/>
+                    <PasswordBox 
+                        x:Name="SetRepeatedPwdBox"
+                        HorizontalAlignment="Left" 
+                        VerticalContentAlignment ="Center" 
+                        Margin="230,307,0,0" 
+                        VerticalAlignment="Top"
+                        Width="495" Height="22"
+                        Background="#FF5F3CC0"
+                        Foreground="#FFB4B4B4"/>
                     <CheckBox 
                         x:Name="UseThisPwdCheckbox"
                         Content="Use this pwd"
-                        HorizontalAlignment="Left"
-                        Margin="601,276,0,0"
+                        Margin="0,276,66,0"
                         VerticalAlignment="Top"
-                        Width="154"
                         Background="#FF5F3CC0"
                         Foreground="#FFB4B4B4"
                         Height="22"
                         Checked="UseThisPwdCheckbox_Checked"
-                        Unchecked="UseThisPwdCheckbox_Unchecked"/>
+                        Unchecked="UseThisPwdCheckbox_Unchecked" HorizontalAlignment="Right" Width="154"/>
                     <Label x:Name="PwdChangeNotifier"
                         Width="411"
                         Height="24"

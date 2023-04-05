@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,8 +59,37 @@ namespace botserver_standard
             }
         }
 
+        private void CardsExportBtn_Click(object sender, RoutedEventArgs e)
+        {
+            StreamWriter parsedCardsExport = new(Settings.datagridExportPath);
+            parsedCardsExport.WriteLine("Id Название университета\tНазвание программы\tКод программы\tУровень обучения\tФорма обучения\tДлительность обучения\tЯзык обучения\tКуратор\tНомер телефона\tПочта\tСтоимость");
+            foreach (var item in cardsView)
+            {
+
+                parsedCardsExport.WriteLine($"{item.Id}\t{item.UniversityName}\t{item.ProgramName}\t{item.ProgramCode}\t{item.Level}\t{item.StudyForm}\t{item.Duration}\t{item.StudyLang}\t{item.Curator}\t{item.PhoneNumber}\t{item.Email}\t{item.Cost}");
+
+            }
+            parsedCardsExport.Close();
+        }
+
         private void SetDbPathBtn_Click(object sender, RoutedEventArgs e)
         {
+            string updateTokenQuery = $"UPDATE Settings SET datagridExportPath = '{datagridExportPath.Text}';";
+            int rowsChanged = DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, updateTokenQuery);
+
+            //IsChanged?
+            if (rowsChanged is 1)
+            {
+                using SqliteDataReader reader = DbWorker.SettingsReader(DbWorker.readSettings, DbWorker.sqliteConn);
+
+                datagridExportPath.Text = $"file path has been setted.";
+            }
+            else
+            {
+                datagridExportPath.Clear();
+                datagridExportPath.Text += "Unforseen error";
+            }
+
             MessageBox.Show("Not implemented.");
         }
 
@@ -152,6 +182,7 @@ namespace botserver_standard
             else
             {
                 MessageBox.Show("Операция отменена.");
+                UseThisPwdCheckbox.IsChecked = true;
             }
 
 

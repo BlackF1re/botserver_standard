@@ -147,13 +147,8 @@ namespace botserver_standard
 
             async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
             {
-                Message? message = update.Message;
-                if (message is null)
-                {
-                    MessageBox.Show("update.Message is null", "Error");
-                    return;
-                }
-
+                Message message = update.Message;
+                if (message is null) { goto Eight; }
                 #region sqlQueries править запросы на запись в бд
                 //запись принятых сообщений в бд
                 string recievedMessageToDbQuery = $"INSERT INTO Received_messages(username, is_bot, first_name, last_name, language_code, chat_id, message_id, message_date, chat_type, message_content) " +
@@ -163,17 +158,14 @@ namespace botserver_standard
                 string recievedPhotoMessageToDbQuery = $"INSERT INTO Received_messages(username, is_bot, first_name, last_name, language_code, chat_id, message_id, message_date, chat_type, message_content) " +
                 $"VALUES('@{message.Chat.Username}', '0', '{message.Chat.FirstName}', '{message.Chat.LastName}', 'ru', '{message.Chat.Id}', '{message.MessageId}', '{DateTime.Now}', '{message.Chat.Type}', '{message.Photo}')";
 
-                string returningAllUserToBotPrivateMessages = $"SELECT * FROM received_messages WHERE username = '{message.Chat.Username}'"; //not using
+                //string returningAllUserToBotPrivateMessages = $"SELECT * FROM received_messages WHERE username = '{message.Chat.Username}'"; //not using
                 #endregion
                 //Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(update)); //serialized updates
 
-                if (update.Type is Telegram.Bot.Types.Enums.UpdateType.Message && message is not null) //if recieved Message update type
+                if (update.Type is Telegram.Bot.Types.Enums.UpdateType.Message && message.Text.ToLower() == "/start") //if recieved Message update type
                 {
                     var firstname = update.Message.Chat.FirstName;
-                    //if (message.Text is null)
-                    //{
-                    //    return;
-                    //}
+
                     if (message.Text.ToLower() == "/start") //if recieved this text
                     {
                         LiveLogger(message); // живой лог
@@ -196,6 +188,8 @@ namespace botserver_standard
                     return;
                 }
 
+                //else
+                Eight:
                 if (update.Type is Telegram.Bot.Types.Enums.UpdateType.CallbackQuery) //if recieved CallbackQuery (button codes) update type
                 {
                     if (update.CallbackQuery.Data is "toHome")
