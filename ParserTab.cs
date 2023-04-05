@@ -11,12 +11,13 @@ namespace botserver_standard
     {
         private void ParserPeparseBtn_Click(object sender, RoutedEventArgs e)
         {
+            Card.cards.Clear();
             Dispatcher.Invoke(() =>
             {
                 ParserLogOutput.Text += $"{DateTime.Now} | Reparsing...\n";
 
             });
-            Task.Factory.StartNew(() => CardParser()); //ok
+            Task.Factory.StartNew(() => CardParser(DbWorker.sqliteConn)); //ok
         }
     }
 }

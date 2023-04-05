@@ -11,6 +11,7 @@
     Height="493"
     Background="#FF4A2E98"
     ResizeMode="NoResize"
+    WindowStyle="None"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Grid>
@@ -183,6 +184,38 @@
                         VerticalAlignment="Top"
                         HorizontalAlignment="Left"
                         Width="155" />
+                </Grid>
+            </TabItem>
+            <TabItem
+                x:Name="parsedCardsTab"
+                Background="#FF4A2E98"
+                FontFamily="Cascadia Mono"
+                Foreground="#FFB4B4B4"
+                Header="Parsed cards">
+                <Grid Background="#FF4A2E98">
+
+                    <DataGrid x:Name="parsedCardsGrid" Margin="0,42,0,0" />
+
+                </Grid>
+            </TabItem>
+            <TabItem
+                x:Name="parsedUniversitiesTab"
+                Background="#FF4A2E98"
+                FontFamily="Cascadia Mono"
+                Foreground="#FFB4B4B4"
+                Header="Parsed universities">
+                <Grid Background="#FF4A2E98">
+                    
+                </Grid>
+            </TabItem>
+            <TabItem
+                x:Name="parsedDirectionsTab"
+                Background="#FF4A2E98"
+                FontFamily="Cascadia Mono"
+                Foreground="#FFB4B4B4"
+                Header="Parsed directions">
+                <Grid Background="#FF4A2E98">
+                    
                 </Grid>
             </TabItem>
             <TabItem

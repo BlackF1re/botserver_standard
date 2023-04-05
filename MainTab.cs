@@ -256,7 +256,7 @@ namespace botserver_standard
         {
             Stats.ShutdownTimeFixator();
             Stats.UpTimeWriter();
-            TgBot.MainBotCts.Cancel();
+            //TgBot.MainBotCts.Cancel();
             Environment.Exit(0);
         }
 

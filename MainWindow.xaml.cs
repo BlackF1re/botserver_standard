@@ -35,8 +35,10 @@ namespace botserver_standard
         public MainWindow()
         {
             InitializeComponent();
-
-            //string tempPwd = "";
+            
+            //query
+            
+            UseThisPwdCheckbox.IsChecked = Settings.pwdIsUsing;
 
             if (Settings.pwd is "YtcPoTIZPA0WpUdc~SMCaTjL7Kvt#ne3k*{Tb|H2Kx4t227gXy") // setting new pwd if now setted default
             {
@@ -58,9 +60,13 @@ namespace botserver_standard
             SetRepeatedPwdBox.MaxLength = 50;
             //UseThisPwdCheckbox.IsChecked = Properties.Settings.Default.pwdIsSetted;
 
-            Task.Factory.StartNew(() => CardParser()); //ok
+            Task.Factory.StartNew(() => CardParser(DbWorker.sqliteConn)); //ok
 
+            //Task.Factory.StartNew(() => CardsViewReader(DbWorker.sqliteConn)); //ok
+            //Task.Factory.StartNew(() => parsedCardsGrid.ItemsSource = cardsView); //ok
+            
         }
+
     }
 
 }

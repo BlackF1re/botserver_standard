@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using Telegram.Bot.Types;
 
 namespace botserver_standard
 {
@@ -16,7 +17,7 @@ namespace botserver_standard
     {
         //public static List<Card> cards = new(); // упорядоченный набор карточек (классов). Нечитабельно при отладке(?)
 
-        public void CardParser()
+        public async void CardParser(SqliteConnection sqliteConn)
         {
 
             Dispatcher.Invoke(() =>
@@ -133,17 +134,6 @@ namespace botserver_standard
 
             //строки для передачи в атрибуты экземпляра класса 
             int Id = 0; // идентификатор экземпляра класса. Задать в бд?
-            string UniversityName;
-            string ProgramName;
-            string Level;
-            string ProgramCode;
-            string StudyForm;
-            string Duration;
-            string StudyLang;
-            string Curator;
-            string PhoneNumber;
-            string Email;
-            string Cost;
 
             //для прыжков по строкам всех карточек в листе
             int row0 = 0;
@@ -168,10 +158,10 @@ namespace botserver_standard
             });
             foreach (string line in cardsList)
             {
-                Card.cards.Add(new Card(Id, UniversityName = cardsList[row0], ProgramName = cardsList[row1], Level = cardsList[row2],
-                                    StudyForm = cardsList[row3], ProgramCode = cardsList[row4], Duration = cardsList[row5],
-                                    StudyLang = cardsList[row7], Curator = cardsList[row8], PhoneNumber = cardsList[row9],
-                                    Email = cardsList[row10], Cost = cardsList[row11]));
+                Card.cards.Add(new Card(Id, cardsList[row0], cardsList[row1], cardsList[row2],
+                                    cardsList[row3], cardsList[row4], cardsList[row5],
+                                    cardsList[row7], cardsList[row8], cardsList[row9],
+                                    cardsList[row10], cardsList[row11]));
                 Id++;
 
                 //прыжок на строки следующей карточки
@@ -192,8 +182,72 @@ namespace botserver_standard
                 if (cardCounter == cardsTotalRows)
                     break;
             }
-            //ЗАПИСЬ ДАННЫХ В ТАБЛИЦУ, ПЕРЕНЕСТИ ТАБЛИЦУ ИЗ ОТДЕЛЬНОГО ПРОЕКТА ПАРСЕРА
-            //string queryText = "";
+
+            string clearCardsDb = "DELETE FROM Cards;";
+            DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, clearCardsDb);
+
+            //запись полученных карточек в бд
+            foreach (var item in Card.cards)
+            {
+                string cardsToDb = $"INSERT INTO Cards(id, universityName, programName, programCode, level, studyForm, duration, studyLang, curator, phoneNumber, email, cost) " +
+                $"VALUES('{item.Id}', '{item.UniversityName}', '{item.ProgramName}', '{item.ProgramCode}', '{item.Level}', '{item.StudyForm}', '{item.Duration}', '{item.StudyLang}', '{item.Curator}', '{item.PhoneNumber}', '{item.Email}', '{item.Cost}')";
+                DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, cardsToDb);
+
+            }
+
+            //вывод данных из бд на вкладку карточек
+            List<Card> cardsView = new();
+
+            int id;
+            string? universityName;
+            string? programName;
+            string? level;
+            string? programCode;
+            string? studyForm;
+            string? duration;
+            string? studyLang;
+            string? curator;
+            string? phoneNumber;
+            string? email;
+            string? cost;
+            string queryText = "SELECT * FROM Cards";
+
+            sqliteConn.Open(); //открытие соединения
+            SqliteCommand command = new() //инициализация экземпляра SqliteCommand
+            {
+                Connection = sqliteConn, //соединение для выполнения запроса
+                CommandText = queryText //текст запроса
+            };
+            SqliteDataReader reader = command.ExecuteReader();
+
+            if (reader.HasRows) // если есть строки
+            {
+                while (reader.Read())   // построчное чтение данных
+                {
+                    //public Card(int id, string universityName, string programName, string level, string studyForm, string programCode, string duration, string studyLang, string curator, string phoneNumber, string email, string cost)
+
+                    id = Convert.ToInt32(reader["Id"]);
+                    universityName = Convert.ToString(reader["universityName"]);
+                    programName = Convert.ToString(reader["programName"]);
+                    programCode = Convert.ToString(reader["programCode"]);
+                    level = Convert.ToString(reader["level"]);
+                    studyForm = Convert.ToString(reader["studyForm"]);
+                    duration = Convert.ToString(reader["duration"]);
+                    studyLang = Convert.ToString(reader["studyLang"]);
+                    curator = Convert.ToString(reader["curator"]);
+                    phoneNumber = Convert.ToString(reader["phoneNumber"]);
+                    email = Convert.ToString(reader["email"]);
+                    cost = Convert.ToString(reader["cost"]);
+
+                    cardsView.Add(new Card(id, universityName, programName, programCode, level, studyForm, duration, studyLang, curator, phoneNumber, email, cost));
+                }
+            }
+            sqliteConn.Close();
+
+            Dispatcher.Invoke(() =>
+            {
+                parsedCardsGrid.ItemsSource = cardsView;
+            });
 
             //DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, queryText);
             Dispatcher.Invoke(() =>

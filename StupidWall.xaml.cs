@@ -29,7 +29,7 @@ namespace botserver_standard
         private void NextBtn_Click(object sender, RoutedEventArgs e)
         {
             string query = "SELECT * FROM Settings";
-            using (var connection = new SqliteConnection(Settings.connString))
+            using (var connection = new SqliteConnection(Settings.connString)) //читаем актуальный пароль из бд
             {
                 connection.Open();
 
@@ -44,7 +44,7 @@ namespace botserver_standard
                 }
             }
 
-            if (EnterPwdBox.Password == pwd)
+            if (EnterPwdBox.Password == pwd) //если введенный пароль корректен
             {
                 this.DialogResult = true;
             }
