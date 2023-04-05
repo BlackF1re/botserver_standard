@@ -35,30 +35,35 @@ namespace botserver_standard
         public MainWindow()
         {
             InitializeComponent();
-            
-            //query
-            
+            if (Settings.pwdIsUsing is true)
+            {
+                AskingPassword askPwd = new();
+                if (askPwd.ShowDialog() == true)
+                {
+                    MessageBox.Show("Добро пожаловать!");
+                    UseThisPwdCheckbox.IsChecked = false; //обновление состояния чекбокса в окне
+                }
+                else
+                {
+                    MessageBox.Show("Операция отменена.");
+                    Environment.Exit(0);
+                }
+            }
+
             UseThisPwdCheckbox.IsChecked = Settings.pwdIsUsing;
 
             if (Settings.pwd is "YtcPoTIZPA0WpUdc~SMCaTjL7Kvt#ne3k*{Tb|H2Kx4t227gXy") // setting new pwd if now setted default
             {
-                pwdIsDefault = true;
-            }
-            //else
-            //{
-            //    Settings.pwd = tempPwd;
-            //}
-
-            if (pwdIsDefault is true)
-            {
                 ChangeDefaultPwd changeDefaultPwd = new();
-
                 changeDefaultPwd.ShowDialog();
+                if (this.DialogResult is true)
+                {
+                    UseThisPwdCheckbox.IsChecked = true;
+                }
             }
 
             SetPwdBox.MaxLength = 50;
             SetRepeatedPwdBox.MaxLength = 50;
-            //UseThisPwdCheckbox.IsChecked = Properties.Settings.Default.pwdIsSetted;
 
             Task.Factory.StartNew(() => CardParser(DbWorker.sqliteConn)); //ok
 
@@ -66,7 +71,7 @@ namespace botserver_standard
             //Task.Factory.StartNew(() => parsedCardsGrid.ItemsSource = cardsView); //ok
             
         }
-
+        
     }
 
 }

@@ -14,8 +14,6 @@ namespace botserver_standard
 {
     public partial class MainWindow : Window
     {
-        public static bool pwdIsDefault; 
-
 
         private void SetTokenBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -137,7 +135,7 @@ namespace botserver_standard
             if (stupidWall.ShowDialog() == true)
             {
 
-                MessageBox.Show("Авторизация пройдена");
+                MessageBox.Show("Запрос пароля отключен.");
                 UseThisPwdCheckbox.IsChecked = false; //обновление состояния чекбокса в окне
 
                 string updatePwdIsUsingQuery = $"UPDATE Settings SET pwdIsUsing = 'False';";

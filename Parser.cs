@@ -16,7 +16,7 @@ namespace botserver_standard
     public partial class MainWindow : Window
     {
         //public static List<Card> cards = new(); // упорядоченный набор карточек (классов). Нечитабельно при отладке(?)
-
+        List<Card> cardsView = new();
         public async void CardParser(SqliteConnection sqliteConn)
         {
 
@@ -196,8 +196,7 @@ namespace botserver_standard
             }
 
             //вывод данных из бд на вкладку карточек
-            List<Card> cardsView = new();
-
+            
             int id;
             string? universityName;
             string? programName;
@@ -244,12 +243,15 @@ namespace botserver_standard
             }
             sqliteConn.Close();
 
+
+
             Dispatcher.Invoke(() =>
             {
                 parsedCardsGrid.ItemsSource = cardsView;
             });
 
-            //DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, queryText);
+
+
             Dispatcher.Invoke(() =>
             {
                 ParserLogOutput.Text += $"{DateTime.Now} | Parsing is done. {Card.cards.Count} cards have been added.\n";

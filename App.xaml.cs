@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
+using System;
 using System.Data;
 using System.Windows;
 
@@ -14,6 +15,8 @@ namespace botserver_standard
             Stats.StartupTimeFixator();
             Settings.connString = "Data Source = appDB.db";
             Settings.parsingUrl = "https://studyintomsk.ru/programs-main/?level=card-item&direction=card-item";
+
+
 
             //восстановление структуры бд при необходимости
             try

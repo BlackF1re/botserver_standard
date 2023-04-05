@@ -36,7 +36,7 @@ namespace botserver_standard
 
             await Task.Factory.StartNew(() => TgBot.botClient.StartReceiving(updateHandler: HandleUpdateAsync,
                                                                             pollingErrorHandler: HandleErrorAsync,
-                                                                            cancellationToken: TgBot.MainBotCts.Token,                                                                           receiverOptions: receiverOptions)); //ok
+                                                                            cancellationToken: TgBot.MainBotCts.Token, receiverOptions: receiverOptions)); //ok
 
 
             #region old Update method
@@ -226,7 +226,6 @@ namespace botserver_standard
                 }
             }
 
-
             Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken) //обработчик ошибок API
             {
                 var ErrorMessage = exception switch
@@ -256,7 +255,7 @@ namespace botserver_standard
         {
             Stats.ShutdownTimeFixator();
             Stats.UpTimeWriter();
-            //TgBot.MainBotCts.Cancel();
+            TgBot.MainBotCts.Cancel();
             Environment.Exit(0);
         }
 

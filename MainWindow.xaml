@@ -5,13 +5,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:botserver_standard"
-
     Title="botserver_standard"
-    Width="800"
-    Height="493"
+    Width="1000"
+    Height="800"
     Background="#FF4A2E98"
-    ResizeMode="NoResize"
-    WindowStyle="None"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Grid>
@@ -34,7 +31,7 @@
                         Text="Bot logging"
                         TextWrapping="Wrap" />
 
-                    <StackPanel Margin="639,0,0,0">
+                    <StackPanel HorizontalAlignment="Right" Width="355">
                         <Button
                         x:Name="OutputPauseBtn"
                         Height="40"
@@ -194,7 +191,10 @@
                 Header="Parsed cards">
                 <Grid Background="#FF4A2E98">
 
-                    <DataGrid x:Name="parsedCardsGrid" Margin="0,42,0,0" />
+
+                    <DataGrid x:Name = "parsedCardsGrid" Margin="0,42,0,0" IsReadOnly="True"/>
+                    <TextBox x:Name = "SearchByProgramName" HorizontalAlignment ="Left" Margin="96,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="220" Height="27" KeyUp="SearchByProgramName_KeyUp"/>
+                    <TextBox x:Name = "SearchByUniversity" HorizontalAlignment ="Left" Margin="564,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="220" Height="27" KeyUp="SearchByUniversity_KeyUp"/>
 
                 </Grid>
             </TabItem>
@@ -205,7 +205,7 @@
                 Foreground="#FFB4B4B4"
                 Header="Parsed universities">
                 <Grid Background="#FF4A2E98">
-                    
+
                 </Grid>
             </TabItem>
             <TabItem
@@ -215,7 +215,7 @@
                 Foreground="#FFB4B4B4"
                 Header="Parsed directions">
                 <Grid Background="#FF4A2E98">
-                    
+
                 </Grid>
             </TabItem>
             <TabItem

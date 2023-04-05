@@ -1,5 +1,4 @@
-﻿using Microsoft.Data.Sqlite;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,18 +15,16 @@ using System.Windows.Shapes;
 namespace botserver_standard
 {
     /// <summary>
-    /// Логика взаимодействия для StupidWall.xaml
+    /// Логика взаимодействия для AskingPassword.xaml
     /// </summary>
-    public partial class StupidWall : Window
+    public partial class AskingPassword : Window
     {
-        public StupidWall()
+        public AskingPassword()
         {
             InitializeComponent();
         }
-
         private void NextBtn_Click(object sender, RoutedEventArgs e)
         {
-
             if (EnterPwdBox.Password == Settings.pwd) //если введенный пароль корректен
             {
                 this.DialogResult = true;
@@ -38,6 +35,5 @@ namespace botserver_standard
         {
             get { return EnterPwdBox.Password; }
         }
-
     }
 }
