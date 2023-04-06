@@ -13,6 +13,16 @@ using Telegram.Bot.Types;
 using Telegram.Bot;
 using System.Windows.Controls;
 using Telegram.Bot.Polling;
+using Telegram.Bot.Types.ReplyMarkups;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
+using System.Windows.Shapes;
 
 namespace botserver_standard
 {
@@ -149,6 +159,7 @@ namespace botserver_standard
             {
                 Message message = update.Message;
                 if (message is null) { goto Eight; }
+
                 #region sqlQueries править запросы на запись в бд
                 //запись принятых сообщений в бд
                 string recievedMessageToDbQuery = $"INSERT INTO Received_messages(username, is_bot, first_name, last_name, language_code, chat_id, message_id, message_date, chat_type, message_content) " +
@@ -160,7 +171,6 @@ namespace botserver_standard
 
                 //string returningAllUserToBotPrivateMessages = $"SELECT * FROM received_messages WHERE username = '{message.Chat.Username}'"; //not using
                 #endregion
-                //Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(update)); //serialized updates
 
                 if (update.Type is Telegram.Bot.Types.Enums.UpdateType.Message && message.Text.ToLower() == "/start") //if recieved Message update type
                 {
@@ -172,51 +182,105 @@ namespace botserver_standard
                         FileLogger(message, message.Text, message.Chat.Id, Settings.logPath); // логгирование в файл
                         DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, recievedMessageToDbQuery);
 
-                        await botClient.SendTextMessageAsync(chatId: message.Chat.Id, text: $"Добро пожаловать, {firstname}!", replyMarkup: TelegramBotStaticKeypads.mainMenuKeypad, cancellationToken: cancellationToken);
+                        await botClient.SendTextMessageAsync(chatId: message.Chat.Id, text: $"Добро пожаловать, {firstname}!", replyMarkup: TelegramBotKeypads.mainMenuKeypad, cancellationToken: cancellationToken);
                         return;
                     }
-                    else
+                    if (message.Text is not null && message.Text.ToLower() is not "/start")
                     {
-                        await botClient.SendTextMessageAsync(chatId: message.Chat.Id, text: $"Пожалуйста, выберите один из доступных вариантов:", replyMarkup: TelegramBotStaticKeypads.mainMenuKeypad, cancellationToken: cancellationToken);
+                        await botClient.SendTextMessageAsync(chatId: message.Chat.Id, text: $"Пожалуйста, выберите один из доступных вариантов:", replyMarkup: TelegramBotKeypads.mainMenuKeypad, cancellationToken: cancellationToken);
                         LiveLogger(message); // живой лог
                         FileLogger(message, message.Text, message.Chat.Id, Settings.logPath); // логгирование в файл
                         DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, recievedMessageToDbQuery);
+                        return;
                     }
 
 
-                    await botClient.SendTextMessageAsync(chatId: message.Chat.Id, text: $"Добро пожаловать, {firstname}!", replyMarkup: TelegramBotStaticKeypads.mainMenuKeypad, cancellationToken: cancellationToken);
+                    await botClient.SendTextMessageAsync(chatId: message.Chat.Id, text: $"Добро пожаловать, {firstname}!", replyMarkup: TelegramBotKeypads.mainMenuKeypad, cancellationToken: cancellationToken);
                     return;
                 }
 
-                //else
-                Eight:
+            Eight:
+
                 if (update.Type is Telegram.Bot.Types.Enums.UpdateType.CallbackQuery) //if recieved CallbackQuery (button codes) update type
                 {
                     if (update.CallbackQuery.Data is "toHome")
                     {
                         string telegramMessage = "Добро пожаловать!";
-                        await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, telegramMessage, replyMarkup: TelegramBotStaticKeypads.mainMenuKeypad, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: cancellationToken);
+                        await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, telegramMessage, replyMarkup: TelegramBotKeypads.mainMenuKeypad, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: cancellationToken);
                     }
 
                     if (update.CallbackQuery.Data is "programChoose") //если ответ содержал в себе, то изменить сообщение на следующее...
                     {
                         string telegramMessage = "Выберите желаемый уровень подготовки:";
-                        await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, telegramMessage, replyMarkup: TelegramBotStaticKeypads.levelChoosingKeypad, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: cancellationToken);
+                        await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, telegramMessage, replyMarkup: TelegramBotKeypads.levelChoosingKeypad, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: cancellationToken);
                     }
 
                     if (update.CallbackQuery.Data.ToLower().Contains("level"))
                     {
                         string telegramMessage = "Пожалуйста, выберите необходимый университет:";
-                        TelegramBotStaticKeypads.levelChoose = update.CallbackQuery.Data as string;
-                        Console.WriteLine(TelegramBotStaticKeypads.levelChoose); //ok
-                        await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, telegramMessage, replyMarkup: TelegramBotStaticKeypads.universityChoosingKeypad, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: cancellationToken);
+                        TelegramBotKeypads.choisedLevel = update.CallbackQuery.Data as string;
+                        //Console.WriteLine(TelegramBotKeypads.choisedLevel); //ok
+                        await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, telegramMessage, replyMarkup: TelegramBotKeypads.universityChoosingKeypad, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: cancellationToken);
                     }
 
                     if (update.CallbackQuery.Data.ToLower().Contains("university"))
                     {
-                        TelegramBotStaticKeypads.universityChoose = update.CallbackQuery.Data as string;
-                        Console.WriteLine(TelegramBotStaticKeypads.universityChoose); //ok
+                        string telegramMessage = "Выберите желаемую программу обучения:";
+
+                        TelegramBotKeypads.choisedUniversity = update.CallbackQuery.Data as string;
+                        //Console.WriteLine(TelegramBotKeypads.choisedUniversity); //ok
+
+                        // фильтрация карточек на основании выборов юзера
+                        List<Card> filteredCards = new();
+                        foreach (var item in cardsView)
+                        {
+                            if (TelegramBotKeypads.choisedLevel == item.Level && TelegramBotKeypads.choisedUniversity == item.UniversityName)
+                                filteredCards.Add(item);
+                        }
+
+                        //генерация кнопок на основе отфильтрованных карточек
+                        List<InlineKeyboardButton> finalButtons = new(); //
+
+                        foreach (var item in cardsView)
+                        {
+                            finalButtons.Add(InlineKeyboardButton.WithCallbackData(text: item.ProgramName, callbackData: Convert.ToString(item.Id)));
+                        }
+                        var dynamicKeypad = new InlineKeyboardMarkup(finalButtons);
+
+                        await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, telegramMessage, replyMarkup: dynamicKeypad, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: cancellationToken);
+
+                        TelegramBotKeypads.directionChoose = update.CallbackQuery.Data as string;
                     }
+
+                    if (Convert.ToInt32(update.CallbackQuery.Data) is Int32)
+                    {
+                        string telegramMessage = "Выберите желаемую программу обучения:";
+
+                        //TelegramBotKeypads.choisedUniversity = update.CallbackQuery.Data as string;
+                        //Console.WriteLine(TelegramBotKeypads.choisedUniversity); //ok
+
+                        // фильтрация карточек на основании выборов юзера
+                        List<Card> filteredCards = new();
+                        foreach (var item in cardsView)
+                        {
+                            if (TelegramBotKeypads.choisedLevel == item.Level && TelegramBotKeypads.choisedUniversity == item.UniversityName)
+                                filteredCards.Add(item);
+                        }
+
+                        //генерация кнопок на основе отфильтрованных карточек
+                        List<InlineKeyboardButton> finalButtons = new(); //
+
+                        foreach (var item in cardsView)
+                        {
+                            finalButtons.Add(InlineKeyboardButton.WithCallbackData(text: item.ProgramName, callbackData: Convert.ToString(item.Id)));
+                        }
+                        var dynamicKeypad = new InlineKeyboardMarkup(finalButtons);
+
+                        await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, telegramMessage, replyMarkup: dynamicKeypad, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: cancellationToken);
+
+                        TelegramBotKeypads.directionChoose = update.CallbackQuery.Data as string;
+                    }
+
                 }
             }
 

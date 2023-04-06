@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace botserver_standard
 {
@@ -52,7 +53,7 @@ namespace botserver_standard
             {
                 return;
             }
-            var value = document.DocumentNode.SelectNodes("/html/body/div[3]/div[3]/div/div/div/div/div");
+            var cardsValue = document.DocumentNode.SelectNodes("/html/body/div[3]/div[3]/div/div/div/div/div");
 
             string noTabsDoc = string.Empty; //первичная строка с сырыми данными
 
@@ -60,7 +61,7 @@ namespace botserver_standard
             {
                 ParserLogOutput.Text += $"{DateTime.Now} | Processing received data...\n";
             });
-            foreach (var item in value)
+            foreach (var item in cardsValue)
             {
                 noTabsDoc += item.InnerText; //node is single row?
             }
@@ -196,7 +197,7 @@ namespace botserver_standard
             }
 
             //вывод данных из бд на вкладку карточек
-            
+
             int id;
             string? universityName;
             string? programName;
@@ -243,6 +244,73 @@ namespace botserver_standard
             }
             sqliteConn.Close();
 
+            //выделение уникальных вузов
+            List<string> universitiesList = new();
+            int universityRow = 0;
+            int rowCounter = 0;
+            foreach (string line in cardsList)
+            {
+
+                universitiesList.Add(cardsList[universityRow]);
+                universityRow += 12;
+                rowCounter++;
+                if (rowCounter >= cardsTotalRows)
+                    break;
+            }
+
+            //ТУСУР - 78 раз
+            //ТПУ - 203 раз
+            //ТГПУ - 52 раз
+            //ТГАСУ - 45 раз
+            //ТГУ - 122 раз
+
+            foreach (string item in universitiesList.Distinct())
+            {
+                UniversityEntryFreq.universitiesFreqList.Add(new UniversityEntryFreq(item, universitiesList.Where(x => x == item).Count()));
+            }
+
+            string clearUniversitiesFreqDb = "DELETE FROM Universities;";
+            DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, clearCardsDb);
+            id = 0;
+            //запись полученных карточек в бд
+            foreach (var item in UniversityEntryFreq.universitiesFreqList)
+            {
+                string cardsToDb = $"INSERT INTO Universities(id, universityName, universityCount) " +
+                $"VALUES('{id}', '{item.UniversityName}', '{item.Count}';)";
+                DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, cardsToDb);
+                id++;
+            }
+
+            //вывод данных из бд на вкладку карточек
+            
+            //int freqId;
+            string? freqUniversityName;
+            int freqUniversityCount;
+
+            queryText = "SELECT * FROM Universities";
+
+            sqliteConn.Open(); //открытие соединения
+            SqliteCommand freqCommand = new() //инициализация экземпляра SqliteCommand
+            {
+                Connection = sqliteConn, //соединение для выполнения запроса
+                CommandText = queryText //текст запроса
+            };
+            SqliteDataReader freqReader = freqCommand.ExecuteReader();
+
+            if (freqReader.HasRows) // если есть строки
+            {
+                while (freqReader.Read())   // построчное чтение данных
+                {
+                    //public Card(int id, string universityName, string programName, string level, string studyForm, string programCode, string duration, string studyLang, string curator, string phoneNumber, string email, string cost)
+
+                    //id = Convert.ToInt32(freqReader["Id"]);
+                    freqUniversityName = Convert.ToString(freqReader["universityName"]);
+                    freqUniversityCount = Convert.ToInt32(freqReader["universityCount"]);
+
+                    UniversityEntryFreq.universitiesFreqList.Add(new UniversityEntryFreq(freqUniversityName, freqUniversityCount));
+                }
+            }
+            sqliteConn.Close();
 
 
             Dispatcher.Invoke(() =>
@@ -250,6 +318,10 @@ namespace botserver_standard
                 parsedCardsGrid.ItemsSource = cardsView;
             });
 
+            Dispatcher.Invoke(() =>
+            {
+                parsedUniversitiesGrid.ItemsSource = UniversityEntryFreq.universitiesFreqList;
+            });
 
 
             Dispatcher.Invoke(() =>

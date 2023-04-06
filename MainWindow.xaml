@@ -241,6 +241,77 @@
 
                 </Grid>
             </TabItem>
+
+            <TabItem
+                x:Name="parsedUniversitiesTab"
+                Background="#FF4A2E98"
+                FontFamily="Cascadia Mono"
+                Foreground="#FFB4B4B4"
+                Header="Parsed universities">
+                <Grid Background="#FF4A2E98">
+
+
+                    <DataGrid 
+                        x:Name = "parsedUniversitiesGrid"
+                        Margin="0,42,0,0" 
+                        IsReadOnly="True"
+                        Foreground="Black"
+                        BorderBrush="#FFABADB3"
+                        Background="#FF5F3CC0"/>
+                    <TextBox 
+                        x:Name = "SearchByUniversityName"
+                        HorizontalAlignment ="Left" 
+                        Margin="220,10,0,0"
+                        TextWrapping="Wrap"
+                        VerticalContentAlignment="Center"
+                        VerticalAlignment="Top"
+                        Width="199"
+                        Height="27"
+                        KeyUp="SearchByUniversityName_KeyUp"
+                        Background="#FF5F3CC0"
+                        Foreground="#FFABADB3"/>
+                    <TextBox 
+                        x:Name = "SearchByUniversityFreq" 
+                        HorizontalAlignment ="Left" 
+                        Margin="769,10,0,0" 
+                        TextWrapping="Wrap"
+                        VerticalContentAlignment="Center"
+                        VerticalAlignment="Top"
+                        Width="112" Height="27"
+                        KeyUp="SearchByUniversityFreq_KeyUp" 
+                        Background="#FF5F3CC0"
+                        Foreground="#FFABADB3"/>
+                    <Label
+                        Margin="10,10,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Content="Поиск по университету:"
+                        FontFamily="Cascadia Mono"
+                        FontSize="15"
+                        Foreground="#FFB4B4B4" Width="254" />
+                    <Label
+                        Margin="497,10,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Content="Поиск по количеству программ:"
+                        FontFamily="Cascadia Mono"
+                        FontSize="15"
+                        Foreground="#FFB4B4B4" Width="267" />
+                    <Button 
+                        x:Name="UniversitiesExportBtn" 
+                        Content="Export" 
+                        HorizontalAlignment="Left" 
+                        Margin="913,10,0,0"
+                        VerticalAlignment="Top" 
+                        Height="27"
+                        Width="71" 
+                        Background="#FF5F3CC0" 
+                        Foreground="#FFB4B4B4"
+                        Click="UniversitiesExportBtn_Click"/>
+
+                </Grid>
+            </TabItem>
+
             <TabItem
                 x:Name="settingsTab"             
                 Background="#FF4A2E98"

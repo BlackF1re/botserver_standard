@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 namespace botserver_standard
 {
-    internal class TelegramBotStaticKeypads
+    internal class TelegramBotKeypads
     {
-        public static string? levelChoose;
-        public static string? universityChoose;
+        public static string? choisedLevel;
+        public static string? choisedUniversity;
         public static string? directionChoose;
 
         public static readonly InlineKeyboardMarkup mainMenuKeypad = new(
@@ -49,6 +51,8 @@ namespace botserver_standard
 
         });
 
+
+
         public static readonly InlineKeyboardMarkup universityChoosingKeypad = new( //MUST BE PARSED!!!
         // keyboard
         new[]
@@ -74,5 +78,19 @@ namespace botserver_standard
             },
 
         });
+        /// <summary>
+        /// btnGeneration
+        /// </summary>
+        public static readonly InlineKeyboardMarkup Keypad = new(
+        // keyboard
+        new[]
+        {
+            new[]
+            {
+                InlineKeyboardButton.WithCallbackData(text: "На главную", callbackData: "toHome"),
+            },
+
+        });
+
     }
 }

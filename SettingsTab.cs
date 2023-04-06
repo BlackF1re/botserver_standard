@@ -59,19 +59,6 @@ namespace botserver_standard
             }
         }
 
-        private void CardsExportBtn_Click(object sender, RoutedEventArgs e)
-        {
-            StreamWriter parsedCardsExport = new(Settings.datagridExportPath);
-            parsedCardsExport.WriteLine("Id Название университета\tНазвание программы\tКод программы\tУровень обучения\tФорма обучения\tДлительность обучения\tЯзык обучения\tКуратор\tНомер телефона\tПочта\tСтоимость");
-            foreach (var item in cardsView)
-            {
-
-                parsedCardsExport.WriteLine($"{item.Id}\t{item.UniversityName}\t{item.ProgramName}\t{item.ProgramCode}\t{item.Level}\t{item.StudyForm}\t{item.Duration}\t{item.StudyLang}\t{item.Curator}\t{item.PhoneNumber}\t{item.Email}\t{item.Cost}");
-
-            }
-            parsedCardsExport.Close();
-        }
-
         private void SetDbPathBtn_Click(object sender, RoutedEventArgs e)
         {
             string updateTokenQuery = $"UPDATE Settings SET datagridExportPath = '{datagridExportPath.Text}';";
