@@ -27,7 +27,7 @@ namespace botserver_standard
             new[]
             {
                 InlineKeyboardButton.WithUrl(text: "Посетить веб-сайт проекта", url: "https://studyintomsk.ru/"),
-                InlineKeyboardButton.WithCallbackData(text: "Сменить язык", callbackData: "langSwitch"),
+                //InlineKeyboardButton.WithCallbackData(text: "Сменить язык", callbackData: "langSwitch"),
             },
 
         });
@@ -39,9 +39,13 @@ namespace botserver_standard
             // first row
             new[]
             {
-                InlineKeyboardButton.WithCallbackData(text: "Бакалавриат", callbackData: "firstLevel"),
-                InlineKeyboardButton.WithCallbackData(text: "Магистратура", callbackData: "secondLevel"),
-                InlineKeyboardButton.WithCallbackData(text: "Специалитет", callbackData: "thirdLevel"),
+                //InlineKeyboardButton.WithCallbackData(text: "Бакалавриат", callbackData: "first_level"),
+                //InlineKeyboardButton.WithCallbackData(text: "Магистратура", callbackData: "second_level"),
+                //InlineKeyboardButton.WithCallbackData(text: "Специалитет", callbackData: "third_level"),
+
+                InlineKeyboardButton.WithCallbackData(text: "Бакалавриат", callbackData: "бакалавриат_level"),
+                InlineKeyboardButton.WithCallbackData(text: "Магистратура", callbackData: "магистратура_level"),
+                InlineKeyboardButton.WithCallbackData(text: "Специалитет", callbackData: "специалитет_level"),
             },
             // second row
             new[]
@@ -60,18 +64,18 @@ namespace botserver_standard
             // first row
             new[]
             {
-                InlineKeyboardButton.WithCallbackData(text: "ТГАСУ", callbackData: "firstUniversity"),
-                InlineKeyboardButton.WithCallbackData(text: "ТГПУ", callbackData: "secondUniversity"),
-                InlineKeyboardButton.WithCallbackData(text: "ТГУ", callbackData: "thirdUniversity"),
+                InlineKeyboardButton.WithCallbackData(text: "ТГАСУ", callbackData: "ТГАСУ_university"),
+                InlineKeyboardButton.WithCallbackData(text: "ТГПУ", callbackData: "ТГПУ_university"),
+                InlineKeyboardButton.WithCallbackData(text: "ТГУ", callbackData: "ТГУ_university"),
             },
             // second row
             new[]
             {
-                InlineKeyboardButton.WithCallbackData(text: "ТПУ", callbackData: "fourthtUniversity"),
-                InlineKeyboardButton.WithCallbackData(text: "ТУСУР", callbackData: "fifthUniversity"),
-                InlineKeyboardButton.WithCallbackData(text: "ФГБОУ ВО СибГМУ", callbackData: "sixthUniversity"),
+                InlineKeyboardButton.WithCallbackData(text: "ТПУ", callbackData: "ТПУ_university"),
+                InlineKeyboardButton.WithCallbackData(text: "ТУСУР", callbackData: "ТУСУР_university"),
+                //InlineKeyboardButton.WithCallbackData(text: "ФГБОУ ВО СибГМУ", callbackData: "sixth_university"),
             },
-            //
+            // third row
             new[]
             {
                 InlineKeyboardButton.WithCallbackData(text: "На главную", callbackData: "toHome"),
@@ -81,16 +85,7 @@ namespace botserver_standard
         /// <summary>
         /// btnGeneration
         /// </summary>
-        public static readonly InlineKeyboardMarkup Keypad = new(
-        // keyboard
-        new[]
-        {
-            new[]
-            {
-                InlineKeyboardButton.WithCallbackData(text: "На главную", callbackData: "toHome"),
-            },
 
-        });
 
     }
 }

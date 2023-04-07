@@ -68,13 +68,13 @@ namespace botserver_standard
                 }
                 else { continue; }
             }
-            parsedCardsGrid.ItemsSource = searchResult;
+            parsedUniversitiesGrid.ItemsSource = searchResult;
         }
 
         private void SearchByUniversityFreq_KeyUp(object sender, KeyEventArgs e)
         {
             List<UniversityEntryFreq> searchResult = new();
-            string universityNameFrag = SearchByUniversity.Text;
+            string universityNameFrag = SearchByUniversityFreq.Text;
             foreach (var item in UniversityEntryFreq.universitiesFreqList)
             {
                 if (item.Count.ToString().Contains(universityNameFrag))
@@ -83,7 +83,7 @@ namespace botserver_standard
                 }
                 else { continue; }
             }
-            parsedCardsGrid.ItemsSource = searchResult;
+            parsedUniversitiesGrid.ItemsSource = searchResult;
         }
 
         private void UniversitiesExportBtn_Click(object sender, RoutedEventArgs e)

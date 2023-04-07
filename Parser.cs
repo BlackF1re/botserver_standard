@@ -239,7 +239,7 @@ namespace botserver_standard
                     email = Convert.ToString(reader["email"]);
                     cost = Convert.ToString(reader["cost"]);
 
-                    cardsView.Add(new Card(id, universityName, programName, programCode, level, studyForm, duration, studyLang, curator, phoneNumber, email, cost));
+                    cardsView.Add(new Card(id, universityName, programName, level, studyForm, programCode, duration, studyLang, curator, phoneNumber, email, cost));
                 }
             }
             sqliteConn.Close();
@@ -269,15 +269,16 @@ namespace botserver_standard
                 UniversityEntryFreq.universitiesFreqList.Add(new UniversityEntryFreq(item, universitiesList.Where(x => x == item).Count()));
             }
 
+            //UniversityEntryFreq.universitiesFreqList.Clear();
             string clearUniversitiesFreqDb = "DELETE FROM Universities;";
-            DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, clearCardsDb);
+            DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, clearUniversitiesFreqDb);
             id = 0;
             //запись полученных карточек в бд
             foreach (var item in UniversityEntryFreq.universitiesFreqList)
             {
-                string cardsToDb = $"INSERT INTO Universities(id, universityName, universityCount) " +
-                $"VALUES('{id}', '{item.UniversityName}', '{item.Count}';)";
-                DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, cardsToDb);
+                string universitiesToDb = $"INSERT INTO Universities(id, universityName, universityCount) " +
+                $"VALUES('{id}', '{item.UniversityName}', '{item.Count}');";
+                DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, universitiesToDb);
                 id++;
             }
 
@@ -297,6 +298,7 @@ namespace botserver_standard
             };
             SqliteDataReader freqReader = freqCommand.ExecuteReader();
 
+            List < UniversityEntryFreq > universityFreqListView= new();
             if (freqReader.HasRows) // если есть строки
             {
                 while (freqReader.Read())   // построчное чтение данных
@@ -307,7 +309,7 @@ namespace botserver_standard
                     freqUniversityName = Convert.ToString(freqReader["universityName"]);
                     freqUniversityCount = Convert.ToInt32(freqReader["universityCount"]);
 
-                    UniversityEntryFreq.universitiesFreqList.Add(new UniversityEntryFreq(freqUniversityName, freqUniversityCount));
+                    universityFreqListView.Add(new UniversityEntryFreq(freqUniversityName, freqUniversityCount));
                 }
             }
             sqliteConn.Close();
@@ -320,7 +322,7 @@ namespace botserver_standard
 
             Dispatcher.Invoke(() =>
             {
-                parsedUniversitiesGrid.ItemsSource = UniversityEntryFreq.universitiesFreqList;
+                parsedUniversitiesGrid.ItemsSource = universityFreqListView;
             });
 
 

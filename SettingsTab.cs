@@ -77,7 +77,6 @@ namespace botserver_standard
                 datagridExportPath.Text += "Unforseen error";
             }
 
-            MessageBox.Show("Not implemented.");
         }
 
         private void SettingsFilePathSetBtn_Click(object sender, RoutedEventArgs e)

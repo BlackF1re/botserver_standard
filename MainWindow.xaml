@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:botserver_standard"
     Title="botserver_standard"
-    Width="1000"
+    Width="1050"
     Height="800"
     Background="#FF4A2E98"
     WindowStartupLocation="CenterScreen"
@@ -190,14 +190,25 @@
                 Header="Parsed cards">
                 <Grid Background="#FF4A2E98">
 
+                    <DataGrid x:Name="parsedCardsGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" IsReadOnly="True" RenderTransformOrigin="0.504,1.97" Foreground="Black" BorderBrush="#FFABADB3" Background="#FF5F3CC0" Margin="0,42,0,0">
+                        <DataGrid.Columns>
+                            <!--<DataGridTextColumn Header="Id:" Binding="{Binding cardsView.Id}"/>-->
+                            <DataGridTextColumn Header="Название университета" Binding="{Binding UniversityName}"/>
+                            <DataGridTextColumn Header="Название программы" Binding="{Binding ProgramName}"/>
+                            <DataGridTextColumn Header="Код программы" Binding="{Binding ProgramCode}"/>
+                            <DataGridTextColumn Header="Уровень обучения" Binding="{Binding Level}"/>
+                            <DataGridTextColumn Header="Форма обучения" Binding="{Binding StudyForm}"/>
+                            <DataGridTextColumn Header="Срок обучения" Binding="{Binding Duration}"/>
+                            <DataGridTextColumn Header="Язык обучения" Binding="{Binding StudyLang}"/>
+                            <DataGridTextColumn Header="Куратор" Binding="{Binding Curator}"/>
+                            <DataGridTextColumn Header="Телефон" Binding="{Binding PhoneNumber}"/>
+                            <DataGridTextColumn Header="Почта" Binding="{Binding Email}"/>
+                            <DataGridTextColumn Header="Стоимость" Binding="{Binding Cost}"/>
 
-                    <DataGrid 
-                        x:Name = "parsedCardsGrid"
-                        Margin="0,42,0,0" 
-                        IsReadOnly="True"
-                        Foreground="Black"
-                        BorderBrush="#FFABADB3"
-                        Background="#FF5F3CC0"/>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+
                     <TextBox 
                         x:Name = "SearchByProgramName"
                         HorizontalAlignment ="Left" 
@@ -251,13 +262,21 @@
                 <Grid Background="#FF4A2E98">
 
 
-                    <DataGrid 
+                    <!--<DataGrid 
                         x:Name = "parsedUniversitiesGrid"
                         Margin="0,42,0,0" 
                         IsReadOnly="True"
                         Foreground="Black"
                         BorderBrush="#FFABADB3"
-                        Background="#FF5F3CC0"/>
+                        Background="#FF5F3CC0"/>-->
+
+                    <DataGrid x:Name="parsedUniversitiesGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" IsReadOnly="True" RenderTransformOrigin="0.504,1.97" Foreground="Black" BorderBrush="#FFABADB3" Background="#FF5F3CC0" Margin="0,42,0,0">
+                        <DataGrid.Columns>
+                            <!--<DataGridTextColumn Header="Id:" Binding="{Binding cardsView.Id}"/>-->
+                            <DataGridTextColumn Header="Название университета" Binding="{Binding UniversityName}"/>
+                            <DataGridTextColumn Header="Количество программ" Binding="{Binding Count}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
                     <TextBox 
                         x:Name = "SearchByUniversityName"
                         HorizontalAlignment ="Left" 
