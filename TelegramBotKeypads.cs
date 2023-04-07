@@ -12,7 +12,7 @@ namespace botserver_standard
     {
         public static string? choisedLevel;
         public static string? choisedUniversity;
-        public static string? directionChoose;
+        public static string? choisedProgram;
 
         public static readonly InlineKeyboardMarkup mainMenuKeypad = new(
         new[]
@@ -82,6 +82,7 @@ namespace botserver_standard
             },
 
         });
+
         /// <summary>
         /// btnGeneration
         /// </summary>
