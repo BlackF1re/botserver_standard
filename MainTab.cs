@@ -384,7 +384,7 @@ namespace botserver_standard
 
         public void ChoicesToDb(CallbackQuery callbackQuery, Card card) 
         {
-            string query = $"INSERT INTO FixatedChoices (username, fname, lname, choisedLevel, choisedUniversity, choisedProgram, timestamp) " +
+            string query = $"INSERT INTO Fixated_choices (username, fname, lname, choisedLevel, choisedUniversity, choisedProgram, timestamp) " +
                 $"VALUES ('@{callbackQuery.From.Username}', '{callbackQuery.From.FirstName}', '{callbackQuery.From.LastName}', '{choisedLevel}', '{choisedUniversity}', '{card.ProgramName}', '{DateTime.Now}')";
             DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, query); //запись истории паролей
 

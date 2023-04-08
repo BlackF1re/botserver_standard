@@ -148,28 +148,6 @@
 
                 </Grid>
             </TabItem>
-
-            <TabItem
-                x:Name="optionsTab"
-                Background="#FF4A2E98"
-                FontFamily="Cascadia Mono"
-                Foreground="#FFB4B4B4"
-                Header="Options">
-                <Grid Background="#FF4A2E98">
-                    <Button
-                        x:Name="ParserRunningBtn_Copy"
-                        Background="#FF5F3CC0"
-                        Click="OutputPauseBtn_Click"
-                        Content="Open records folder"
-                        FontFamily="Cascadia Mono"
-                        Foreground="#FFB4B4B4"
-                        Margin="10,98,0,0"
-                        Height="83"
-                        VerticalAlignment="Top"
-                        HorizontalAlignment="Left"
-                        Width="155" />
-                </Grid>
-            </TabItem>
             <TabItem
                 x:Name="parsedCardsTab"
                 Background="#FF4A2E98"
@@ -469,7 +447,7 @@
                     <Button
                         x:Name="ParsingUrlSetBtn"
                         Background="#FF5F3CC0"
-                        Content="Import settings"
+                        Content="Set parsing URL"
                         FontFamily="Cascadia Mono"
                         Foreground="#FFB4B4B4"
                         Margin="0,189,66,0"
