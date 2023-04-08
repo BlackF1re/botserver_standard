@@ -2,15 +2,9 @@
 using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
-using Telegram.Bot.Types;
-using Telegram.Bot.Types.ReplyMarkups;
 
 namespace botserver_standard
 {
@@ -269,7 +263,6 @@ namespace botserver_standard
                 UniversityEntryFreq.universitiesFreqList.Add(new UniversityEntryFreq(item, universitiesList.Where(x => x == item).Count()));
             }
 
-            //UniversityEntryFreq.universitiesFreqList.Clear();
             string clearUniversitiesFreqDb = "DELETE FROM Universities;";
             DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, clearUniversitiesFreqDb);
             id = 0;
@@ -284,7 +277,6 @@ namespace botserver_standard
 
             //вывод данных из бд на вкладку карточек
             
-            //int freqId;
             string? freqUniversityName;
             int freqUniversityCount;
 
@@ -328,7 +320,7 @@ namespace botserver_standard
 
             Dispatcher.Invoke(() =>
             {
-                ParserLogOutput.Text += $"{DateTime.Now} | Parsing is done. {Card.cards.Count} cards have been added.\n";
+                ParserLogOutput.Text += $"{DateTime.Now} | Parsing is done.\n {Card.cards.Count} cards have been added;\n {universityFreqListView.Count} universities have been added.\n";
                 ParserLogOutput.Text += "-----------------------------------------------------------------------------------------------------------\n";
             });
         }

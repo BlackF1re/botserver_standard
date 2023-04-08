@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using System.Windows;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace botserver_standard
 {
@@ -52,7 +53,7 @@ namespace botserver_standard
             return rowsChanged;
         }
 
-        public static SqliteDataReader SettingsReader(string queryText, SqliteConnection sqliteConn)
+        public static SqliteDataReader SettingsReader(string queryText, SqliteConnection sqliteConn) //writing from db to settings
         {
             sqliteConn.Open(); //открытие соединения
             SqliteCommand command = new() //инициализация экземпляра SqliteCommand
@@ -66,18 +67,13 @@ namespace botserver_standard
             {
                 while (reader.Read())   // построчное чтение данных
                 {
-                    Settings.logPath = Convert.ToString(reader["logPath"]);
-                    Settings.connString = Convert.ToString(reader["connString"]);
+                    Settings.fileLoggerPath = Convert.ToString(reader["fileLoggerPath"]);
+                    Settings.callbackLoggerPath = Convert.ToString(reader["callbackLoggerPath"]);
                     Settings.botToken = Convert.ToString(reader["botToken"]);
-                    Settings.pwd = Convert.ToString(reader["pwd"]); //writing from db to settings
-
-                    //else Settings.pwdIsSetted = Convert.ToBoolean(reader["pwdIsUsing"]);
-
+                    Settings.pwd = Convert.ToString(reader["pwd"]);
                     Settings.pwdIsUsing = Convert.ToBoolean(reader["pwdIsUsing"]);
-                    Settings.prsFilePath = Convert.ToString(reader["prsFilePath"]);
-                    //Settings.parsingUrl = Convert.ToString(reader["parsingUrl"]);
                     Settings.datagridExportPath = Convert.ToString(reader["datagridExportPath"]);
-                    Settings.choicesLogPath = Convert.ToString(reader["choicesLogPath"]);
+                    Settings.parsingUrl = Convert.ToString(reader["parsingUrl"]);
 
                 }
             }

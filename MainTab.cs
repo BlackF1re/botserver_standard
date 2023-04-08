@@ -1,9 +1,6 @@
-﻿using HtmlAgilityPack;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
@@ -11,13 +8,8 @@ using System.Windows;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 using Telegram.Bot;
-using System.Windows.Controls;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types.ReplyMarkups;
-using System.Windows.Shapes;
-using static System.Net.Mime.MediaTypeNames;
-using System.Xml;
-using System.Reflection.Metadata;
 
 namespace botserver_standard
 {
@@ -157,7 +149,7 @@ namespace botserver_standard
                     if (message.Text.ToLower() == "/start") //if recieved this text
                     {
                         LiveLogger_message(message); // живой лог
-                        FileLogger_message(message, message.Text, message.Chat.Id, Settings.logPath); // логгирование в файл
+                        FileLogger_message(message, message.Text, message.Chat.Id, Settings.fileLoggerPath); // логгирование в файл
                         DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, recievedMessageToDbQuery);
 
                         await botClient.SendTextMessageAsync(chatId: message.Chat.Id, text: $"Добро пожаловать, {firstname}!", replyMarkup: TelegramBotKeypads.mainMenuKeypad, cancellationToken: cancellationToken);
@@ -167,7 +159,7 @@ namespace botserver_standard
                     {
                         await botClient.SendTextMessageAsync(chatId: message.Chat.Id, text: $"Пожалуйста, выберите один из доступных вариантов:", replyMarkup: TelegramBotKeypads.mainMenuKeypad, cancellationToken: cancellationToken);
                         LiveLogger_message(message); // живой лог
-                        FileLogger_message(message, message.Text, message.Chat.Id, Settings.logPath); // логгирование в файл
+                        FileLogger_message(message, message.Text, message.Chat.Id, Settings.fileLoggerPath); // логгирование в файл
                         DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, recievedMessageToDbQuery);
                         return;
                     }
@@ -276,7 +268,7 @@ namespace botserver_standard
                         
                         LiveLogger_callBack(update.CallbackQuery);
                         ChoicesToDb(update.CallbackQuery);
-                        FileLogger_callBack(update.CallbackQuery, Settings.choicesLogPath);
+                        FileLogger_callBack(update.CallbackQuery, Settings.callbackLoggerPath);
 
                     }
 
@@ -365,9 +357,8 @@ namespace botserver_standard
         {
             Dispatcher.Invoke(() =>
             {
-                return LiveLogOutput.Text += $"Пользователь @{callbackQuery.From.Username}, так же известный, как {callbackQuery.From.FirstName} {callbackQuery.From.LastName} выбрал уровень {TelegramBotKeypads.choisedLevel}, университет {TelegramBotKeypads.choisedUniversity} и программу {TelegramBotKeypads.choisedProgram} в {DateTime.Now}
-+
-                            "-----------------------------------------------------------------------------------------------------------\n";
+                return LiveLogOutput.Text += $"Пользователь @{callbackQuery.From.Username}, так же известный, как {callbackQuery.From.FirstName} {callbackQuery.From.LastName} выбрал уровень {TelegramBotKeypads.choisedLevel}, университет {TelegramBotKeypads.choisedUniversity} и программу {TelegramBotKeypads.choisedProgram} в {DateTime.Now}\n" +
+                                            "-----------------------------------------------------------------------------------------------------------\n";
             });
         }
 

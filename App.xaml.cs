@@ -1,6 +1,4 @@
 ﻿using Microsoft.Data.Sqlite;
-using System;
-using System.Data;
 using System.Windows;
 
 namespace botserver_standard
@@ -14,7 +12,6 @@ namespace botserver_standard
 
             Stats.StartupTimeFixator();
             Settings.connString = "Data Source = appDB.db";
-            Settings.parsingUrl = "https://studyintomsk.ru/programs-main/?level=card-item&direction=card-item";
 
 
 
@@ -33,8 +30,6 @@ namespace botserver_standard
             {
                 //чтение настроек
                 using SqliteDataReader reader = DbWorker.SettingsReader(DbWorker.readSettings, DbWorker.sqliteConn);
-                //MessageBox.Show("running App.xaml.cs code. Variables setted. Press enter.");
-
             }
 
         }

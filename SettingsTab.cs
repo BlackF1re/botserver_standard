@@ -16,10 +16,10 @@ namespace botserver_standard
     public partial class MainWindow : Window
     {
 
-        private void SetTokenBtn_Click(object sender, RoutedEventArgs e)
+        private void SetTokenBtn_Click(object sender, RoutedEventArgs e) //ok
         {
-            string updateTokenQuery = $"UPDATE Settings SET botToken = '{SettingsTokenInput.Text.Trim(' ')}';";
-            int rowsChanged = DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, updateTokenQuery);
+            string query = $"UPDATE Settings SET botToken = '{SettingsTokenInput.Text.Trim(' ')}';";
+            int rowsChanged = DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, query);
 
             //IsChanged?
             if (rowsChanged is 1)
@@ -31,38 +31,40 @@ namespace botserver_standard
             }
             else 
             {
-                SettingsTokenInput.Clear();
-                SettingsTokenInput.Text += "Unforseen error";
+                SettingsTokenInput.Text = "Unforseen error";
             }
-
-
-            //using SqliteDataReader reader = DbWorker.SettingsReader(DbWorker.readSettings, DbWorker.sqliteConn);
-            //LiveLogOutput.Text += $"{Settings.logPath}, {Settings.connString}, {Settings.botToken}, {Settings.pwd}, {Settings.pwdIsSetted} \n";
         }
 
-        private void SetLogPathBtn_Click(object sender, RoutedEventArgs e)
+        private void SetMessageLogPathBtn_Click(object sender, RoutedEventArgs e) //ok
         {
-            string updateTokenQuery = $"UPDATE Settings SET logPath = '{SettingsLogRootInput.Text}';";
-            int rowsChanged = DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, updateTokenQuery);
+            string query = $"UPDATE Settings SET logPath = '{MessagesLogRootInput.Text}';";
+            int rowsChanged = DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, query);
 
             //IsChanged?
             if (rowsChanged is 1)
             {
                 using SqliteDataReader reader = DbWorker.SettingsReader(DbWorker.readSettings, DbWorker.sqliteConn);
 
-                SettingsLogRootInput.Text = $"file path has been setted.";
+                MessagesLogRootInput.Text = $"file path has been setted.";
             }
             else
             {
-                SettingsLogRootInput.Clear();
-                SettingsLogRootInput.Text += "Unforseen error";
+                MessagesLogRootInput.Text = "Unforseen error";
             }
         }
 
-        private void SetDbPathBtn_Click(object sender, RoutedEventArgs e)
+        //            Settings.fileLoggerPath = Convert.ToString(reader["fileLoggerPath"]);
+        //            Settings.callbackLoggerPath = Convert.ToString(reader["callbackLoggerPath"]);
+        //            Settings.botToken = Convert.ToString(reader["botToken"]);
+        //            Settings.pwd = Convert.ToString(reader["pwd"]);
+        //            Settings.pwdIsUsing = Convert.ToBoolean(reader["pwdIsUsing"]);
+        //            Settings.datagridExportPath = Convert.ToString(reader["datagridExportPath"]);
+        //            Settings.parsingUrl = Convert.ToString(reader["parsingUrl"]);
+
+        private void SetDatagridExportPathBtn_Click(object sender, RoutedEventArgs e)
         {
-            string updateTokenQuery = $"UPDATE Settings SET datagridExportPath = '{datagridExportPath.Text}';";
-            int rowsChanged = DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, updateTokenQuery);
+            string query = $"UPDATE Settings SET datagridExportPath = '{datagridExportPath.Text}';";
+            int rowsChanged = DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, query);
 
             //IsChanged?
             if (rowsChanged is 1)
@@ -79,14 +81,40 @@ namespace botserver_standard
 
         }
 
-        private void SettingsFilePathSetBtn_Click(object sender, RoutedEventArgs e)
+        private void ChoicesLogRootInputSetBtn_Click(object sender, RoutedEventArgs e)
         {
+            string query = $"UPDATE Settings SET callbackLoggerPath = '{ChoicesLogRootInput.Text}';";
+            int rowsChanged = DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, query);
 
+            //IsChanged?
+            if (rowsChanged is 1)
+            {
+                using SqliteDataReader reader = DbWorker.SettingsReader(DbWorker.readSettings, DbWorker.sqliteConn);
+
+                ChoicesLogRootInput.Text = $"Choices log path has been setted.";
+            }
+            else
+            {
+                ChoicesLogRootInput.Text = "Unforseen error";
+            }
         }
 
-        private void ImportSettingsBtn_Click(object sender, RoutedEventArgs e)
+        private void ParsingUrlSetBtn_Click(object sender, RoutedEventArgs e)
         {
+            string query = $"UPDATE Settings SET parsingUrl = '{UrlSet.Text}';";
+            int rowsChanged = DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, query);
 
+            //IsChanged?
+            if (rowsChanged is 1)
+            {
+                using SqliteDataReader reader = DbWorker.SettingsReader(DbWorker.readSettings, DbWorker.sqliteConn);
+
+                ChoicesLogRootInput.Text = $"Parsing URL has been setted.";
+            }
+            else
+            {
+                ChoicesLogRootInput.Text = "Unforseen error";
+            }
         }
 
         private void SetPwdBtn_Click(object sender, RoutedEventArgs e)
