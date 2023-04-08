@@ -10,6 +10,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types.ReplyMarkups;
+using System.Linq;
 
 namespace botserver_standard
 {
@@ -268,9 +269,9 @@ namespace botserver_standard
 
                         await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, telegramMessage, replyMarkup: lastButtonsKeypad, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: cancellationToken);
                         
-                        LiveLogger_callBack(update.CallbackQuery);
-                        ChoicesToDb(update.CallbackQuery);
-                        FileLogger_callBack(update.CallbackQuery, Settings.callbackLoggerPath);
+                        LiveLogger_callBack(update.CallbackQuery, finalSelectedCard);
+                        ChoicesToDb(update.CallbackQuery, finalSelectedCard);
+                        FileLogger_callBack(update.CallbackQuery, Settings.callbackLoggerPath, finalSelectedCard);
 
                     }
 
@@ -355,11 +356,11 @@ namespace botserver_standard
             });
         }
 
-        public void LiveLogger_callBack(CallbackQuery callbackQuery)
+        public void LiveLogger_callBack(CallbackQuery callbackQuery, Card card)
         {
             Dispatcher.Invoke(() =>
             {
-                return LiveLogOutput.Text += $"Пользователь @{callbackQuery.From.Username}, так же известный, как {callbackQuery.From.FirstName} {callbackQuery.From.LastName} выбрал уровень {choisedLevel}, университет {choisedUniversity} и программу {choisedProgram} в {DateTime.Now}\n" +
+                return LiveLogOutput.Text += $"Пользователь @{callbackQuery.From.Username}, так же известный, как {callbackQuery.From.FirstName} {callbackQuery.From.LastName} выбрал уровень {choisedLevel}, университет {choisedUniversity} и программу {card.ProgramName} в {DateTime.Now}\n" +
                                             "-----------------------------------------------------------------------------------------------------------\n";
             });
         }
@@ -372,19 +373,19 @@ namespace botserver_standard
             await logWriter.WriteLineAsync("-----------------------------------------------------------------------------------------------------------");
         }
 
-        public static async void FileLogger_callBack(CallbackQuery callbackQuery, string logPath) //логгирование callback в файл
+        public static async void FileLogger_callBack(CallbackQuery callbackQuery, string logPath, Card card) //логгирование callback в файл
         {
             using StreamWriter logWriter = new(logPath, true); //инициализация экземпляра Streamwriter
 
-            await logWriter.WriteLineAsync($"Пользователь @{callbackQuery.From.Username}, так же известный, как {callbackQuery.From.FirstName} {callbackQuery.From.LastName} выбрал уровень {choisedLevel}, университет {choisedUniversity} и программу {choisedProgram} в {DateTime.Now}");
+            await logWriter.WriteLineAsync($"Пользователь @{callbackQuery.From.Username}, так же известный, как {callbackQuery.From.FirstName} {callbackQuery.From.LastName} выбрал уровень {choisedLevel}, университет {choisedUniversity} и программу {card.ProgramName} в {DateTime.Now}");
             await logWriter.WriteLineAsync("-----------------------------------------------------------------------------------------------------------");
 
         }
 
-        public void ChoicesToDb(CallbackQuery callbackQuery) 
+        public void ChoicesToDb(CallbackQuery callbackQuery, Card card) 
         {
             string query = $"INSERT INTO FixatedChoices (username, fname, lname, choisedLevel, choisedUniversity, choisedProgram, timestamp) " +
-                $"VALUES ('@{callbackQuery.From.Username}', '{callbackQuery.From.FirstName}', '{callbackQuery.From.LastName}', '{choisedLevel}', '{choisedUniversity}', '{choisedProgram}', '{DateTime.Now}')";
+                $"VALUES ('@{callbackQuery.From.Username}', '{callbackQuery.From.FirstName}', '{callbackQuery.From.LastName}', '{choisedLevel}', '{choisedUniversity}', '{card.ProgramName}', '{DateTime.Now}')";
             DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, query); //запись истории паролей
 
         }

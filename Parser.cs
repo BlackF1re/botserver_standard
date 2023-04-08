@@ -316,7 +316,7 @@ namespace botserver_standard
 
             Dispatcher.Invoke(() =>
             {
-                ParserLogOutput.Text += $"{DateTime.Now} | Parsing is done.\n {Card.cards.Count} cards have been added;\n {universityFreqListView.Count} universities have been added.\n";
+                ParserLogOutput.Text += $"{DateTime.Now} | Parsing is done.\n{Card.cards.Count} cards have been added;\n{universityFreqListView.Count} universities have been added.\n";
                 ParserLogOutput.Text += "-----------------------------------------------------------------------------------------------------------\n";
             });
         }
