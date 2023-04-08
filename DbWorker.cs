@@ -17,11 +17,6 @@ namespace botserver_standard
         public static SqliteConnection sqliteConn = new(Settings.connString);
 
         //восстановление структуры БД, если файл не найден
-        //public static readonly string dbStructureRessurection = 
-        //    "CREATE TABLE IF NOT EXISTS Received_messages (username TEXT, is_bot INTEGER, first_name TEXT, last_name TEXT, language_code TEXT, chat_id INTEGER, message_id INTEGER, message_date TEXT, chat_type TEXT, message_content BLOB);" +
-        //    "CREATE TABLE IF NOT EXISTS Settings (logPath TEXT, connString TEXT, botToken TEXT, pwd TEXT DEFAULT 'YtcPoTIZPA0WpUdc~SMCaTjL7Kvt#ne3k*{Tb|H2Kx4t227gXy', pwdIsUsing TEXT, prsFilePath TEXT);" +
-        //    "CREATE TABLE IF NOT EXISTS Cards (id INTEGER NOT NULL UNIQUE, universityName TEXT, programName TEXT, level TEXT, studyForm TEXT, duration TEXT, studyLang TEXT, curator TEXT, phoneNumber TEXT, email TEXT, cost TEXT, PRIMARY KEY(\"id\")) WITHOUT ROWID" +
-        //    "CREATE TABLE IF NOT EXISTS Session_duration (startup_time TEXT, shutdown_time TEXT, total_uptime TEXT);";
 
         public static readonly string dbStructureRessurection =
             "CREATE TABLE IF NOT EXISTS Received_messages (username TEXT, is_bot INTEGER, first_name TEXT, last_name TEXT, language_code TEXT, chat_id INTEGER, message_id INTEGER, message_date TEXT, chat_type TEXT, message_content BLOB);" +
@@ -82,6 +77,7 @@ namespace botserver_standard
                     Settings.prsFilePath = Convert.ToString(reader["prsFilePath"]);
                     //Settings.parsingUrl = Convert.ToString(reader["parsingUrl"]);
                     Settings.datagridExportPath = Convert.ToString(reader["datagridExportPath"]);
+                    Settings.choicesLogPath = Convert.ToString(reader["choicesLogPath"]);
 
                 }
             }

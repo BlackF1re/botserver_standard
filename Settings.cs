@@ -17,6 +17,7 @@ namespace botserver_standard
         public static string? prsFilePath = null; //.prs = Parsing ReSult. Путь к файлу спарсенных данных
         public static string? parsingUrl = null; //URL страницы, подлежащей парсингу
         public static string? datagridExportPath = null;
+        public static string? choicesLogPath = null;
 
     }
 }
