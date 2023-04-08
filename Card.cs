@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace botserver_standard
 {
 
     public class Card
     {
-        public static List<Card> cards = new(); // упорядоченный набор карточек (классов). Нечитабельно при отладке(?)
+        public static List<Card> cards = new(); // упорядоченный набор карточек (экземпляров классов). Нечитабельно при отладке(?)
 
         /*
         Всего строк: 6001

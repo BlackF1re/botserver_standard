@@ -10,7 +10,6 @@ namespace botserver_standard
 {
     public partial class MainWindow : Window
     {
-        //public static List<Card> cards = new(); // упорядоченный набор карточек (классов). Нечитабельно при отладке(?)
         List<Card> cardsView = new();
         public async void CardParser(SqliteConnection sqliteConn)
         {
@@ -295,9 +294,6 @@ namespace botserver_standard
             {
                 while (freqReader.Read())   // построчное чтение данных
                 {
-                    //public Card(int id, string universityName, string programName, string level, string studyForm, string programCode, string duration, string studyLang, string curator, string phoneNumber, string email, string cost)
-
-                    //id = Convert.ToInt32(freqReader["Id"]);
                     freqUniversityName = Convert.ToString(freqReader["universityName"]);
                     freqUniversityCount = Convert.ToInt32(freqReader["universityCount"]);
 

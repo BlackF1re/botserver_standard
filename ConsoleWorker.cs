@@ -1,16 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Telegram.Bot.Exceptions;
-using Telegram.Bot.Types;
-using Telegram.Bot;
-using System.Windows.Threading;
-using System.Windows.Controls;
-using System.Xml.Linq;
 
 namespace botserver_standard
 {

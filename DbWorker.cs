@@ -1,14 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
-using System.Windows;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace botserver_standard
 {
@@ -29,10 +20,6 @@ namespace botserver_standard
             "\r\nCREATE TABLE IF NOT EXISTS Programs (id INTEGER NOT NULL, programName TEXT);" +
             "\r\nCREATE TABLE IF NOT EXISTS Parsing_history (timestamp TEXT, parsingStart TEXT, parsingEnd TEXT, parsingResult INTEGER);" +
             "\r\nCREATE TABLE IF NOT EXISTS Passwords_history (timestamp TEXT, oldPassword TEXT);";
-            
-        //"\r\nUPDATE Settings SET logPath = 'logPath'; UPDATE Settings SET connString = 'connString'; UPDATE Settings SET botToken = 'botToken'; UPDATE Settings SET pwd = 'YtcPoTIZPA0WpUdc~SMCaTjL7Kvt#ne3k*{Tb|H2Kx4t227gXy'; UPDATE Settings SET pwdIsUsing = 'pwdIsUsing'; UPDATE Settings SET prsFilePath = 'False'; ";
-
-            //"\r\nINSERT INTO Settings (logPath, connString, botToken, pwd, pwdIsUsing, prsFilePath) VALUES ('botLog.txt', 'connString', 'botToken', 'YtcPoTIZPA0WpUdc~SMCaTjL7Kvt#ne3k*{Tb|H2Kx4t227gXy', 'False', 'parsed_data.prs');"; //установка пароля по умолчанию и отключение его запроса при старте
 
         public static string readTokenFromDb = "SELECT botToken FROM Settings";
 
@@ -53,7 +40,7 @@ namespace botserver_standard
             return rowsChanged;
         }
 
-        public static SqliteDataReader SettingsReader(string queryText, SqliteConnection sqliteConn) //writing from db to settings
+        public static SqliteDataReader SettingsReader(string queryText, SqliteConnection sqliteConn) //оновление настроек из бд
         {
             sqliteConn.Open(); //открытие соединения
             SqliteCommand command = new() //инициализация экземпляра SqliteCommand

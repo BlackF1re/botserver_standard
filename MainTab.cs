@@ -16,7 +16,9 @@ namespace botserver_standard
     public partial class MainWindow : Window
     {
         //maintab methods
-
+        static string? choisedLevel;
+        static string? choisedUniversity;
+        static string? choisedProgram;
         private async void BotStartBtn_Click(object sender, RoutedEventArgs e)
         {
             LiveLogOutput.Clear();
@@ -192,7 +194,7 @@ namespace botserver_standard
                     //ОТПРАВКА КЛАВЫ ВЫБОРА УНИВЕРА
                     if (update.CallbackQuery.Data.Contains("_level")) //если ответ содержал в себе level, то изменить сообщение на следующее...
                     {
-                        TelegramBotKeypads.choisedLevel = update.CallbackQuery.Data.Replace("_level", string.Empty) as string;
+                        choisedLevel = update.CallbackQuery.Data.Replace("_level", string.Empty) as string;
 
                         string telegramMessage = "Пожалуйста, выберите необходимый университет:";
                         await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, telegramMessage, replyMarkup: TelegramBotKeypads.universityChoosingKeypad, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: cancellationToken);
@@ -203,14 +205,14 @@ namespace botserver_standard
                     if (update.CallbackQuery.Data.Contains("_university"))
                     {
                         string telegramMessage = "Подобранные программы обучения:";
-                        TelegramBotKeypads.choisedUniversity = update.CallbackQuery.Data.Replace("_university", string.Empty) as string;
+                        choisedUniversity = update.CallbackQuery.Data.Replace("_university", string.Empty) as string;
 
                         // фильтрация карточек на основании выборов юзера
                         List<Card> filteredCardsByClient = new();
 
                         foreach (var item in cardsView)
                         {
-                            if (TelegramBotKeypads.choisedLevel == item.Level && TelegramBotKeypads.choisedUniversity == item.UniversityName)
+                            if (choisedLevel == item.Level && choisedUniversity == item.UniversityName)
                                 filteredCardsByClient.Add(item);
                         }
 
@@ -219,7 +221,7 @@ namespace botserver_standard
 
                         foreach (var item in cardsView)
                         {
-                            if (item.Level == TelegramBotKeypads.choisedLevel && item.UniversityName == TelegramBotKeypads.choisedUniversity)
+                            if (item.Level == choisedLevel && item.UniversityName == choisedUniversity)
                                 filteredUniversitiesButtons.Add(InlineKeyboardButton.WithCallbackData(text: item.ProgramName, callbackData: Convert.ToString(item.Id)));
                         }
                         var dynamicProgramChoosingKeypad = new InlineKeyboardMarkup(filteredUniversitiesButtons);
@@ -230,9 +232,9 @@ namespace botserver_standard
                     //отправка сообщения с данными о выбранном направлении
                     if (int.TryParse(update.CallbackQuery.Data, out int isNumericValue) is true)
                     {
-                        TelegramBotKeypads.choisedProgram = update.CallbackQuery.Data;
+                        choisedProgram = update.CallbackQuery.Data;
 
-                        Card finalSelectedCard = cardsView[Convert.ToInt32(TelegramBotKeypads.choisedProgram)];
+                        Card finalSelectedCard = cardsView[Convert.ToInt32(choisedProgram)];
 
                         string telegramMessage = $"Мы подобрали для вас следующее направление:\n" +
                                                 $"Университет:\t{finalSelectedCard.UniversityName}\n" +
@@ -357,7 +359,7 @@ namespace botserver_standard
         {
             Dispatcher.Invoke(() =>
             {
-                return LiveLogOutput.Text += $"Пользователь @{callbackQuery.From.Username}, так же известный, как {callbackQuery.From.FirstName} {callbackQuery.From.LastName} выбрал уровень {TelegramBotKeypads.choisedLevel}, университет {TelegramBotKeypads.choisedUniversity} и программу {TelegramBotKeypads.choisedProgram} в {DateTime.Now}\n" +
+                return LiveLogOutput.Text += $"Пользователь @{callbackQuery.From.Username}, так же известный, как {callbackQuery.From.FirstName} {callbackQuery.From.LastName} выбрал уровень {choisedLevel}, университет {choisedUniversity} и программу {choisedProgram} в {DateTime.Now}\n" +
                                             "-----------------------------------------------------------------------------------------------------------\n";
             });
         }
@@ -374,7 +376,7 @@ namespace botserver_standard
         {
             using StreamWriter logWriter = new(logPath, true); //инициализация экземпляра Streamwriter
 
-            await logWriter.WriteLineAsync($"Пользователь @{callbackQuery.From.Username}, так же известный, как {callbackQuery.From.FirstName} {callbackQuery.From.LastName} выбрал уровень {TelegramBotKeypads.choisedLevel}, университет {TelegramBotKeypads.choisedUniversity} и программу {TelegramBotKeypads.choisedProgram} в {DateTime.Now}");
+            await logWriter.WriteLineAsync($"Пользователь @{callbackQuery.From.Username}, так же известный, как {callbackQuery.From.FirstName} {callbackQuery.From.LastName} выбрал уровень {choisedLevel}, университет {choisedUniversity} и программу {choisedProgram} в {DateTime.Now}");
             await logWriter.WriteLineAsync("-----------------------------------------------------------------------------------------------------------");
 
         }
@@ -382,7 +384,7 @@ namespace botserver_standard
         public void ChoicesToDb(CallbackQuery callbackQuery) 
         {
             string query = $"INSERT INTO FixatedChoices (username, fname, lname, choisedLevel, choisedUniversity, choisedProgram, timestamp) " +
-                $"VALUES ('@{callbackQuery.From.Username}', '{callbackQuery.From.FirstName}', '{callbackQuery.From.LastName}', '{TelegramBotKeypads.choisedLevel}', '{TelegramBotKeypads.choisedUniversity}', '{TelegramBotKeypads.choisedProgram}', '{DateTime.Now}')";
+                $"VALUES ('@{callbackQuery.From.Username}', '{callbackQuery.From.FirstName}', '{callbackQuery.From.LastName}', '{choisedLevel}', '{choisedUniversity}', '{choisedProgram}', '{DateTime.Now}')";
             DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, query); //запись истории паролей
 
         }

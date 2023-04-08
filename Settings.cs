@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
-
-namespace botserver_standard
+﻿namespace botserver_standard
 {
-    internal class Settings //публичные поля настроек для последующей их записи в бд
+    internal class Settings
     {
         public static string? fileLoggerPath = null; // путь к логу (добавить изменение пути лога в интерфейсе?)
         public static string? callbackLoggerPath = null;

@@ -1,15 +1,6 @@
 ﻿using Microsoft.Data.Sqlite;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using Telegram.Bot.Types;
-using static System.Net.Mime.MediaTypeNames;
-
 
 namespace botserver_standard
 {
@@ -26,7 +17,7 @@ namespace botserver_standard
             {
                 using SqliteDataReader reader = DbWorker.SettingsReader(DbWorker.readSettings, DbWorker.sqliteConn); //from db to fields
 
-                string tokenLeftPart = SettingsTokenInput.Text.Substring(0, SettingsTokenInput.Text.Length - 35); // :AAF3nNDlYNfryOulNHKtsxlhuGo_roxXYXI
+                string tokenLeftPart = SettingsTokenInput.Text[..^35]; // :AAF3nNDlYNfryOulNHKtsxlhuGo_roxXYXI
                 SettingsTokenInput.Text = $"Token has been changed to {tokenLeftPart}";
             }
             else 
@@ -52,14 +43,6 @@ namespace botserver_standard
                 MessagesLogRootInput.Text = "Unforseen error";
             }
         }
-
-        //            Settings.fileLoggerPath = Convert.ToString(reader["fileLoggerPath"]);
-        //            Settings.callbackLoggerPath = Convert.ToString(reader["callbackLoggerPath"]);
-        //            Settings.botToken = Convert.ToString(reader["botToken"]);
-        //            Settings.pwd = Convert.ToString(reader["pwd"]);
-        //            Settings.pwdIsUsing = Convert.ToBoolean(reader["pwdIsUsing"]);
-        //            Settings.datagridExportPath = Convert.ToString(reader["datagridExportPath"]);
-        //            Settings.parsingUrl = Convert.ToString(reader["parsingUrl"]);
 
         private void SetDatagridExportPathBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -129,7 +112,6 @@ namespace botserver_standard
                     if (stupidWall.EnterPwdBox.Password == Settings.pwd)
                     {
                         MessageBox.Show("Авторизация пройдена");
-                        //Settings.pwd = SetRepeatedPwdBox.Password;
 
                         string updatePwdQuery = $"UPDATE Settings SET pwd = '{SetPwdBox.Password}';";
 
@@ -184,14 +166,6 @@ namespace botserver_standard
 
                 string updatePwdIsUsingQuery = $"UPDATE Settings SET pwdIsUsing = 'False';";
                 DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, updatePwdIsUsingQuery); //обновление состояния чекбокса в бд
-
-                //if (stupidWall.EnterPwdBox.Password != Settings.pwd)
-                //{                    
-                //    MessageBox.Show("Неверный пароль");
-                //    UseThisPwdCheckbox.IsChecked = true;
-                //    string updatePwdIsUsingQuery = $"UPDATE Settings SET pwdIsUsing = '{UseThisPwdCheckbox.IsChecked}';";
-                //    DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, updatePwdIsUsingQuery);
-                //}
             }
             else
             {

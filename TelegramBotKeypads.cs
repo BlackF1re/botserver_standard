@@ -1,19 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Telegram.Bot.Types;
-using Telegram.Bot.Types.ReplyMarkups;
+﻿using Telegram.Bot.Types.ReplyMarkups;
+
 namespace botserver_standard
 {
     internal class TelegramBotKeypads
     {
-        public static string? choisedLevel;
-        public static string? choisedUniversity;
-        public static string? choisedProgram;
-
         public static readonly InlineKeyboardMarkup mainMenuKeypad = new(
         new[]
         {
@@ -39,10 +29,6 @@ namespace botserver_standard
             // first row
             new[]
             {
-                //InlineKeyboardButton.WithCallbackData(text: "Бакалавриат", callbackData: "first_level"),
-                //InlineKeyboardButton.WithCallbackData(text: "Магистратура", callbackData: "second_level"),
-                //InlineKeyboardButton.WithCallbackData(text: "Специалитет", callbackData: "third_level"),
-
                 InlineKeyboardButton.WithCallbackData(text: "Бакалавриат", callbackData: "бакалавриат_level"),
                 InlineKeyboardButton.WithCallbackData(text: "Магистратура", callbackData: "магистратура_level"),
                 InlineKeyboardButton.WithCallbackData(text: "Специалитет", callbackData: "специалитет_level"),
