@@ -306,10 +306,8 @@
                 <Grid Background="#FF4A2E98">
                     <TextBox
                         x:Name="SettingsTokenInput"
-                        Width="495"
                         Height="22"
-                        Margin="230,71,0,0"
-                        HorizontalAlignment="Left"
+                        Margin="230,71,319,0"
                         VerticalAlignment="Top"
                         VerticalContentAlignment="Center"
                         Background="#FF5F3CC0"
@@ -351,10 +349,8 @@
                         Foreground="#FFB4B4B4" />
                     <TextBox
                         x:Name="MessagesLogRootInput"
-                        Width="495"
                         Height="22"
-                        Margin="230,101,0,0"
-                        HorizontalAlignment="Left"
+                        Margin="230,101,319,0"
                         VerticalAlignment="Top"
                         VerticalContentAlignment="Center"
                         Background="#FF5F3CC0"
@@ -363,10 +359,8 @@
                         TextWrapping="NoWrap" />
                     <TextBox
                         x:Name="datagridExportPath"
-                        Width="495"
                         Height="22"
-                        Margin="230,131,0,0"
-                        HorizontalAlignment="Left"
+                        Margin="230,131,319,0"
                         VerticalAlignment="Top"
                         VerticalContentAlignment="Center"
                         Background="#FF5F3CC0"
@@ -434,10 +428,8 @@
                         Foreground="#FFB4B4B4" />
                     <TextBox
                         x:Name="ChoicesLogRootInput"
-                        Width="495"
                         Height="22"
-                        Margin="230,161,0,0"
-                        HorizontalAlignment="Left"
+                        Margin="230,161,319,0"
                         VerticalAlignment="Top"
                         VerticalContentAlignment="Center"
                         Background="#FF5F3CC0"
@@ -467,10 +459,8 @@
                         Foreground="#FFB4B4B4" FontSize="11" />
                     <TextBox
                         x:Name="UrlSet"
-                        Width="495"
                         Height="22"
-                        Margin="230,191,0,0"
-                        HorizontalAlignment="Left"
+                        Margin="230,191,319,0"
                         VerticalAlignment="Top"
                         VerticalContentAlignment="Center"
                         Background="#FF5F3CC0"
@@ -511,25 +501,21 @@
                         VerticalAlignment="Top" HorizontalAlignment="Right" Width="155" />
                     <PasswordBox
                         x:Name="SetPwdBox"
-                        HorizontalAlignment="Left"
                         VerticalContentAlignment ="Center"
-                        Margin="230,261,0,0"
-                        VerticalAlignment="Top"
-                        Width="495" Height="22"
+                        Margin="230,261,319,0"
+                        VerticalAlignment="Top" Height="22"
                         Background="#FF5F3CC0"
                         Foreground="#FFB4B4B4"/>
                     <PasswordBox 
-                        x:Name="SetRepeatedPwdBox"
-                        HorizontalAlignment="Left" 
+                        x:Name="SetRepeatedPwdBox" 
                         VerticalContentAlignment ="Center" 
-                        Margin="230,292,0,0" 
-                        VerticalAlignment="Top"
-                        Width="495" Height="22"
+                        Margin="230,292,319,0" 
+                        VerticalAlignment="Top" Height="22"
                         Background="#FF5F3CC0"
                         Foreground="#FFB4B4B4"/>
                     <CheckBox 
                         x:Name="UseThisPwdCheckbox"
-                        Content="Use this pwd"
+                        Content="Use this password"
                         Margin="0,261,66,0"
                         VerticalAlignment="Top"
                         Background="#FF5F3CC0"

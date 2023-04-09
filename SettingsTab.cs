@@ -28,7 +28,7 @@ namespace botserver_standard
 
         private void SetMessageLogPathBtn_Click(object sender, RoutedEventArgs e) //ok
         {
-            string query = $"UPDATE Settings SET logPath = '{MessagesLogRootInput.Text}';";
+            string query = $"UPDATE Settings SET fileLoggerPath = '{MessagesLogRootInput.Text}';";
             int rowsChanged = DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, query);
 
             //IsChanged?
