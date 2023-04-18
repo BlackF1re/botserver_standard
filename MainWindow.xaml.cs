@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
 namespace botserver_standard
 {
@@ -50,6 +51,23 @@ namespace botserver_standard
             
         }
 
+        private void tabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (mainTab.IsSelected)
+            {
+                HomePic.Foreground = Brushes.RoyalBlue;
+                ParserPic.Foreground = Brushes.LightGray;
+
+            }
+
+            if (parserTab.IsSelected)
+            {
+                HomePic.Foreground = Brushes.LightGray;
+                ParserPic.Foreground = Brushes.RoyalBlue;
+            }
+
+
+        }
     }
 
 }

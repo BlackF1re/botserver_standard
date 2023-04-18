@@ -10,6 +10,5 @@
         public static bool pwdIsUsing = false; //пароль используется(чекбокс)? 
         public static string? datagridExportPath = null;
         public static string? parsingUrl = null; //URL страницы, подлежащей парсингу
-
     }
 }
