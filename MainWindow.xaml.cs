@@ -57,15 +57,61 @@ namespace botserver_standard
             {
                 HomePic.Foreground = Brushes.RoyalBlue;
                 ParserPic.Foreground = Brushes.LightGray;
-
+                ParsedCardsPic.Foreground = Brushes.LightGray;
+                ParsedUnivsPic.Foreground = Brushes.LightGray;
+                SettingsPic.Foreground = Brushes.LightGray;
+                AboutPic.Foreground = Brushes.LightGray;
             }
 
             if (parserTab.IsSelected)
             {
                 HomePic.Foreground = Brushes.LightGray;
                 ParserPic.Foreground = Brushes.RoyalBlue;
+                ParsedCardsPic.Foreground = Brushes.LightGray;
+                ParsedUnivsPic.Foreground = Brushes.LightGray;
+                SettingsPic.Foreground = Brushes.LightGray;
+                AboutPic.Foreground = Brushes.LightGray;
             }
 
+            if (parsedCardsTab.IsSelected)
+            {
+                HomePic.Foreground = Brushes.LightGray;
+                ParserPic.Foreground = Brushes.LightGray;
+                ParsedCardsPic.Foreground = Brushes.RoyalBlue;
+                ParsedUnivsPic.Foreground = Brushes.LightGray;
+                SettingsPic.Foreground = Brushes.LightGray;
+                AboutPic.Foreground = Brushes.LightGray;
+            }
+
+            if (parsedUniversitiesTab.IsSelected)
+            {
+                HomePic.Foreground = Brushes.LightGray;
+                ParserPic.Foreground = Brushes.LightGray;
+                ParsedCardsPic.Foreground = Brushes.LightGray;
+                ParsedUnivsPic.Foreground = Brushes.RoyalBlue;
+                SettingsPic.Foreground = Brushes.LightGray;
+                AboutPic.Foreground = Brushes.LightGray;
+            }
+
+            if (settingsTab.IsSelected)
+            {
+                HomePic.Foreground = Brushes.LightGray;
+                ParserPic.Foreground = Brushes.LightGray;
+                ParsedCardsPic.Foreground = Brushes.LightGray;
+                ParsedUnivsPic.Foreground = Brushes.LightGray;
+                SettingsPic.Foreground = Brushes.RoyalBlue;
+                AboutPic.Foreground = Brushes.LightGray;
+            }
+            
+            if (aboutTab.IsSelected)
+            {
+                HomePic.Foreground = Brushes.LightGray;
+                ParserPic.Foreground = Brushes.LightGray;
+                ParsedCardsPic.Foreground = Brushes.LightGray;
+                ParsedUnivsPic.Foreground = Brushes.LightGray;
+                SettingsPic.Foreground = Brushes.LightGray;
+                AboutPic.Foreground = Brushes.RoyalBlue;
+            }
 
         }
     }

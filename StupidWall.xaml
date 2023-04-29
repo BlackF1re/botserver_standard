@@ -29,7 +29,7 @@
             VerticalContentAlignment ="Center"
             Margin="0,42,0,0"
             VerticalAlignment="Top"
-            Width="410" Height="27"/>
+            Width="410" Height="46" FontFamily="Cascadia Mono" FontSize="10"/>
         <Button
             x:Name="CancelBtn"
             Content="Cancel"
