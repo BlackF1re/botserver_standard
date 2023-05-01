@@ -17,6 +17,7 @@ namespace botserver_standard
         public MainWindow()
         {
             InitializeComponent();
+
             if (Settings.pwdIsUsing is true)
             {
                 AskingPassword askPwd = new();
@@ -43,15 +44,12 @@ namespace botserver_standard
                     UseThisPwdCheckbox.IsChecked = true;
                 }
             }
-
             SetPwdBox.MaxLength = 50;
             SetRepeatedPwdBox.MaxLength = 50;
-
             Task.Factory.StartNew(() => CardParser(DbWorker.sqliteConn)); //ok
-            
         }
 
-        private void tabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void TabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             if (mainTab.IsSelected)
             {
@@ -114,6 +112,7 @@ namespace botserver_standard
             }
 
         }
+
     }
 
 }

@@ -16,5 +16,10 @@ namespace botserver_standard
             });
             Task.Factory.StartNew(() => CardParser(DbWorker.sqliteConn)); //ok
         }
+
+        private void ParserExportBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

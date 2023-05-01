@@ -315,8 +315,7 @@ namespace botserver_standard
 
         private void CmdOpenBtn_Click(object sender, RoutedEventArgs e)
         {
-            ConsoleWorker.CardOutputter();
-            
+            Task.Factory.StartNew(() => ConsoleWorker.CardOutputter());            
         }
 
         #region other right stackpanel buttons

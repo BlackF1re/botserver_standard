@@ -10,24 +10,44 @@
     Width="1300"
     Height="800"
     WindowStartupLocation="CenterScreen"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    BorderBrush="RoyalBlue"
+    BorderThickness="1">
     <Grid Background="#0E1621">
-        <TabControl x:Name="tabControl" TabStripPlacement="Left" SelectionChanged="tabControl_SelectionChanged">
+        <TabControl x:Name="tabControl" TabStripPlacement="Left" SelectionChanged="TabControl_SelectionChanged">
             <TabItem
                 x:Name="mainTab"
                 FontFamily="Cascadia Mono"
                 Background="#4354AD"
                 Foreground="LightGray"
                 Height="110"
-                HorizontalAlignment="Center" Width="150" Cursor="">
+                HorizontalAlignment="Center"
+                Width="150"
+                Cursor="">
                 <TabItem.Header>
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
-                        <materialDesign:PackIcon Kind="HomeCircle" Width="50" Height="50" Foreground="LightGray" x:Name="HomePic" HorizontalAlignment ="Center"/>
-                        <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="Home" Margin="5,0,0,0" FontSize="16" Foreground="LightGray" />
+                        <materialDesign:PackIcon
+                            Kind="HomeCircle"
+                            Width="50"
+                            Height="50"
+                            Foreground="LightGray"
+                            x:Name="HomePic"
+                            HorizontalAlignment="Center"/>
+
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Text="Домашняя"
+                            Margin="5,0,0,0"
+                            FontSize="16"
+                            Foreground="LightGray" />
                     </StackPanel>
                 </TabItem.Header>
                 <Grid Background="#242F3D" Margin="0,0,0,0">
-                    <Rectangle Fill ="RoyalBlue" Width ="2" HorizontalAlignment="Left" />
+                    <!--<Rectangle
+                        Fill ="RoyalBlue"
+                        Width ="2"
+                        HorizontalAlignment="Left" />-->
                     <TextBox
                         x:Name="LiveLogOutput"
                         VerticalContentAlignment="Top"
@@ -43,21 +63,23 @@
                         x:Name="OutputPauseBtn"
                         Height="40"
                         Click="OutputPauseBtn_Click"
-                        Content="Pause logging"
+                        Content="Приостановить вывод"
                         FontFamily="Cascadia Mono"
                         Foreground="LightGray" />
+
                         <Button
                         x:Name="ExportBtn"
                         Height="40"
                         Click="ExportBtn_Click"
-                        Content="Export log"
+                        Content="Экспортировать"
                         FontFamily="Cascadia Mono"
                         Foreground="LightGray" />
+
                         <Button
                         x:Name="OutputClrBtn"
                         Height="40"
                         Click="OutputClrBtn_Click"
-                        Content="Clear output"
+                        Content="Очистить консоль"
                         FontFamily="Cascadia Mono"
                         Foreground="LightGray" />
                     </StackPanel>
@@ -65,18 +87,31 @@
                     <Button
                         x:Name="CmdOpenBtn"
                         Click="CmdOpenBtn_Click"
-                        Content="Open cmd"
                         FontFamily="Cascadia Mono"
-                        Foreground="#FFB4B4B4" 
-                        Margin="265,10,0,0"
-                        Width="80"
+                        Background="RoyalBlue"
+                        Foreground="#FFB4B4B4"
                         HorizontalAlignment="Left"
+                        Width="80"
                         Height="80"
-                        VerticalAlignment="Top" />
+                        VerticalAlignment="Top"
+                        Margin="265,10,0,0">
+                        <StackPanel>
+                            <materialDesign:PackIcon
+                                Kind="Console"
+                                Height="50"
+                                Width ="50"
+                                Foreground="LightGray"/>
+                            <Label
+                                Content="debug"
+                                Foreground="LightGray"/>
+                        </StackPanel>
+                    </Button>
+
                     <Button
                         x:Name="BotLogoutBtn"
                         Click="StopBotBtn_Click"
                         FontFamily="Cascadia Mono"
+                        Background="RoyalBlue"
                         Foreground="#FFB4B4B4"
                         Margin="95,10,0,0"
                         HorizontalAlignment="Left"
@@ -84,8 +119,15 @@
                         Height="80"
                         VerticalAlignment="Top">
                         <StackPanel>
-                            <materialDesign:PackIcon Kind="StopCircle" Height="50" Width ="50" Foreground="LightGray"/>
-                            <Label Content="Стоп" HorizontalContentAlignment="Center" Foreground="LightGray"/>
+                            <materialDesign:PackIcon
+                                Kind="StopCircle"
+                                Height="50"
+                                Width ="50"
+                                Foreground="LightGray"/>
+                            <Label
+                                Content="Стоп"
+                                HorizontalContentAlignment="Center"
+                                Foreground="LightGray"/>
                         </StackPanel>
                     </Button>
 
@@ -93,6 +135,7 @@
                         x:Name="BotStartBtn"
                         Click="BotStartBtn_Click"
                         FontFamily="Cascadia Mono"
+                        Background="RoyalBlue"
                         Foreground="#FFB4B4B4"
                         Margin="10,10,0,0"
                         HorizontalAlignment="Left"
@@ -101,14 +144,22 @@
                         Height="80"
                         VerticalAlignment="Top">
                         <StackPanel>
-                            <materialDesign:PackIcon Kind="ArrowRightCircleOutline" Height="50" Width ="50" Foreground="LightGray"/>
-                            <Label Content="Старт" HorizontalContentAlignment="Center" Foreground="LightGray"/>
+                            <materialDesign:PackIcon
+                                Kind="ArrowRightCircleOutline"
+                                Height="50"
+                                Width ="50"
+                                Foreground="LightGray"/>
+                            <Label
+                                Content="Старт"
+                                HorizontalContentAlignment="Center"
+                                Foreground="LightGray"/>
                         </StackPanel>
                     </Button>
                     <Button
                         x:Name="StopExitBotBtn"
                         Click="StopExitBotBtn_Click"
                         FontFamily="Cascadia Mono"
+                        Background="RoyalBlue"
                         Foreground="#FFB4B4B4"
                         Margin="180,10,0,0"
                         HorizontalAlignment="Left"
@@ -117,11 +168,18 @@
                         Height="80"
                         VerticalAlignment="Top">
                         <StackPanel>
-                            <materialDesign:PackIcon Kind="Power" Height="50" Width ="50" Foreground="LightGray"/>
-                            <Label Content="Выход" HorizontalContentAlignment="Center" Foreground="LightGray"/>
+                            <materialDesign:PackIcon
+                                Kind="Power"
+                                Height="50"
+                                Width ="50"
+                                Foreground="LightGray"/>
+
+                            <Label
+                                Content="Выход"
+                                HorizontalContentAlignment="Center"
+                                Foreground="LightGray"/>
                         </StackPanel>
                     </Button>
-
                 </Grid>
             </TabItem>
 
@@ -134,12 +192,36 @@
                 Width="150">
                 <TabItem.Header>
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
-                        <materialDesign:PackIcon Kind="DatabaseArrowLeftOutline" Width="50" Height="50" Foreground="LightGray" x:Name="ParserPic" HorizontalAlignment ="Center"/>
-                        <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="Parser" Margin="5,0,0,0" FontSize="16" Foreground="LightGray" />
+                        <materialDesign:PackIcon
+                            Kind="DatabaseArrowLeftOutline"
+                            Width="50"
+                            Height="50"
+                            Foreground="LightGray"
+                            x:Name="ParserPic"
+                            HorizontalAlignment="Center"/>
+
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Text="Загрузка"
+                            Margin="5,0,0,0"
+                            FontSize="16"
+                            Foreground="LightGray" />
+
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Text="данных"
+                            Margin="5,0,0,0"
+                            FontSize="16"
+                            Foreground="LightGray" />
                     </StackPanel>
                 </TabItem.Header>
                 <Grid Background="#242F3D">
-                    <Rectangle Fill ="RoyalBlue" Width ="2" HorizontalAlignment="Left" />
+                    <!--<Rectangle
+                        Fill ="RoyalBlue"
+                        Width ="2"
+                        HorizontalAlignment="Left" />-->
 
                     <TextBox
                         x:Name="ParserLogOutput"
@@ -150,17 +232,45 @@
                         Foreground="White"
                         IsReadOnly="True"
                         TextWrapping="Wrap" />
+
                     <Button
                         x:Name="ReparseBtn"
                         Click="ParserPeparseBtn_Click"
-                        Content="Reparse"
                         FontFamily="Cascadia Mono"
-                        Foreground="LightGray" Margin="10,42,0,0"
+                        Background="RoyalBlue"
+                        Foreground="#FFB4B4B4"
                         HorizontalAlignment="Left"
                         Width="80"
-                        IsDefault="True"
                         Height="80"
-                        VerticalAlignment="Top" />
+                        VerticalAlignment="Top"
+                        Margin="10,10,0,0">
+                        <StackPanel>
+                            <materialDesign:PackIcon
+                                Kind="Autorenew"
+                                Height="50"
+                                Width ="50"
+                                Foreground="LightGray"/>
+                        </StackPanel>
+                    </Button>
+                    <Button
+                        x:Name="ParserExportBtn"
+                        Click="ParserExportBtn_Click"
+                        FontFamily="Cascadia Mono"
+                        Background="RoyalBlue"
+                        Foreground="#FFB4B4B4"
+                        HorizontalAlignment="Left"
+                        Width="80"
+                        Height="80"
+                        VerticalAlignment="Top"
+                        Margin="95,10,0,0">
+                        <StackPanel>
+                            <materialDesign:PackIcon
+                                Kind="FileDocumentArrowRightOutline"
+                                Height="50"
+                                Width ="50"
+                                Foreground="LightGray"/>
+                        </StackPanel>
+                    </Button>
                     <Label
                         Margin="0,10,0,0"
                         HorizontalAlignment="Center"
@@ -168,11 +278,11 @@
                         Content="Parser"
                         FontFamily="Cascadia Mono"
                         FontSize="20"
-                        Foreground="LightGray" Width="81" />
-
+                        Foreground="LightGray"
+                        Width="81"/>
                 </Grid>
             </TabItem>
-            
+
             <TabItem
                 x:Name="parsedCardsTab"
                 Background="#4354AD"
@@ -182,14 +292,38 @@
                 Width="150">
                 <TabItem.Header>
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
-                        <materialDesign:PackIcon Kind="DatabaseEyeOutline" Width="50" Height="50" Foreground="LightGray" x:Name="ParsedCardsPic" HorizontalAlignment ="Center"/>
-                        <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="Parsed cards" Margin="5,0,0,0" FontSize="16" Foreground="LightGray" />
+                        <materialDesign:PackIcon
+                            Kind="DatabaseEyeOutline"
+                            Width="50"
+                            Height="50"
+                            Foreground="LightGray"
+                            x:Name="ParsedCardsPic"
+                            HorizontalAlignment="Center"/>
+
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Text="Загруженные"
+                            Margin="5,0,0,0"
+                            FontSize="16"
+                            Foreground="LightGray" />
+
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Text="карточки"
+                            Margin="5,0,0,0"
+                            FontSize="16"
+                            Foreground="LightGray" />
                     </StackPanel>
                 </TabItem.Header>
                 <Grid Background="#242F3D">
-                    <Rectangle Fill ="RoyalBlue" Width ="2" HorizontalAlignment="Left" />
+                    <!--<Rectangle
+                        Fill="RoyalBlue"
+                        Width ="2"
+                        HorizontalAlignment="Left" />-->
 
-                    <DataGrid x:Name="parsedCardsGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="True" IsReadOnly="True" RenderTransformOrigin="0.504,1.97" Foreground="Black" BorderBrush="#FFABADB3" Background="#4354AD" Margin="0,42,0,0">
+                    <DataGrid x:Name="parsedCardsGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="True" IsReadOnly="True" RenderTransformOrigin="0.504,1.97" Foreground="#FFABADB3" BorderBrush="#FFABADB3" Background="RoyalBlue" Margin="0,90,0,0">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Название университета" Binding="{Binding UniversityName}"/>
                             <DataGridTextColumn Header="Название программы" Binding="{Binding ProgramName}"/>
@@ -202,8 +336,6 @@
                             <DataGridTextColumn Header="Телефон" Binding="{Binding PhoneNumber}"/>
                             <DataGridTextColumn Header="Почта" Binding="{Binding Email}"/>
                             <DataGridTextColumn Header="Стоимость" Binding="{Binding Cost}"/>
-
-
                         </DataGrid.Columns>
                     </DataGrid>
 
@@ -217,7 +349,7 @@
                         Width="199"
                         Height="27"
                         KeyUp="SearchByProgramName_KeyUp"
-                        Background="#4F60BB"
+                        Background="RoyalBlue"
                         Foreground="#FFABADB3"/>
                     <TextBox 
                         x:Name = "SearchByUniversity" 
@@ -228,7 +360,7 @@
                         VerticalAlignment="Top"
                         Width="199" Height="27"
                         KeyUp="SearchByUniversity_KeyUp" 
-                        Background="#4F60BB"
+                        Background="RoyalBlue"
                         Foreground="#FFABADB3"/>
                     <Label
                         Margin="10,10,0,0"
@@ -247,17 +379,35 @@
                         FontSize="15"
                         Foreground="#FFB4B4B4" Width="207" />
                     <Button 
-                        x:Name="CardsExportBtn"
+                        x:Name="CardsExportBtn1"
                         Content="Export"
                         HorizontalAlignment="Left"
-                        Margin="930,10,0,0"
+                        Margin="998,5,0,0"
                         VerticalAlignment="Top"
                         Height="27"
                         Width="86"
                         Background="#4F60BB"
                         Foreground="#FFB4B4B4"
                         Click="CardsExportBtn_Click"/>
-
+                    <Button
+                        x:Name="CardsExportBtn"
+                        Click="StopBotBtn_Click"
+                        FontFamily="Cascadia Mono"
+                        Background="RoyalBlue"
+                        Foreground="#FFB4B4B4"
+                        HorizontalAlignment="Left"
+                        Width="80"
+                        Height="80"
+                        VerticalAlignment="Top"
+                        Margin="913,5,0,0">
+                        <StackPanel>
+                            <materialDesign:PackIcon
+                                Kind="FileDocumentArrowRightOutline"
+                                Height="50"
+                                Width ="50"
+                                Foreground="LightGray"/>
+                        </StackPanel>
+                    </Button>
                 </Grid>
             </TabItem>
 
@@ -270,22 +420,62 @@
                 Width="150">
                 <TabItem.Header>
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
-                        <materialDesign:PackIcon Kind="DatabaseEyeOutline" Width="50" Height="50" Foreground="LightGray" x:Name="ParsedUnivsPic" HorizontalAlignment ="Center"/>
-                        <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="Parsed" Margin="5,0,0,0" FontSize="16" Foreground="LightGray" />
-                        <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="universities" Margin="5,0,0,0" FontSize="16" Foreground="LightGray" />
-
+                        <materialDesign:PackIcon
+                            Kind="DatabaseEyeOutline"
+                            Width="50"
+                            Height="50"
+                            Foreground="LightGray"
+                            x:Name="ParsedUnivsPic"
+                            HorizontalAlignment="Center"/>
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Text="Загруженные"
+                            Margin="5,0,0,0"
+                            FontSize="16"
+                            Foreground="LightGray" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Text="университеты"
+                            Margin="5,0,0,0"
+                            FontSize="16"
+                            Foreground="LightGray" />
                     </StackPanel>
                 </TabItem.Header>
                 <Grid Background="#242F3D">
-                    <Rectangle Fill ="RoyalBlue" Width ="2" HorizontalAlignment="Left" />
+                    <!--<Rectangle
+                        Fill="RoyalBlue"
+                        Width ="2"
+                        HorizontalAlignment="Left"/>-->
 
-                    <DataGrid x:Name="parsedUniversitiesGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" IsReadOnly="True" RenderTransformOrigin="0.504,1.97" Foreground="#FFABADB3" BorderBrush="#FFABADB3" Background="#4354AD" Margin="0,42,0,0">
+                    <DataGrid x:Name="parsedUniversitiesGrid" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" IsReadOnly="True" RenderTransformOrigin="0.504,1.97" Foreground="#FFABADB3" BorderBrush="#FFABADB3" Background="RoyalBlue" Margin="0,90,0,0">
                         <DataGrid.Columns>
-                            <!--<DataGridTextColumn Header="Id:" Binding="{Binding cardsView.Id}"/>-->
                             <DataGridTextColumn Header="Название университета" Foreground="#FFABADB3"  Binding="{Binding UniversityName}"/>
                             <DataGridTextColumn Header="Количество программ" Foreground="#FFABADB3" Binding="{Binding Count}"/>
                         </DataGrid.Columns>
                     </DataGrid>
+
+                    <Button
+                        x:Name="UniversitiesExportBtn"
+                        Click="StopBotBtn_Click"
+                        FontFamily="Cascadia Mono"
+                        Background="RoyalBlue"
+                        Foreground="#FFB4B4B4"
+                        HorizontalAlignment="Left"
+                        Width="80"
+                        Height="80"
+                        VerticalAlignment="Top"
+                        Margin="913,5,0,0">
+                        <StackPanel>
+                            <materialDesign:PackIcon
+                                Kind="FileDocumentArrowRightOutline"
+                                Height="50"
+                                Width ="50"
+                                Foreground="LightGray"/>
+                        </StackPanel>
+                    </Button>
+
                     <TextBox 
                         x:Name = "SearchByUniversityName"
                         HorizontalAlignment ="Left" 
@@ -296,7 +486,7 @@
                         Width="199"
                         Height="27"
                         KeyUp="SearchByUniversityName_KeyUp"
-                        Background="#4F60BB"
+                        Background="RoyalBlue"
                         Foreground="#FFABADB3"/>
                     <TextBox 
                         x:Name = "SearchByUniversityFreq" 
@@ -307,7 +497,7 @@
                         VerticalAlignment="Top"
                         Width="112" Height="27"
                         KeyUp="SearchByUniversityFreq_KeyUp" 
-                        Background="#4F60BB"
+                        Background="RoyalBlue"
                         Foreground="#FFABADB3"/>
                     <Label
                         Margin="10,10,0,0"
@@ -316,7 +506,8 @@
                         Content="Поиск по университету:"
                         FontFamily="Cascadia Mono"
                         FontSize="15"
-                        Foreground="#FFB4B4B4" Width="210" />
+                        Foreground="#FFB4B4B4"
+                        Width="210" />
                     <Label
                         Margin="497,10,0,0"
                         HorizontalAlignment="Left"
@@ -324,19 +515,19 @@
                         Content="Поиск по количеству программ:"
                         FontFamily="Cascadia Mono"
                         FontSize="15"
-                        Foreground="#FFB4B4B4" Width="267" />
+                        Foreground="#FFB4B4B4"
+                        Width="267" />
                     <Button 
-                        x:Name="UniversitiesExportBtn" 
+                        x:Name="UniversitiesExportBtn1" 
                         Content="Export" 
                         HorizontalAlignment="Left" 
-                        Margin="913,10,0,0"
+                        Margin="998,8,0,0"
                         VerticalAlignment="Top" 
                         Height="27"
-                        Width="71" 
+                        Width="91" 
                         Background="#4F60BB" 
                         Foreground="#FFB4B4B4"
                         Click="UniversitiesExportBtn_Click"/>
-
                 </Grid>
             </TabItem>
 
@@ -349,12 +540,28 @@
                 Width="150">
                 <TabItem.Header>
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
-                        <materialDesign:PackIcon Kind="Cog" Width="50" Height="50" Foreground="LightGray" x:Name="SettingsPic" HorizontalAlignment ="Center"/>
-                        <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="Settings" Margin="5,0,0,0" FontSize="16" Foreground="LightGray" />
+                        <materialDesign:PackIcon
+                            Kind="Cog"
+                            Width="50"
+                            Height="50"
+                            Foreground="LightGray"
+                            x:Name="SettingsPic"
+                            HorizontalAlignment="Center"/>
+
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Text="Параметры"
+                            Margin="5,0,0,0"
+                            FontSize="16"
+                            Foreground="LightGray" />
                     </StackPanel>
                 </TabItem.Header>
                 <Grid Background="#242F3D">
-                    <Rectangle Fill ="RoyalBlue" Width ="2" HorizontalAlignment="Left" />
+                    <!--<Rectangle
+                        Fill="RoyalBlue"
+                        Width ="2"
+                        HorizontalAlignment="Left" />-->
                     <Label
                         Margin="0,10,0,0"
                         HorizontalAlignment="Center"
@@ -363,94 +570,66 @@
                         FontFamily="Cascadia Mono"
                         FontSize="15"
                         Foreground="#FFB4B4B4" />
-                    <Label x:Name="PwdChangeNotifier"
-                        Width="411"
-                        Height="24"
-                        Margin="274,540,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        HorizontalContentAlignment="Center"
-                        Content=""
-                        FontFamily="Cascadia Mono"
-                        FontWeight="Bold"
-                        Foreground="#FFB4B4B4" />
-                    <StackPanel Margin="720,64,10,10">
+
+                    <StackPanel Margin="720,64,10,507">
                         <Button
-                        x:Name="SetTokenBtn"
-                        Background="#4F60BB"
-                        Click="SetTokenBtn_Click"
-                        Content="Set bot token"
-                        FontFamily="Cascadia Mono"
-                        Foreground="#FFB4B4B4"
-                        Height="54"
-                        Width="265"
+                            x:Name="SetTokenBtn"
+                            Background="RoyalBlue"
+                            Click="SetTokenBtn_Click"
+                            Content="Set bot token"
+                            FontFamily="Cascadia Mono"
+                            Foreground="#FFB4B4B4"
+                            Height="24"
+                            Width="360"
                             Margin="10,10,10,10"/>
                         <Button
-                        x:Name="SetLogPathBtn"
-                        Background="#4F60BB"
-                        Click="SetMessageLogPathBtn_Click"
-                        Content="Set message log path"
-                        FontFamily="Cascadia Mono"
-                        Foreground="#FFB4B4B4"
-                        Height="23"
-                        Width="154"
+                            x:Name="SetLogPathBtn"
+                            Background="RoyalBlue"
+                            Click="SetMessageLogPathBtn_Click"
+                            Content="Set message log path"
+                            FontFamily="Cascadia Mono"
+                            Foreground="#FFB4B4B4"
+                            Height="24"
+                            Width="360"
                             Margin="10,10,10,10"/>
                         <Button
-                        x:Name="SetDbPathBtn"
-                        Background="#4F60BB"
-                        Click="SetDatagridExportPathBtn_Click"
-                        Content="Set export path"
-                        FontFamily="Cascadia Mono"
-                        Foreground="#FFB4B4B4"
-                        Height="25"
-                        Width="155"
+                            x:Name="SetDbPathBtn"
+                            Background="RoyalBlue"
+                            Click="SetDatagridExportPathBtn_Click"
+                            Content="Set export path"
+                            FontFamily="Cascadia Mono"
+                            Foreground="#FFB4B4B4"
+                            Height="24"
+                            Width="360"
                             Margin="10,10,10,10"/>
                         <Button
-                        x:Name="SettingsFilePathSetBtn"
-                        Background="#4F60BB"
-                        Click="ChoicesLogRootInputSetBtn_Click"
-                        Content="Set choices log path"
-                        FontFamily="Cascadia Mono"
-                        Foreground="#FFB4B4B4"
-                        Height="24"
-                        Width="154"
+                            x:Name="SettingsFilePathSetBtn"
+                            Background="RoyalBlue"
+                            Click="ChoicesLogRootInputSetBtn_Click"
+                            Content="Set choices log path"
+                            FontFamily="Cascadia Mono"
+                            Foreground="#FFB4B4B4"
+                            Height="24"
+                            Width="360"
                             Margin="10,10,10,10"/>
                         <Button
-                        x:Name="ParsingUrlSetBtn"
-                        Background="#4F60BB"
-                        Content="Set parsing URL"
-                        FontFamily="Cascadia Mono"
-                        Foreground="#FFB4B4B4"
-                        Height="23"
+                            x:Name="ParsingUrlSetBtn"
+                            Background="RoyalBlue"
+                            Content="Set parsing URL"
+                            FontFamily="Cascadia Mono"
+                            Foreground="#FFB4B4B4"
+                            Height="24"
                             Margin="10,10,10,10"
-                        Click="ParsingUrlSetBtn_Click" Width="155" />
-                        <CheckBox 
-                        x:Name="UseThisPwdCheckbox"
-                        Content="Use this password"
-                        Background="#FF5F3CC0"
-                        Foreground="#FFB4B4B4"
-                        Height="22"
-                            Margin="10,10,10,10"
-                        Checked="UseThisPwdCheckbox_Checked"
-                        Unchecked="UseThisPwdCheckbox_Unchecked" Width="154"/>
-                        <Button
-                        x:Name="SetPwdBtn"
-                        Background="#4F60BB"
-                        Click="SetPwdBtn_Click"
-                        Content="Set password"
-                        FontFamily="Cascadia Mono"
-                        Foreground="#FFB4B4B4"
-                        Height="22"
-                        Width="155"
-                            Margin="10,10,10,10"/>
+                            Click="ParsingUrlSetBtn_Click"
+                            Width="360" />
                     </StackPanel>
-                    <StackPanel Margin="0,64,319,10">
+                    <StackPanel Margin="0,64,435,10">
                         <StackPanel Height="40" Orientation="Horizontal"  Width="713">
                             <Label
-                                Width="169"
+                                Width="202"
                                 Height="22"
                                 HorizontalContentAlignment="Right"
-                                Content="Bot token:"
+                                Content="Токен бота:"
                                 FontFamily="Cascadia Mono"
                                 Margin="10,10,10,10"
                                 FontWeight="Bold"
@@ -460,131 +639,168 @@
                                 Height="24"
                                 Margin="10,10,10,10"
                                 VerticalContentAlignment="Center"
-                                Background="#4F60BB"
+                                Background="RoyalBlue"
                                 FontFamily="Cascadia Mono"
                                 Foreground="#FFB4B4B4"
-                                TextWrapping="NoWrap" Width="500" />
+                                TextWrapping="NoWrap" Width="475" />
                         </StackPanel>
                         <StackPanel Height="41" Orientation="Horizontal">
                             <Label
-                                Width="169"
+                                Width="203"
                                 Height="25"
                                 HorizontalContentAlignment="Right"
-                                Content="Messages log path:"
+                                Content="Путь лога сообщений:"
                                 FontFamily="Cascadia Mono"
                                 FontWeight="Bold"
                                 Foreground="#FFB4B4B4" 
                                 Margin="10,10,10,10" FontSize="14"/>
                             <TextBox
-                        x:Name="MessagesLogRootInput"
-                        Height="22"
-                        VerticalContentAlignment="Center"
-                        Background="#4F60BB"
+                                x:Name="MessagesLogRootInput"
+                                Height="24"
+                                VerticalContentAlignment="Center"
+                                Background="RoyalBlue"
                                 Margin="10,10,10,10"
-                        FontFamily="Cascadia Mono"
-                        Foreground="#FFB4B4B4"
-                        TextWrapping="NoWrap" Width="500"/>
+                                FontFamily="Cascadia Mono"
+                                Foreground="#FFB4B4B4"
+                                TextWrapping="NoWrap" Width="474"/>
                         </StackPanel>
                         <StackPanel Height="45" Orientation="Horizontal">
                             <Label
-                        Width="169"
-                        Height="26"
+                                Width="205"
+                                Height="26"
                                 Margin="10,10,10,10"
-                        HorizontalContentAlignment="Right"
-                        Content="Cards export path:"
-                        FontFamily="Cascadia Mono"
-                        FontWeight="Bold"
-                        Foreground="#FFB4B4B4" FontSize="14" />
+                                HorizontalContentAlignment="Right"
+                                Content="Путь экспорта карточек:"
+                                FontFamily="Cascadia Mono"
+                                FontWeight="Bold"
+                                Foreground="#FFB4B4B4" FontSize="14" />
                             <TextBox
-                        x:Name="datagridExportPath"
-                        Height="24"
-                        VerticalContentAlignment="Center"
-                        Background="#4F60BB"
+                                x:Name="datagridExportPath"
+                                Height="24"
+                                VerticalContentAlignment="Center"
+                                Background="RoyalBlue"
                                 Margin="10,10,10,10"
-                        FontFamily="Cascadia Mono"
-                        Foreground="#FFB4B4B4"
-                        TextWrapping="NoWrap" Width="500" />
+                                FontFamily="Cascadia Mono"
+                                Foreground="#FFB4B4B4"
+                                TextWrapping="NoWrap" Width="500" />
                         </StackPanel>
                         <StackPanel Height="44" Orientation="Horizontal">
                             <Label
-                        Width="168"
-                        Height="24"
+                                Width="225"
+                                Height="24"
                                 Margin="10,10,10,10"
-                        HorizontalContentAlignment="Right"
-                        Content="Choices log path:"
-                        FontFamily="Cascadia Mono"
-                        FontWeight="Bold"
-                        Foreground="#FFB4B4B4" FontSize="14" />
+                                HorizontalContentAlignment="Right"
+                                Content="Лог выборов пользователей:"
+                                FontFamily="Cascadia Mono"
+                                FontWeight="Bold"
+                                Foreground="#FFB4B4B4" FontSize="14" />
                             <TextBox
-                        x:Name="ChoicesLogRootInput"
-                        Height="24"
+                                x:Name="ChoicesLogRootInput"
+                                Height="24"
                                 Margin="10,10,10,10"
-                        VerticalContentAlignment="Center"
-                        Background="#4F60BB"
-                        FontFamily="Cascadia Mono"
-                        Foreground="#FFB4B4B4"
-                        TextWrapping="NoWrap" Width="500" />
+                                VerticalContentAlignment="Center"
+                                Background="RoyalBlue"
+                                FontFamily="Cascadia Mono"
+                                Foreground="#FFB4B4B4"
+                                TextWrapping="NoWrap" Width="500" />
                         </StackPanel>
                         <StackPanel Height="44" Orientation="Horizontal">
                             <Label
-                        Width="169"
-                        Height="24"
+                                Width="169"
+                                Height="24"
                                 Margin="10,10,10,10"
-                        HorizontalContentAlignment="Right"
-                        Content="Parsing URL:"
-                        FontFamily="Cascadia Mono"
-                        FontWeight="Bold"
-                        Foreground="#FFB4B4B4" FontSize="14" />
+                                HorizontalContentAlignment="Right"
+                                Content="URL:"
+                                FontFamily="Cascadia Mono"
+                                FontWeight="Bold"
+                                Foreground="#FFB4B4B4" FontSize="14" />
                             <TextBox
-                        x:Name="UrlSet"
-                        Height="24"
+                                x:Name="UrlSet"
+                                Height="24"
                                 Margin="10,10,10,10"
-                        VerticalContentAlignment="Center"
-                        Background="#4F60BB"
-                        FontFamily="Cascadia Mono"
-                        Foreground="#FFB4B4B4"
-                        TextWrapping="NoWrap" Width="500" />
+                                VerticalContentAlignment="Center"
+                                Background="RoyalBlue"
+                                FontFamily="Cascadia Mono"
+                                Foreground="#FFB4B4B4"
+                                TextWrapping="NoWrap" Width="500" />
                         </StackPanel>
                         <StackPanel Height="39" Orientation="Horizontal">
                             <Label
-                        Width="169"
-                        Height="24"
+                                Width="169"
+                                Height="24"
                                 Margin="10,10,10,10"
-                        HorizontalContentAlignment="Right"
-                        Content="Enter password:"
-                        FontFamily="Cascadia Mono"
-                        FontWeight="Bold"
-                        Foreground="#FFB4B4B4" FontSize="14" />
+                                HorizontalContentAlignment="Right"
+                                Content="Новый пароль:"
+                                FontFamily="Cascadia Mono"
+                                FontWeight="Bold"
+                                Foreground="#FFB4B4B4" FontSize="14" />
                             <PasswordBox
-                        x:Name="SetPwdBox"
-                        VerticalContentAlignment ="Center"
-                        Height="23"
+                                x:Name="SetPwdBox"
+                                VerticalContentAlignment ="Center"
+                                Height="24"
                                 Margin="10,10,10,10"
-                        Background="#4F60BB"
-                        Foreground="#FFB4B4B4" Width="500"/>
+                                Background="RoyalBlue"
+                                Foreground="#FFB4B4B4" Width="500"/>
                         </StackPanel>
+
                         <StackPanel Height="42" Orientation="Horizontal">
                             <Label
-                        Width="169"
-                        Height="24"
+                                Width="169"
+                                Height="24"
                                 Margin="10,10,10,10"
-                        HorizontalContentAlignment="Right"
-                        Content="Repeat password:"
-                        FontFamily="Cascadia Mono"
-                        FontWeight="Bold"
-                        Foreground="#FFB4B4B4" FontSize="14" />
+                                HorizontalContentAlignment="Right"
+                                Content="Повторите пароль:"
+                                FontFamily="Cascadia Mono"
+                                FontWeight="Bold"
+                                Foreground="#FFB4B4B4" FontSize="14" />
                             <PasswordBox 
-                        x:Name="SetRepeatedPwdBox" 
-                        VerticalContentAlignment ="Center" 
-                        Height="24"
+                                x:Name="SetRepeatedPwdBox" 
+                                VerticalContentAlignment="Center" 
+                                Height="24"
                                 Margin="10,10,10,10"
-                        Background="#4F60BB"
-                        Foreground="#FFB4B4B4" Width="500"/>
+                                Background="RoyalBlue"
+                                Foreground="#FFB4B4B4"
+                                Width="500"/>
                         </StackPanel>
                     </StackPanel>
+                    <Button
+                        x:Name="SetPwdBtn"
+                        Background="RoyalBlue"
+                        Click="SetPwdBtn_Click"
+                        Content="Set password"
+                        FontFamily="Cascadia Mono"
+                        Foreground="#FFB4B4B4"
+                        Margin="753,289,220,471"
+                        Height="24"/>
+                    <CheckBox 
+                        x:Name="UseThisPwdCheckbox"
+                        Content="Use this password"
+                        Background="#FF5F3CC0"
+                        Foreground="#FFB4B4B4"
+                        Checked="UseThisPwdCheckbox_Checked"
+                        Unchecked="UseThisPwdCheckbox_Unchecked"
+                        Margin="958,289,42,471"
+                        Height="24"/>
+                    <Label
+                        x:Name="PwdChangeNotifier"
+                        Margin="0,318,42,442"
+                        Width="355"
+                        HorizontalContentAlignment="Center"
+                        HorizontalAlignment="Right"
+                        Content=""
+                        FontFamily="Cascadia Mono"
+                        FontWeight="Bold"
+                        Foreground="#FFB4B4B4" />
+                    <!--<Rectangle
+                        HorizontalAlignment="Left"
+                        Height="71"
+                        Margin="7,284,0,0"
+                        Stroke="RoyalBlue"
+                        VerticalAlignment="Top"
+                        Width="1101"/>-->
                 </Grid>
             </TabItem>
-            
+
             <TabItem
                 x:Name="aboutTab"
                 Background="#4354AD"
@@ -594,16 +810,44 @@
                 Width="150">
                 <TabItem.Header>
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
-                        <materialDesign:PackIcon Kind="InformationOutline" Width="50" Height="50" Foreground="LightGray" x:Name="AboutPic" HorizontalAlignment ="Center"/>
-                        <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="About" Margin="5,0,0,0" FontSize="16" Foreground="LightGray" />
+                        <materialDesign:PackIcon
+                            Kind="InformationOutline"
+                            Width="50"
+                            Height="50"
+                            Foreground="LightGray"
+                            x:Name="AboutPic"
+                            HorizontalAlignment="Center"/>
+
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Text="О"
+                            Margin="5,0,0,0"
+                            FontSize="16"
+                            Foreground="LightGray" />
+
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Text="приложении"
+                            Margin="5,0,0,0"
+                            FontSize="16"
+                            Foreground="LightGray" />
                     </StackPanel>
                 </TabItem.Header>
                 <Grid Background="#242F3D">
-                    <Rectangle Fill ="RoyalBlue" Width ="2" HorizontalAlignment="Left" />
-                    <Label Content="by BlackFireRU" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="LightGray" />
+                    <!--<Rectangle 
+                        Fill="RoyalBlue"
+                        Width ="2"
+                        HorizontalAlignment="Left" />-->
+
+                    <Label
+                        Content="by BlackFireRU"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Center"
+                        Foreground="LightGray" />
                 </Grid>
             </TabItem>
         </TabControl>
-
     </Grid>
 </Window>
