@@ -17,10 +17,11 @@ namespace botserver_standard
     public partial class MainWindow : Window
     {
         //maintab methods
+
         static string? selectedLevel;
         static string? selectedUniversity;
         static string? selectedProgram;
-        static string? firstname;
+        string? firstname;
         private async void BotStartBtn_Click(object sender, RoutedEventArgs e)
         {
             LiveLogOutput.Clear();
@@ -323,47 +324,6 @@ namespace botserver_standard
 
         }
 
-        private void StopBotBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Stats.ShutdownTimeFixator();
-            Stats.UpTimeWriter();
-            TgBot.MainBotCts.Cancel();
-            LiveLogOutput.Clear();
-            LiveLogOutput.Text = "Бот был остановлен.";
-        }
-
-        private void StopExitBotBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Stats.ShutdownTimeFixator();
-            Stats.UpTimeWriter();
-            TgBot.MainBotCts.Cancel();
-            Environment.Exit(0);
-        }
-
-        private void CmdOpenBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Task.Factory.StartNew(() => ConsoleWorker.CardOutputter());            
-        }
-
-        #region other right stackpanel buttons
-        private void OutputPauseBtn_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Not implemented");
-
-        }
-
-        private void ExportBtn_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Not implemented");
-
-        }
-
-        private void OutputClrBtn_Click(object sender, RoutedEventArgs e)
-        {
-            LiveLogOutput.Clear();
-        }
-        #endregion
-
         public async Task<CancellationTokenSource> OnBotLoadMsg()
         {
             CancellationTokenSource OnBotLoadCts = new();
@@ -444,5 +404,43 @@ namespace botserver_standard
             text: $"botserver_standard error. message.Text is null?",
             cancellationToken: cancellationToken);
         }
+
+        #region кнопки
+        private void StopBotBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Stats.ShutdownTimeFixator();
+            Stats.UpTimeWriter();
+            TgBot.MainBotCts.Cancel();
+            LiveLogOutput.Clear();
+            LiveLogOutput.Text = "Бот был остановлен.";
+        }
+
+        private void StopExitBotBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Stats.ShutdownTimeFixator();
+            Stats.UpTimeWriter();
+            TgBot.MainBotCts.Cancel();
+            Environment.Exit(0);
+        }
+
+        private void CmdOpenBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Task.Factory.StartNew(() => ConsoleWorker.CardOutputter());
+        }
+
+        private void LogExportBtn_Click(object sender, RoutedEventArgs e)
+        {
+            string pathPart = $"livelog_{DateTime.Now}.txt".Replace(":", "_");
+            string parserOutPath = Settings.baseLogPath + pathPart;
+            StreamWriter parserExport = new(parserOutPath);
+            parserExport.WriteLine(LiveLogOutput.Text);
+            parserExport.Close();
+        }
+
+        private void LogClearBtn_Click(object sender, RoutedEventArgs e)
+        {
+            LiveLogOutput.Clear();
+        }
+        #endregion
     }
 }

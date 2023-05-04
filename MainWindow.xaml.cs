@@ -114,19 +114,6 @@ namespace botserver_standard
 
         }
 
-        private void LogExportBtn_Click(object sender, RoutedEventArgs e)
-        {
-            string pathPart = $"livelog_{DateTime.Now}.txt".Replace(":", "_");
-            string parserOutPath = Settings.baseLogPath + pathPart;
-            StreamWriter parserExport = new(parserOutPath);
-            parserExport.WriteLine(LiveLogOutput.Text);
-            parserExport.Close();
-        }
-
-        private void LogClearBtn_Click(object sender, RoutedEventArgs e)
-        {
-            LiveLogOutput.Clear();
-        }
     }
 
 }
