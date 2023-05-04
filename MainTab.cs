@@ -17,9 +17,10 @@ namespace botserver_standard
     public partial class MainWindow : Window
     {
         //maintab methods
-        static string? choisedLevel;
-        static string? choisedUniversity;
-        static string? choisedProgram;
+        static string? selectedLevel;
+        static string? selectedUniversity;
+        static string? selectedProgram;
+        static string? firstname;
         private async void BotStartBtn_Click(object sender, RoutedEventArgs e)
         {
             LiveLogOutput.Clear();
@@ -143,11 +144,19 @@ namespace botserver_standard
                 string recievedPhotoMessageToDbQuery = $"INSERT INTO Received_messages(username, is_bot, first_name, last_name, language_code, chat_id, message_id, message_date, chat_type, message_content) " +
                 $"VALUES('@{message.Chat.Username}', '0', '{message.Chat.FirstName}', '{message.Chat.LastName}', 'ru', '{message.Chat.Id}', '{message.MessageId}', '{DateTime.Now}', '{message.Chat.Type}', '{message.Photo}')";
                 #endregion
-                
+
+                if (update.Type is Telegram.Bot.Types.Enums.UpdateType.Message && message.Text is null) //suggestion if recieved not text message
+                {
+                    await botClient.SendTextMessageAsync(chatId: message.Chat.Id, text: $"Пожалуйста, выберите один из доступных вариантов:", replyMarkup: TelegramBotKeypads.mainMenuKeypad, cancellationToken: cancellationToken);
+                    LiveLogger_message(message); // живой лог
+                    FileLogger_message(message, message.Text, message.Chat.Id, Settings.fileLoggerPath); // логгирование в файл
+                    return;
+
+                }
 
                 if (update.Type is Telegram.Bot.Types.Enums.UpdateType.Message && message.Text.ToLower() == "/start") //if recieved Message update type
                 {
-                    var firstname = update.Message.Chat.FirstName;
+                    firstname = update.Message.Chat.FirstName;
 
                     if (message.Text.ToLower() == "/start") //if recieved this text
                     {
@@ -173,14 +182,14 @@ namespace botserver_standard
             Eight:
                 ///главное меню (выбор программы) - 
                 ///выбор уровня (фиксированный ответ)
-                ///выбор вуза(фиксированный ответ)
-                ///выбор направления(доступные ответы генерятся на основе предыдущих записанных callbackData)
+                ///выбор вуза (парсятся)
+                ///выбор направления (доступные ответы генерятся на основе предыдущих записанных callbackData)
 
                 if (update.Type is Telegram.Bot.Types.Enums.UpdateType.CallbackQuery)
                 {
                     if (update.CallbackQuery.Data is "toHome") //действия при нажатии На главную
                     {
-                        string telegramMessage = "Добро пожаловать!";
+                        string telegramMessage = $"Добро пожаловать, {firstname}!";
                         await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, telegramMessage, replyMarkup: TelegramBotKeypads.mainMenuKeypad, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: cancellationToken);
                     }
 
@@ -195,47 +204,66 @@ namespace botserver_standard
                     //ОТПРАВКА КЛАВЫ ВЫБОРА УНИВЕРА
                     if (update.CallbackQuery.Data.Contains("_level")) //если ответ содержал в себе level, то изменить сообщение на следующее...
                     {
-                        choisedLevel = update.CallbackQuery.Data.Replace("_level", string.Empty) as string;
+                        selectedLevel = update.CallbackQuery.Data.Replace("_level", string.Empty) as string;
+                        //UniversityEntryFreq.universitiesFreqList;
+                        //generation vuvs:
+                        List<InlineKeyboardButton> parsedUniversitiesButtons = new(); //
+
+                        foreach (var item in UniversityEntryFreq.universitiesFreqList)
+                        {
+                            //if (item.Level == choisedLevel && item.UniversityName == choisedUniversity)
+                              parsedUniversitiesButtons.Add(InlineKeyboardButton.WithCallbackData(text: item.UniversityName, callbackData: Convert.ToString(item.UniversityName) + "_university"));
+                        }
+                        parsedUniversitiesButtons.Add(InlineKeyboardButton.WithCallbackData(text: "🏠", callbackData: "toHome"));
+                        var dynamicUniversityChoosingKeypad = new InlineKeyboardMarkup(parsedUniversitiesButtons);
+
 
                         string telegramMessage = "Пожалуйста, выберите необходимый университет:";
-                        await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, telegramMessage, replyMarkup: TelegramBotKeypads.universityChoosingKeypad, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: cancellationToken);
+                        await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, telegramMessage, replyMarkup: dynamicUniversityChoosingKeypad, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: cancellationToken);
 
                     }
 
                     //ОТПРАВКА КЛАВЫ ВЫБОРА ПРОГРАММЫ
                     if (update.CallbackQuery.Data.Contains("_university"))
                     {
-                        string telegramMessage = "Подобранные программы обучения:";
-                        choisedUniversity = update.CallbackQuery.Data.Replace("_university", string.Empty) as string;
+                        
+                        selectedUniversity = update.CallbackQuery.Data.Replace("_university", string.Empty) as string;
+                        string telegramMessage = "Подобранные программы обучения:\n\n";
+                        // фильтрация карточек на основании выборов абитуриента
+                        List<Card> filteredCardsByEnrollee = new();
 
-                        // фильтрация карточек на основании выборов юзера
-                        List<Card> filteredCardsByClient = new();
-
-                        foreach (var item in cardsView)
+                        foreach (var item in cardsView) //переписать цикл на фор для нормальной нумерации направлений
                         {
-                            if (choisedLevel == item.Level && choisedUniversity == item.UniversityName)
-                                filteredCardsByClient.Add(item);
+                            if (selectedLevel == item.Level && selectedUniversity == item.UniversityName)
+                                filteredCardsByEnrollee.Add(item);
+                        }
+
+                        foreach (var item in filteredCardsByEnrollee)
+                        {
+                            telegramMessage += $"{item.Id}:\t{item.ProgramName}\n";
                         }
 
                         //генерация кнопок на основе отфильтрованных карточек
                         List<InlineKeyboardButton> filteredUniversitiesButtons = new(); //
 
-                        foreach (var item in cardsView)
+                        foreach (var item in filteredCardsByEnrollee)
                         {
-                            if (item.Level == choisedLevel && item.UniversityName == choisedUniversity)
-                                filteredUniversitiesButtons.Add(InlineKeyboardButton.WithCallbackData(text: item.ProgramName, callbackData: Convert.ToString(item.Id)));
+                            if (item.Level == selectedLevel && item.UniversityName == selectedUniversity)
+                                filteredUniversitiesButtons.Add(InlineKeyboardButton.WithCallbackData(text: Convert.ToString(item.Id), callbackData: Convert.ToString(item.Id)));
                         }
+                        filteredUniversitiesButtons.Add(InlineKeyboardButton.WithCallbackData(text: "🏠", callbackData: "toHome"));
+
                         var dynamicProgramChoosingKeypad = new InlineKeyboardMarkup(filteredUniversitiesButtons);
 
                         await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, telegramMessage, replyMarkup: dynamicProgramChoosingKeypad, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: cancellationToken);
                     }
 
-                    //отправка сообщения с данными о выбранном направлении
+                    //отправка финального сообщения с данными о выбранном направлении
                     if (int.TryParse(update.CallbackQuery.Data, out int isNumericValue) is true)
                     {
-                        choisedProgram = update.CallbackQuery.Data;
+                        selectedProgram = update.CallbackQuery.Data;
 
-                        Card finalSelectedCard = cardsView[Convert.ToInt32(choisedProgram)];
+                        Card finalSelectedCard = cardsView[Convert.ToInt32(selectedProgram)];
 
                         string telegramMessage = $"Мы подобрали для вас следующее направление:\n" +
                                                 $"Университет:\t{finalSelectedCard.UniversityName}\n" +
@@ -256,13 +284,12 @@ namespace botserver_standard
                             // first row
                             new[]
                             {
-
                                 InlineKeyboardButton.WithUrl(text: "Связаться", url: $"mailto:{finalSelectedCard.Email}"),
                             },
                             // second row
                             new[]
                             {
-                                InlineKeyboardButton.WithCallbackData(text: "На главную", callbackData: "toHome"),
+                                InlineKeyboardButton.WithCallbackData(text: "🏠", callbackData: "toHome"),
                             },
 
                         });
@@ -359,7 +386,7 @@ namespace botserver_standard
         {
             Dispatcher.Invoke(() =>
             {
-                return LiveLogOutput.Text += $"Пользователь @{callbackQuery.From.Username}, так же известный, как {callbackQuery.From.FirstName} {callbackQuery.From.LastName} выбрал уровень {choisedLevel}, университет {choisedUniversity} и программу {card.ProgramName} в {DateTime.Now}\n" +
+                return LiveLogOutput.Text += $"Пользователь @{callbackQuery.From.Username}, так же известный, как {callbackQuery.From.FirstName} {callbackQuery.From.LastName} выбрал уровень {selectedLevel}, университет {selectedUniversity} и программу {card.ProgramName} в {DateTime.Now}\n" +
                                             "-----------------------------------------------------------------------------------------------------------\n";
             });
         }
@@ -376,7 +403,7 @@ namespace botserver_standard
         {
             using StreamWriter logWriter = new(logPath, true); //инициализация экземпляра Streamwriter
 
-            await logWriter.WriteLineAsync($"Пользователь @{callbackQuery.From.Username}, так же известный, как {callbackQuery.From.FirstName} {callbackQuery.From.LastName} выбрал уровень {choisedLevel}, университет {choisedUniversity} и программу {card.ProgramName} в {DateTime.Now}");
+            await logWriter.WriteLineAsync($"Пользователь @{callbackQuery.From.Username}, так же известный, как {callbackQuery.From.FirstName} {callbackQuery.From.LastName} выбрал уровень {selectedLevel}, университет {selectedUniversity} и программу {card.ProgramName} в {DateTime.Now}");
             await logWriter.WriteLineAsync("-----------------------------------------------------------------------------------------------------------");
 
         }
@@ -384,7 +411,7 @@ namespace botserver_standard
         public void ChoicesToDb(CallbackQuery callbackQuery, Card card) 
         {
             string query = $"INSERT INTO Fixated_choices (username, fname, lname, choisedLevel, choisedUniversity, choisedProgram, timestamp) " +
-                $"VALUES ('@{callbackQuery.From.Username}', '{callbackQuery.From.FirstName}', '{callbackQuery.From.LastName}', '{choisedLevel}', '{choisedUniversity}', '{card.ProgramName}', '{DateTime.Now}')";
+                $"VALUES ('@{callbackQuery.From.Username}', '{callbackQuery.From.FirstName}', '{callbackQuery.From.LastName}', '{selectedLevel}', '{selectedUniversity}', '{card.ProgramName}', '{DateTime.Now}')";
             DbWorker.DbQuerySilentSender(DbWorker.sqliteConn, query); //запись истории паролей
 
         }

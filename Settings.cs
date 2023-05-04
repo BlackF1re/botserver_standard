@@ -10,5 +10,7 @@
         public static bool pwdIsUsing = false; //пароль используется(чекбокс)? 
         public static string? datagridExportPath = null;
         public static string? parsingUrl = null; //URL страницы, подлежащей парсингу
+
+        public static string? baseLogPath = "C:\\Users\\creat\\source\\repos\\botserver_standard\\bin\\Debug\\net6.0-windows\\logs\\";
     }
 }

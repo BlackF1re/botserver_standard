@@ -58,32 +58,6 @@
                         IsReadOnly="True"
                         TextWrapping="Wrap" />
 
-                    <StackPanel HorizontalAlignment="Right" Width="355" Margin ="0,10,10,10">
-                        <Button
-                        x:Name="OutputPauseBtn"
-                        Height="40"
-                        Click="OutputPauseBtn_Click"
-                        Content="Приостановить вывод"
-                        FontFamily="Cascadia Mono"
-                        Foreground="LightGray" />
-
-                        <Button
-                        x:Name="ExportBtn"
-                        Height="40"
-                        Click="ExportBtn_Click"
-                        Content="Экспортировать"
-                        FontFamily="Cascadia Mono"
-                        Foreground="LightGray" />
-
-                        <Button
-                        x:Name="OutputClrBtn"
-                        Height="40"
-                        Click="OutputClrBtn_Click"
-                        Content="Очистить консоль"
-                        FontFamily="Cascadia Mono"
-                        Foreground="LightGray" />
-                    </StackPanel>
-
                     <Button
                         x:Name="CmdOpenBtn"
                         Click="CmdOpenBtn_Click"
@@ -94,7 +68,7 @@
                         Width="80"
                         Height="80"
                         VerticalAlignment="Top"
-                        Margin="265,10,0,0">
+                        Margin="435,10,0,0">
                         <StackPanel>
                             <materialDesign:PackIcon
                                 Kind="Console"
@@ -103,6 +77,58 @@
                                 Foreground="LightGray"/>
                             <Label
                                 Content="debug"
+                                Foreground="LightGray"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button
+                        x:Name="LogExportBtn"
+                        Click="LogExportBtn_Click"
+                        FontFamily="Cascadia Mono"
+                        Background="RoyalBlue"
+                        Foreground="#FFB4B4B4"
+                        HorizontalAlignment="Left"
+                        Width="80"
+                        Height="80"
+                        VerticalAlignment="Top"
+                        Margin="265,10,0,0">
+                        <StackPanel>
+                            <materialDesign:PackIcon
+                                Kind="FileDocumentArrowRightOutline"
+                                Height="50"
+                                Width ="50"
+                                Foreground="LightGray"/>
+                            <Label
+                                HorizontalAlignment="Left"
+                                Content="Экспорт"
+                                FontSize="10"
+                                HorizontalContentAlignment="Center"
+                                Foreground="LightGray"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Button
+                        x:Name="LogClearBtn"
+                        Click="LogClearBtn_Click"
+                        FontFamily="Cascadia Mono"
+                        Background="RoyalBlue"
+                        Foreground="#FFB4B4B4"
+                        HorizontalAlignment="Left"
+                        Width="80"
+                        Height="80"
+                        VerticalAlignment="Top"
+                        Margin="350,10,0,0">
+                        <StackPanel>
+                            <materialDesign:PackIcon
+                                Kind="BackspaceOutline"
+                                Height="50"
+                                Width ="50"
+                                Foreground="LightGray"/>
+                            <Label
+                                HorizontalAlignment="Left"
+                                Content="Очистка"
+                                FontSize="10"
+                                HorizontalContentAlignment="Center"
                                 Foreground="LightGray"/>
                         </StackPanel>
                     </Button>
@@ -821,15 +847,7 @@
                         <TextBlock
                             HorizontalAlignment="Center"
                             VerticalAlignment="Bottom"
-                            Text="О"
-                            Margin="5,0,0,0"
-                            FontSize="16"
-                            Foreground="LightGray" />
-
-                        <TextBlock
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Bottom"
-                            Text="приложении"
+                            Text="О приложении"
                             Margin="5,0,0,0"
                             FontSize="16"
                             Foreground="LightGray" />

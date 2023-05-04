@@ -11,6 +11,8 @@ namespace botserver_standard
     public partial class MainWindow : Window
     {
         List<Card> cardsView = new();
+        List<UniversityEntryFreq> universityFreqListView = new();
+
         public async void CardParser(SqliteConnection sqliteConn)
         {
 
@@ -40,7 +42,7 @@ namespace botserver_standard
 
             Dispatcher.Invoke(() =>
             {
-                ParserLogOutput.Text += $"{DateTime.Now} | Selecting nodes...\n";
+                ParserLogOutput.Text += $"{DateTime.Now} | Выбор узлов...\n";
             });
             if (document is null)
             {
@@ -52,7 +54,7 @@ namespace botserver_standard
 
             Dispatcher.Invoke(() =>
             {
-                ParserLogOutput.Text += $"{DateTime.Now} | Processing received data...\n";
+                ParserLogOutput.Text += $"{DateTime.Now} | Обработка полученных данных...\n";
             });
             foreach (var item in cardsValue)
             {
@@ -66,7 +68,7 @@ namespace botserver_standard
             //удаление мусора из листа
             Dispatcher.Invoke(() =>
             {
-                ParserLogOutput.Text += $"{DateTime.Now} | Cleaning data...\n";
+                ParserLogOutput.Text += $"{DateTime.Now} | Очистка полученных данных...\n";
             });
             #region data cleaning
 
@@ -148,7 +150,7 @@ namespace botserver_standard
 
             Dispatcher.Invoke(() =>
             {
-                ParserLogOutput.Text += $"{DateTime.Now} | Writing data...\n";
+                ParserLogOutput.Text += $"{DateTime.Now} | Запись данных...\n";
             });
             foreach (string line in cardsList)
             {
@@ -289,7 +291,6 @@ namespace botserver_standard
             };
             SqliteDataReader freqReader = freqCommand.ExecuteReader();
 
-            List < UniversityEntryFreq > universityFreqListView= new();
             if (freqReader.HasRows) // если есть строки
             {
                 while (freqReader.Read())   // построчное чтение данных

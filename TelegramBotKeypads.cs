@@ -10,13 +10,13 @@ namespace botserver_standard
             // first row
             new[]
             {
-                InlineKeyboardButton.WithCallbackData(text: "Выбрать программу обучения", callbackData: "programChoose"),
+                InlineKeyboardButton.WithUrl(text: "Посетить веб-сайт проекта", url: "https://studyintomsk.ru/"),
                 InlineKeyboardButton.WithUrl(text: "Проверить знание русского языка", url: "https://studyintomsk.2i.tusur.ru/"),
             },
             // second row
             new[]
             {
-                InlineKeyboardButton.WithUrl(text: "Посетить веб-сайт проекта", url: "https://studyintomsk.ru/"),
+                InlineKeyboardButton.WithCallbackData(text: "Выбрать программу обучения", callbackData: "programChoose"),
                 //InlineKeyboardButton.WithCallbackData(text: "Сменить язык", callbackData: "langSwitch"),
             },
 
@@ -36,7 +36,7 @@ namespace botserver_standard
             // second row
             new[]
             {
-                InlineKeyboardButton.WithCallbackData(text: "На главную", callbackData: "toHome"),
+                InlineKeyboardButton.WithCallbackData(text: "🏠", callbackData: "toHome"),
             },
 
         });
@@ -64,15 +64,9 @@ namespace botserver_standard
             // third row
             new[]
             {
-                InlineKeyboardButton.WithCallbackData(text: "На главную", callbackData: "toHome"),
+                InlineKeyboardButton.WithCallbackData(text: "🏠", callbackData: "toHome"),
             },
 
         });
-
-        /// <summary>
-        /// btnGeneration
-        /// </summary>
-
-
     }
 }

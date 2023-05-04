@@ -13,8 +13,6 @@ namespace botserver_standard
             Stats.StartupTimeFixator();
             Settings.connString = "Data Source = appDB.db";
 
-
-
             //восстановление структуры бд при необходимости
             try
             {
