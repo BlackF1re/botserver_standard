@@ -34,7 +34,7 @@ namespace botserver_standard
 
                     using SqliteDataReader reader = DbWorker.SettingsReader(DbWorker.readSettings, DbWorker.sqliteConn); //обновление настроек приложения из бд
                     
-                    MessageBox.Show("Пароль успешно установлен. На вкладке \"Settings\" вы можете отключить его использование.", "Notice");
+                    MessageBox.Show("Пароль успешно установлен. На вкладке \"Параметры\" вы можете отключить его использование.", "Notice");
                     
                     this.DialogResult = true;
                     

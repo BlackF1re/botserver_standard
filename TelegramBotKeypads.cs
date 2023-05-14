@@ -7,19 +7,18 @@ namespace botserver_standard
         public static readonly InlineKeyboardMarkup mainMenuKeypad = new(
         new[]
         {
-            // first row
-            new[]
-            {
-                InlineKeyboardButton.WithUrl(text: "Посетить веб-сайт проекта", url: "https://studyintomsk.ru/"),
-                InlineKeyboardButton.WithUrl(text: "Проверить знание русского языка", url: "https://studyintomsk.2i.tusur.ru/"),
-            },
             // second row
             new[]
             {
                 InlineKeyboardButton.WithCallbackData(text: "Выбрать программу обучения", callbackData: "programChoose"),
                 //InlineKeyboardButton.WithCallbackData(text: "Сменить язык", callbackData: "langSwitch"),
             },
-
+            // first row
+            new[]
+            {
+                InlineKeyboardButton.WithUrl(text: "Посетить веб-сайт проекта", url: "https://studyintomsk.ru/"),
+                InlineKeyboardButton.WithUrl(text: "Проверить знание русского языка", url: "https://studyintomsk.2i.tusur.ru/"),
+            },
         });
 
         public static readonly InlineKeyboardMarkup levelChoosingKeypad = new(
@@ -36,13 +35,13 @@ namespace botserver_standard
             // second row
             new[]
             {
-                InlineKeyboardButton.WithCallbackData(text: "🏠", callbackData: "toHome"),
+                InlineKeyboardButton.WithCallbackData(text: "↩️", callbackData: "toHome"),
             },
 
         });
 
 
-
+        //old universities keypad
         public static readonly InlineKeyboardMarkup universityChoosingKeypad = new( //MUST BE PARSED!!!
         // keyboard
         new[]
@@ -59,7 +58,6 @@ namespace botserver_standard
             {
                 InlineKeyboardButton.WithCallbackData(text: "ТПУ", callbackData: "ТПУ_university"),
                 InlineKeyboardButton.WithCallbackData(text: "ТУСУР", callbackData: "ТУСУР_university"),
-                //InlineKeyboardButton.WithCallbackData(text: "ФГБОУ ВО СибГМУ", callbackData: "sixth_university"),
             },
             // third row
             new[]

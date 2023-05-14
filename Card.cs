@@ -7,11 +7,6 @@ namespace botserver_standard
     {
         public static List<Card> cards = new(); // упорядоченный набор карточек (экземпляров классов). Нечитабельно при отладке(?)
 
-        /*
-        Всего строк: 6001
-        Строк на одну карточку: 12
-        Карточек: 500
-        */
         public int Id { get; set; }
         public string UniversityName { get; set; }
         public string ProgramName { get; set; }

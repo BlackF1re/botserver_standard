@@ -215,7 +215,7 @@ namespace botserver_standard
                             //if (item.Level == choisedLevel && item.UniversityName == choisedUniversity)
                               parsedUniversitiesButtons.Add(InlineKeyboardButton.WithCallbackData(text: item.UniversityName, callbackData: Convert.ToString(item.UniversityName) + "_university"));
                         }
-                        parsedUniversitiesButtons.Add(InlineKeyboardButton.WithCallbackData(text: "🏠", callbackData: "toHome"));
+                        parsedUniversitiesButtons.Add(InlineKeyboardButton.WithCallbackData(text: "↩️", callbackData: "toHome"));
                         var dynamicUniversityChoosingKeypad = new InlineKeyboardMarkup(parsedUniversitiesButtons);
 
 
@@ -230,37 +230,41 @@ namespace botserver_standard
                         
                         selectedUniversity = update.CallbackQuery.Data.Replace("_university", string.Empty) as string;
                         string telegramMessage = "Подобранные программы обучения:\n\n";
+
                         // фильтрация карточек на основании выборов абитуриента
                         List<Card> filteredCardsByEnrollee = new();
-
                         foreach (var item in cardsView) //переписать цикл на фор для нормальной нумерации направлений
                         {
                             if (selectedLevel == item.Level && selectedUniversity == item.UniversityName)
                                 filteredCardsByEnrollee.Add(item);
                         }
 
+                        //составление сообщения с номерами направлений
                         foreach (var item in filteredCardsByEnrollee)
                         {
                             telegramMessage += $"{item.Id}:\t{item.ProgramName}\n";
                         }
 
-                        //генерация кнопок на основе отфильтрованных карточек
-                        List<InlineKeyboardButton> filteredUniversitiesButtons = new(); //
-
+                        //извлечение идентификаторов из отфильтрованных направлений
+                        List<string> cardIds = new();
                         foreach (var item in filteredCardsByEnrollee)
                         {
-                            if (item.Level == selectedLevel && item.UniversityName == selectedUniversity)
-                                filteredUniversitiesButtons.Add(InlineKeyboardButton.WithCallbackData(text: Convert.ToString(item.Id), callbackData: Convert.ToString(item.Id)));
+                            cardIds.Add(Convert.ToString(item.Id));
                         }
-                        filteredUniversitiesButtons.Add(InlineKeyboardButton.WithCallbackData(text: "🏠", callbackData: "toHome"));
 
+                        //генерация кнопок на основе отфильтрованных карточек
+                        var filteredUniversitiesButtons = new List<List<InlineKeyboardButton>>();
+
+                        for (int i = 0; i < cardIds.Count; i += 3)
+                            filteredUniversitiesButtons.Add(new List<InlineKeyboardButton>(cardIds.Skip(i).Take(3).Select(id => InlineKeyboardButton.WithCallbackData(id))));
                         var dynamicProgramChoosingKeypad = new InlineKeyboardMarkup(filteredUniversitiesButtons);
 
+                        //отправка сообщения
                         await botClient.EditMessageTextAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId, telegramMessage, replyMarkup: dynamicProgramChoosingKeypad, parseMode: Telegram.Bot.Types.Enums.ParseMode.Html, cancellationToken: cancellationToken);
                     }
 
                     //отправка финального сообщения с данными о выбранном направлении
-                    if (int.TryParse(update.CallbackQuery.Data, out int isNumericValue) is true)
+                    if (int.TryParse(update.CallbackQuery.Data, out int isIntegerValue) is true)
                     {
                         selectedProgram = update.CallbackQuery.Data;
 
@@ -285,12 +289,12 @@ namespace botserver_standard
                             // first row
                             new[]
                             {
-                                InlineKeyboardButton.WithUrl(text: "Связаться", url: $"mailto:{finalSelectedCard.Email}"),
+                                InlineKeyboardButton.WithUrl(text: "✉️", url: $"mailto:{finalSelectedCard.Email}"),
                             },
                             // second row
                             new[]
                             {
-                                InlineKeyboardButton.WithCallbackData(text: "🏠", callbackData: "toHome"),
+                                InlineKeyboardButton.WithCallbackData(text: "↩️", callbackData: "toHome"),
                             },
 
                         });

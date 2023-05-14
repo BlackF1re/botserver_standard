@@ -65,7 +65,6 @@ namespace botserver_standard
                 }
             }
             sqliteConn.Close();
-
             return reader;
         }
 

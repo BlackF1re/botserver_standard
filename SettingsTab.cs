@@ -18,11 +18,11 @@ namespace botserver_standard
                 using SqliteDataReader reader = DbWorker.SettingsReader(DbWorker.readSettings, DbWorker.sqliteConn); //from db to fields
 
                 string tokenLeftPart = SettingsTokenInput.Text[..^35]; // :AAF3nNDlYNfryOulNHKtsxlhuGo_roxXYXI
-                SettingsTokenInput.Text = $"Token has been changed to {tokenLeftPart}";
+                SettingsTokenInput.Text = $"Токен сменен на {tokenLeftPart}";
             }
             else 
             {
-                SettingsTokenInput.Text = "Unforseen error";
+                SettingsTokenInput.Text = "Непредвиденная ошибка.";
             }
         }
 
@@ -36,11 +36,11 @@ namespace botserver_standard
             {
                 using SqliteDataReader reader = DbWorker.SettingsReader(DbWorker.readSettings, DbWorker.sqliteConn);
 
-                MessagesLogRootInput.Text = $"file path has been setted.";
+                MessagesLogRootInput.Text = $"Путь установлен.";
             }
             else
             {
-                MessagesLogRootInput.Text = "Unforseen error";
+                MessagesLogRootInput.Text = "Непредвиденная ошибка.";
             }
         }
 
@@ -54,12 +54,12 @@ namespace botserver_standard
             {
                 using SqliteDataReader reader = DbWorker.SettingsReader(DbWorker.readSettings, DbWorker.sqliteConn);
 
-                datagridExportPath.Text = $"file path has been setted.";
+                datagridExportPath.Text = $"Путь установлен.";
             }
             else
             {
                 datagridExportPath.Clear();
-                datagridExportPath.Text += "Unforseen error";
+                datagridExportPath.Text += "Непредвиденная ошибка.";
             }
 
         }
@@ -74,11 +74,11 @@ namespace botserver_standard
             {
                 using SqliteDataReader reader = DbWorker.SettingsReader(DbWorker.readSettings, DbWorker.sqliteConn);
 
-                ChoicesLogRootInput.Text = $"Choices log path has been setted.";
+                ChoicesLogRootInput.Text = $"Путь установлен.";
             }
             else
             {
-                ChoicesLogRootInput.Text = "Unforseen error";
+                ChoicesLogRootInput.Text = "Непредвиденная ошибка.";
             }
         }
 
@@ -92,11 +92,11 @@ namespace botserver_standard
             {
                 using SqliteDataReader reader = DbWorker.SettingsReader(DbWorker.readSettings, DbWorker.sqliteConn);
 
-                ChoicesLogRootInput.Text = $"Parsing URL has been setted.";
+                UrlSet.Text = $"URL записан.";
             }
             else
             {
-                ChoicesLogRootInput.Text = "Unforseen error";
+                UrlSet.Text = "Непредвиденная ошибка.";
             }
         }
 
@@ -122,9 +122,9 @@ namespace botserver_standard
                         {
                             using SqliteDataReader reader = DbWorker.SettingsReader(DbWorker.readSettings, DbWorker.sqliteConn); //обновление локальных настроек из бд
 
-                            PwdChangeNotifier.Content = $"Your password has been changed at {DateTime.Now}.";
+                            PwdChangeNotifier.Content = $"Ваш пароль был сменен {DateTime.Now}.";
                         }
-                        else { PwdChangeNotifier.Content = "Unforseen error. Use old password."; }
+                        else { PwdChangeNotifier.Content = "Непредвиденная ошибка. Используйте старый пароль."; }
                     }
 
                     if (stupidWall.EnterPwdBox.Password != Settings.pwd)
@@ -135,13 +135,13 @@ namespace botserver_standard
 
                 else
                 {
-                    MessageBox.Show("Cancelled"); // if cancelled
+                    MessageBox.Show("Отменено."); // if cancelled
                 }
             }
 
             else
             {
-                MessageBox.Show("Passwords are not the same, try again", "Error");
+                MessageBox.Show("Пароли не совпадают, попробуйте еще раз.", "Error");
                 SetRepeatedPwdBox.Clear();
             }
         }

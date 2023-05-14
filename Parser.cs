@@ -19,12 +19,12 @@ namespace botserver_standard
             Dispatcher.Invoke(() =>
             {
                 ParserLogOutput.AppendText("-----------------------------------------------------------------------------------------------------------\n");
-                ParserLogOutput.Text += $"{DateTime.Now} | Parsing in process...\n";
+                ParserLogOutput.Text += $"{DateTime.Now} | Парсер запущен...\n";
             });
 
             Dispatcher.Invoke(() =>
             {
-                ParserLogOutput.Text += $"{DateTime.Now} | Getting data from web...\n";
+                ParserLogOutput.Text += $"{DateTime.Now} | Получение данных из сети...\n";
 
             });
             var parsingUrl = "https://studyintomsk.ru/programs-main/";
@@ -121,12 +121,6 @@ namespace botserver_standard
             itemToRemove = string.Empty;
             cardsList.RemoveAll(x => x == itemToRemove);
             #endregion
-
-            /*
-            Всего строк: 6501
-            Строк на одну карточку: 12
-            Карточек: 500
-            */
 
             //строки для передачи в атрибуты экземпляра класса 
             int Id = 0; // идентификатор экземпляра класса. Задать в бд?
@@ -317,7 +311,9 @@ namespace botserver_standard
 
             Dispatcher.Invoke(() =>
             {
-                ParserLogOutput.Text += $"{DateTime.Now} | Parsing is done.\n{Card.cards.Count} cards have been added;\n{universityFreqListView.Count} universities have been added.\n";
+                ParserLogOutput.Text += $"{DateTime.Now} | Парсинг окончен.\n{Card.cards.Count} карточек было добавлено;\n5 университетов было добавлено.\n";
+
+                //ParserLogOutput.Text += $"{DateTime.Now} | Парсинг окончен.\n{Card.cards.Count} карточек было добавлено;\n{universityFreqListView.Count} университетов было добавлено.\n";
                 ParserLogOutput.Text += "-----------------------------------------------------------------------------------------------------------\n";
             });
         }
