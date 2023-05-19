@@ -257,6 +257,8 @@ namespace botserver_standard
 
                         for (int i = 0; i < cardIds.Count; i += 3)
                             filteredUniversitiesButtons.Add(new List<InlineKeyboardButton>(cardIds.Skip(i).Take(3).Select(id => InlineKeyboardButton.WithCallbackData(id))));
+                        //filteredUniversitiesButtons.Add(new List<InlineKeyboardButton> (InlineKeyboardButton.WithCallbackData(text: "↩️", callbackData: "toHome"))); //добавление кнопки toHome
+
                         var dynamicProgramChoosingKeypad = new InlineKeyboardMarkup(filteredUniversitiesButtons);
 
                         //отправка сообщения
