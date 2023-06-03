@@ -2,8 +2,10 @@
 using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace botserver_standard
@@ -22,48 +24,62 @@ namespace botserver_standard
                 ParserLogOutput.Text += $"{DateTime.Now} | Парсер запущен...\n";
             });
 
-            Dispatcher.Invoke(() =>
-            {
-                ParserLogOutput.Text += $"{DateTime.Now} | Получение данных из сети...\n";
+            //Dispatcher.Invoke(() =>
+            //{
+            //    ParserLogOutput.Text += $"{DateTime.Now} | Получение данных из сети...\n";
 
-            });
-            var parsingUrl = "https://studyintomsk.ru/programs-main/";
-            var web = new HtmlWeb();
-            HtmlDocument document;
+            //});
+            //var parsingUrl = "https://studyintomsk.ru/programs-main/";
+            //var web = new HtmlWeb();
+            //HtmlDocument document;
 
-            document = web.Load(parsingUrl); //loading html
-            /*
-            /html/body/div[2]/div/div[3]/div[5]/select - программы подготовки
-            /html/body/div[3]/div[3] - карточки со сдвигами
-            /html/body/div[2]/div/div[3]/div[3]/select - вузы
-            /html/body/div[2]/div/div[3]/div[1]/select - уровни
-            /html/body/div[2]/div/div[3]/div[4]/select - языки
-            */
+            //document = web.Load(parsingUrl); //loading html
+            ///*
+            ///html/body/div[2]/div/div[3]/div[5]/select - программы подготовки
+            ///html/body/div[3]/div[3] - карточки со сдвигами
+            ///html/body/div[2]/div/div[3]/div[3]/select - вузы
+            ///html/body/div[2]/div/div[3]/div[1]/select - уровни
+            ///html/body/div[2]/div/div[3]/div[4]/select - языки
+            //*/
 
-            Dispatcher.Invoke(() =>
-            {
-                ParserLogOutput.Text += $"{DateTime.Now} | Выбор узлов...\n";
-            });
-            if (document is null)
-            {
-                return;
-            }
-            var cardsValue = document.DocumentNode.SelectNodes("/html/body/div[3]/div[3]/div/div/div/div/div");
+            //Dispatcher.Invoke(() =>
+            //{
+            //    ParserLogOutput.Text += $"{DateTime.Now} | Выбор узлов...\n";
+            //});
+            //if (document is null)
+            //{
+            //    return;
+            //}
+            //var cardsValue = document.DocumentNode.SelectNodes("/html/body/div[3]/div[3]/div/div/div/div/div");
 
             string noTabsDoc = string.Empty; //первичная строка с сырыми данными
 
-            Dispatcher.Invoke(() =>
-            {
-                ParserLogOutput.Text += $"{DateTime.Now} | Обработка полученных данных...\n";
-            });
-            foreach (var item in cardsValue)
-            {
-                noTabsDoc += item.InnerText; //node is single row?
-            }
-            noTabsDoc = noTabsDoc.Replace("\t", "\n"); //замена табуляций
+            //Dispatcher.Invoke(() =>
+            //{
+            //    ParserLogOutput.Text += $"{DateTime.Now} | Обработка полученных данных...\n";
+            //});
+            //foreach (var item in cardsValue)
+            //{
+            //    noTabsDoc += item.InnerText; //node is single row?
+            //}
+            //noTabsDoc = noTabsDoc.Replace("\t", "\n"); //замена табуляций
 
             List<string> cardsList = new(); //лист с правильными данными, идущими подряд
+
+
+
             cardsList = noTabsDoc.Split('\n').ToList(); //построчная запись данных (в том числе и мусора)
+
+            //ЗАГРУЗКА ЛОКАЛЬНЫХ ДАННЫХ В БОТА
+            using (StreamReader emergencyReader = new StreamReader("parsing_result.prs"))
+            {
+                string? line;
+                while ((line = await emergencyReader.ReadLineAsync()) != null)
+                {
+                    cardsList.Add(line);
+                }
+            }
+
 
             //удаление мусора из листа
             Dispatcher.Invoke(() =>
